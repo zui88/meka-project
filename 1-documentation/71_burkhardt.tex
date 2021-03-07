@@ -1,0 +1,57 @@
+\chapter{Anwendung der Theorie auf Praxis}
+
+In der Objekterkennung hat sich der YOLO Algorithmus bewaehrt. Die
+YOLO Variante untescheidet nur in den Letzten Schichten. Ansonsten
+sind CNN und YOLO von der Architektur identisch.
+
+Es gibt mehrere Technologien, die den Aufbau eines Neuronalen
+Netzwerks unterstuetzen. Einige Bibliotheken in Python sind
+beispielsweise: PyTorch, Keras, Tensor Flow. Auch Matworks stellt ein
+eigenes Framwork bereit und ist in der Matlab eigenen Sprache zu
+bedienen. Vorteil von Matlab ist: Es gibt sehr viele speziell auf
+Matlab angepasste Tools fuer den kompletten Erstellungs-, Evaluierung-
+und Anwendungsprozesses. Hingegen die frei zugaenglichen Alternativen
+bieten einen kleineren Anwendungsbereich. Beispielweisse, wenn fuer
+die Evaluierung im Bild die Objekte gekennzeichnet werden sollen,
+muessen andere Tool als z.\,B. nur Tensor Flow verwendet werden wie
+OpenCV zur Bildverarbeitung. OpenCV reichert das Bild mit Rahmen um
+erkannte Objekte an und setzt Labels. In Matlab ist alles dabei und
+man externen Tools sind unnoetig.
+
+Hier im Projekt wird Matlab als Entwicklungsumgebung verwendet, weil
+Vorgaengerarbeiten darauf aufgebaut haben. Wuerde man sich dagegen
+Entscheiden, muesste der Erstellungsprozess von vorne begonnen werden.
+
+%\noindent\textbf{Overview}\\
+\section*{Overview}
+
+Hier werden folgende Fragen beantwortet:
+
+\begin{itemize}
+  \item Erstellen, Trainiern, Testen
+  \item Evaluierung mit schon vorhandenem Netzwerk
+  \item Deployment auf Jetson Nano
+\end{itemize}
+
+\section*{Erstellung YOLO-KNN}
+
+\section*{Evaluierung - Vergleich Mit Vorgaengernetz}
+
+\section*{Deployment Auf Jetson Nano}
+
+Schritte, die Noetig sind:
+
+\begin{itemize}
+  \item YOLO Netzwerk
+  \item Main-Funktion erstellen
+\end{itemize}
+
+\textbf{YOLO Netzwerk}: CNN, das \dots
+
+\textbf{Main-Funktion}: Funktion, die in einer Endlosschleife Bilder von
+der WebCam aufniehmt und dem Detektor uebergibt. Der Detektor scannt
+das aufgenommene Bild nach Objekten. Wenn Objekte gefunden wurde, dann
+wird die entsprechende Bounding Box und Label auf das Bild gebunden
+und anschliessend auf dem Bildschirm angezeigt. Hierbei muss entweder
+ein externer Monitor an den Jetson angeschlossen werden oder eine
+Remoteverbindung hergestellt werden.

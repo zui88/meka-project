@@ -1,0 +1,70 @@
+#+TITLE: Mechatronik Projekt
+#+AUTHOR: Marco Burkhardt
+#+STARTUP: fold
+
+* Matlab
+
+** Deep Learning Toolbox
+
+   Was sind die Vorteile / Was bietet es:
+
+   - Framework in Matlab fuer neuronale Netze
+   - graphisches Tool fuer Entwurf
+   - Tensor Flow kompatibel (ob wichtig???)
+   - GPU Support
+
+   Fragen:
+
+   - wie das Ergebnis ueber die Schnittstelle versenden?
+
+** Transfer CNN In MATLAB
+
+   Transfer learning outlines the steps for getting a pretrained
+   network, modifying and leveraging it.
+
+   - extract the layers
+     =lgraph = layerGraph(net)=
+   - customize the fully connected layer
+     n stands for number of neurons (nof = classifier)
+     =fclayer = fullyConnectedLayer(n,"Name","lyname")=
+   - replace the layer
+     =lg = replaceLayer(lg,...=
+     ="NameToReplace",newlayer)=
+   - matching the output layer to the previous layers
+     =cl = classificationLayer("Name","lyname")=
+   - replace the last layer with the new one
+     
+** Transfer-Learning With DeepLearning Toolbox
+
+*** mini-batch
+
+    At each iteration, a subset of the training images, known as a
+    mini-batch, is used to update the weights. Each iteration uses a
+    different mini-batch. Once the whole training set has been used,
+    that's known as an epoch.
+
+*** Goal
+
+    The Goal ist to minimize the loss-function.
+
+*** Validation Data Are Used In Training
+
+    provide a set of validation data for validate the training. If the
+    training results getting worse, you have to abbort the
+    training. -> danger of overfitting
+
+* Getting Started
+
+[[https://www.youtube.com/watch?v=pmDLOdDabRo][Getting Started with Nvidia Jetson Nano]]
+
+Flash Jetson Nano Image to Micro SD-Card
+- [[https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit][Jetson Nano Start]] Official Nvidia Website
+- [[https://github.com/dusty-nv/jetson-inference][Deploy Deep Leraning]]
+- remote via ssh (putty or else)
+
+* Status Quo
+
+** Was leistet das System
+
+   + Erkennung von Standbildern
+   + Entsprechende Reaktion auf erkannte Objekte

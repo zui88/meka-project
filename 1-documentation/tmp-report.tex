@@ -1,0 +1,61 @@
+% ================ Preamble ================
+\documentclass[12pt]{scrreprt}
+
+% ================ Packages ================
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[printonlyused]{acronym}
+\usepackage{
+  graphicx,
+  geometry,
+  amsmath,
+  fancyhdr,
+  lmodern,
+  color,
+  subfig %% for alignning pictures horizontally
+}
+
+\usepackage[
+  breaklinks=true,
+  colorlinks=true,
+  citecolor=blue,
+  menucolor=blue,
+  urlcolor=blue,
+  linkcolor=blue
+]{hyperref}
+
+% ================ Options ================
+
+\geometry{a4paper, top=25mm, left=25mm, right=20mm, bottom=40mm,
+headsep=10mm, footskip=12mm}
+
+\graphicspath{ {./img} }
+
+\addto\extrasngerman{\def\figureautorefname{Abb.}}
+
+\KOMAoptions{
+  bibliography=totoc,
+  bibliography=openstyle
+}
+
+% ============= Dokumentbeginn =============
+\begin{document}
+
+\include{abkv}
+
+%\part{Live Objekterkennung}
+%\include{70_burkhardt}
+\include{71_burkhardt}
+
+%================ Literaturverzeichnis ================%
+%% Zwei mal
+%% $ bibtex *.bib
+%% aufrufen, dann
+%% $ pdflatex *.tex
+% Bib Style
+\bibliographystyle{alphadin}
+% Bib File
+\bibliography{literatur}
+
+\end{document}

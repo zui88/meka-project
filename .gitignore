@@ -1,0 +1,17 @@
+# exclude folder
+/8-legacy/*
+
+# exclude tmp latex files
+*.aux
+*.log
+*.dvi
+*.lof
+*.bbl
+*.blg
+*.lot
+*.out
+*.ps
+*.toc
+
+# exclude video link
+/5-groundworks/cnn-videos/*

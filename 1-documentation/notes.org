@@ -1,0 +1,100 @@
+
+Convolution layers are made of weights and biases that are used to
+filter an input image. The output of a convolution layer is a set of
+filtered images. This output is called the activations of that
+layer. There is one output channel for each filter in a convolution
+layer. A convolution layer can have hundreds of filters, so each layer
+can create hundreds of channels.
+
+Question: What is an activation?
+- information passed between the noetwork layers
+
+Each convolution layer consists of many 2-D arrays called channels.
+
+Most CNNs learn to detect features like color and edges in the first
+convolution layer. In deeper layers, the network learns more
+complicated features.
+
+The network activates strongly on the location of the violets. This is
+a good indication that the network is finding useful features.
+
+You can view the activations to track the evolution of an image
+through the network. This enables you to see what happens to the image
+at each layer.
+
+how to create a cnn:
+- specify an input layer with the right size
+- convolutional layer
+
+  Convolution layers learn features in the input image by applying
+  different filters to the image. To create a convolution layer, you
+  need to specify the filter size and the number of filters.
+- 
+
+
+* Application Workflow - YOLO-V2 (just this implemented in MATLAB)
+
+** Topo Of The Various Purposes
+  
+   The architecture necessary for one application can differ from
+   another, especially when it comes to layers. Many applications have
+   special types of layers.
+
+** Objekt Detection
+
+*** Prepared Data
+
+    Ground truth for computer vision applications usually includes a
+    collection of images with associated annotations. For object
+    detection, every image has a labeled bounding box. If you preprocess
+    your images, you need to be careful to update the bounding boxes
+    accordingly.
+
+    For object detection, the ground truth consists of a labeled bounding
+    box for each image in the training data set.
+
+    Ground truth includes the image, bounding box, and label. -> will
+    be createt in Labler (Application)
+
+    petGroundTruth.Madeline(1) % extract cell -> reference
+    petGroundTruth.Madeline{1} % extract variable
+
+*** YOLO
+
+    You-only-look-once networks (YOLO) are used to perform single stage
+    (einstufig) object detection, which only looks at each image once. A
+    YOLO network relies on anchor boxes, which characterize the scale and
+    aspect ratio of the objects being detected. You can estimate anchor
+    boxes by clustering the aspect ratios of the bounding boxes in your
+    ground truth.
+
+**** Topo
+
+     A YOLO v2 object detection network is composed of two subnetworks: a
+     feature extraction network followed by a detection network.
+
+**** How It Works
+
+     *Anchor Boxes*
+
+     Anchor boxes improve object detector performance by characterizing the
+     scale (Skalierung) and aspect ratio (Abbildungsverhaeltins) of the
+     objects in your data set.
+
+     It is good idear to specify as many achor boxes as classes want to be
+     detected. If in one grid cell there is more than one object and there
+     was just one anchor box defined, it can just be detected one class.
+
+     /YOLO detectors rely on anchor boxes to find bounding boxes./
+
+
+**** Evaluation
+
+     *precision*
+
+     you should consider both the bounding box and the label.
+
+     *miss rate*
+
+     You should also consider the case when the detector fails to find
+     an object.

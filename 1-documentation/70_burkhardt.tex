@@ -1,0 +1,231 @@
+\chapter{Einf\"uhrung K\"unstliche Intelligenz}
+
+Damit ein Fahrzeug autonom, d.\,h. ohne menschliches Zutun, im
+Strassenverkehr reagieren kann, muss es Faehig sein, die verschiedenen
+Verkehrsteilnehmer zu identifizieren. Hierbei wird sich einem
+Teilgebiet der angewandten Informatik bedient - der \ac{KI}, auch
+\ac{AI} genannt.
+
+%\noindent\textbf{Overview}
+\section*{Overview}
+
+Hier werden folgende Fragen beantwortet:
+
+\begin{itemize}
+  \item Was ist Artificial Intelligence
+  \item Modellbildung Neueronaler Netze
+  \item Technische Umsetzung
+  \item Uebersicht: Convolutional Neueral Networks
+  \item Training eines Neuronalen Netzes
+  \item Der YOLO Algorithmus
+  \item Bisheriger Stand im Projekt - Status Quo
+\end{itemize}
+
+%%\noindent\textbf{Was ist Kuenstliche Intelligenz}
+\section*{Was ist K\"unstliche Intelligenz}
+
+\begin{center}\emph{
+  Artificial Intelligence is the study of how to make computers do things at which, at the mo-
+  ment, people are better.\footnote{\cite{bosl}}
+}\end{center}
+
+\ac{KI} ist eine Teildisziplin der angewandten Informatik, in der es
+um automatisierte Problemloesungen geht. Die Urspruenge lagen im
+Ansatz, allein Logik zu verwenden. Nachteil dabei: hohe Komplexitaet
+fuer Abdeckung aller Faelle. Es wurde als neuer Ansatz das menschliche
+Gehirn als Grundlage verwendet. Menschen reagieren auf eine sich
+veraendernde Umwelt. Wir lernen aus Beispielen. Es erfolgt keine
+Abarbeitung von Schlussregeln wie ``WENN \dots , DANN \dots''. Man
+stelle sich das Halten des Gleichgewichts beim Fahrradfahren oder das
+Schreiben auf einem Blatt Papier vor. Die Reaktionszeiten fuer eine
+sequenzielle Abarbeitung waere viel zu hoch. Beim Fahrradbeispiel
+waere man schon laengst vor der Abarbeitung aller Regeln
+umgeflogen. Das selbe gilt analog fuer den Fall des Schreibens. Es
+wuerde einfach viel zu lange dauern und die Regeln waeren viel zu
+komplex.
+
+Unser Gehirn funktioniert anders. Es passt sich den Situationen an und
+greift dabei auf Erfahrungen von schon erlebten Situationen
+zurueck. Das wollte man auch fuer Maschinen -- dynamische Anpassung
+auf sich aendernde Randbedingungen. Das ist auch der Grund, warum
+kuenstliche Netze antrainiert werden muessen. Sie sollen auf
+Situationen reagieren und dabei auf `Erfahrung von schon erlebten`
+zurueckgreifen. Das `Schon Erlebte` stellt dabei das Trainingsmaterial
+dar, mit dem das Netzwerk antrainiert wird. Dennoch, im Allgemeinen
+ist zu entscheiden:
+
+\begin{itemize}
+  \item Existiert ein Algorithmus, dann ist dieser vorzuziehen.
+  \item Ist Erfahrung vorhanden, ein Problem anhand von Regeln zu
+    beschreiben, ist dies vorzuziehen.
+  \item Wenn die ersten beiden Ansaetze nicht zum Erfolg fuehren oder
+    nicht fuehrten, dann kann der Einsatz von \ac{KI} zielfuehrend
+    sein, wenn genuegend Daten vorhanden sind, aus denen gelernt
+    werden kann.
+\end{itemize}
+
+Im Strassenverkehr aendern sich zu jedem Zeitpunkt die
+Randbedingungen. Autos biegen ab, bremsen, ueberholen. Es gibt
+Verkehrsschilder, Ampelanlagen, Fussgaenger- und Fahrradwege und
+mehr. Menschen greifen im Strassenverkehr auf ihre Erfahrung
+zurueck. Moechte man als Ziel ansetzen, dass Fahrzeuge in der Lage
+sein sollen, im Verkehr ohne menschliches Zutun sich zu bewegen, ist
+eines ersichtlich. Die \ac{KI} ist prädestiniert fuer den Einsatz im
+Bereich \emph{autonomes Fahren}.
+
+%% Befehl, dass dennoch voll ausgeschrieben - zwingen
+%%\noindent\textbf{\ac{KNN}}\\
+\section*{\ac{KNN}}
+
+%% Aufbau/Modell
+\acp{KNN} versuchen das menschliche Gehirn nachzubilden. Wie unsere
+Nervenzellen trainierbar sind und Steuerungsaufgaben uebernehmen, so
+moechte man auch, dass Computerprogramme aehnlich befaehigt sein
+sollen, in analoger Weisse auf neue Situationen aus schon erlebten
+Beispielen zu reagieren. Man bediehnt sich hierbei dem Gehirn als
+biologischen Bauplan \autoref{fig:neuron}.
+
+\begin{figure}[!htb]
+  \includegraphics[width=1\textwidth]{obj-rec/neuron.png}
+  \caption{Menschliches Neuron; \cite{bosl}}
+  \label{fig:neuron}
+\end{figure}
+
+Die Dendriten nehmen das Signal auf, leiten es an den Zellkoerper
+weiter. Dort findet eine Gewichtung der Informationen statt. Die
+gewichtete Gesamtinformation geht ueber das Axon weiter und verteilt
+sich auf die Synapsen, welche jeweils mit weiteren Dendriten anderer
+Neuronen verbunden sind. Ein einzelnes Neuron wird in Form eines
+Softwarebausteins nachgebildet. Ein Neuron \emph{j} besteht aus:
+
+\begin{itemize}
+  \item $k$ gewichteten Eingaengen $W_{kj}$
+  \item aus der Summe $net_j$ der jeweils einzelnen Produkten der
+    Gewichte $W_{kj}$ und dem Wert des Eingangs
+    $O_k$. $net_j$ stellt damit die Information zusammen,
+    die aus dem Netz in das Neuron eingehen.
+  \item der Aktivitaet des Neurons, d.\,h. wie stark der potenzielle
+    Einfluss von $net_j$ auf andere Neuronen sein kann. $\Theta_j$ ist
+    ein \emph{Hyper Parameter}.
+  \item der Ausgabe -- Verbindung zu anderen Neuronen
+\end{itemize}
+
+\autoref{fig:art-neuron} entspricht der Beschreibung.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.8\linewidth]{obj-rec/artificial-neuron.png}
+  \caption{Modellierung eines einzelnen Neurons -- Kuenstliches Neuron; \cite{bosl}}
+  \label{fig:art-neuron}
+\end{figure}
+
+Viele Neuronen sind so miteinander verbunden und bilden zusammen ein
+\emph{Neuronales Netzwerk}. Als technische Modellierung existieren
+verschiedene Varianten, von denen aber hier nur die \emph{forwaets
+gerichtete} Variante interessiert.
+
+\begin{figure}[!htb]
+  \centering
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{obj-rec/forward-looking-network-v1}}%
+  \qquad
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{obj-rec/forward-looking-network-v2}}%
+  \qquad
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{obj-rec/forward-looking-network-v3}}%
+  \caption{Forward Looking Networks}
+  \label{fig:for-lok-net}
+\end{figure}
+
+\autoref{fig:for-lok-net} zeigt verschiedene Ausfuehrungen eines
+\emph{Feed Forward Neural Networks} oder auch \emph{Fully Connected
+Neural Network}. Das entspricht der klassischen Vorstellung eines
+\acp{KNN}. Jedes Neuron ist mit jedem vorherigen und jedem
+nachfolgenden Neuron verbunden.
+
+Die erste Schicht bildet den Eingang. Dort treffen Signale ein,
+z.\,B. in Form eines Bildes. Es geht weiter in die zweite
+Schicht. Tiefer liegende Schichten werden auch als \emph{hidden layer}
+bezeichnet, da sie von aussen, d.\,h von den Schnittstellen, nicht zu
+sehen sind. Die letzte Schicht ist die Schnittstelle nach
+Aussen. Jedes Neuron gibt eine Wahrscheinlichkeit ueber den
+representierenden \emph{Classifier} aus. Zum Beispiel als
+Anwendungsfall in der Objekterkennung, ob Objekt von der Klasse
+`Afrikanischer Elefant` ist. Existieren mehrere Neuronen in der
+letzten Schicht, kann das Netz Aussagen ueber mehrere Classifier
+machen.
+
+Es gibt noch wesentlich mehr Architekturen/Topologien, wie ein
+\ac{KNN} aufgebaut sein kann. Jede hat ihre Vor- und Nachteile und
+somit eigene Anwendungsgebiete. In der Objekterkennung,
+Bildverarbeitung wird eine andere Variante als die fully connected
+Variante eingesetzt - das \ac{CNN}. Eine nicht vollstaendige Liste ueber
+verschiedene Topologien / Architekturen von Kuenstliche Neuronalen
+Netzwerken ist in \autoref{fig:topo-ann} zu sehen.
+
+\begin{figure}[!htb]
+\includegraphics[width=1\linewidth]{obj-rec/topo-ann.png}
+  \caption{Eine nicht vollstaendige grobe Uebersicht ueber Topologien
+    / Architekturen von Kuentlich Neuronalen Netzwerken}
+  \label{fig:topo-ann}
+\end{figure}
+
+\section*{Uebersicht CNN}
+
+Im Gegensatz zum \emph{Fully Connected Network} sind die Neuronen des
+\acp{CNN} nicht mit jedem Neuron der uebergeordneten Schicht
+verbunden. Die Verbindung entsteht als Faltungsoperation mit einem
+Filter bestimmter Groesse (Kernel-Size). Der Filter `wandert` ueber das
+Bild und verknuepft so jeden Bildbereich mit dem darueber liegenden
+Neuronen. Jedes Neuron ist somit mit einem Filter verknuepft. Die
+Ergebnisse der Faltung entsprechen den Gewichten, mit denen das Neuron mit der
+darunter liegende Schicht verbunden ist. Allgemein gibt es mehrere
+Filter pro Schicht; dementprechend besteht jede Schicht aus mehreren
+Neuronen. In \autoref{fig:conv-schema} ist das Vorgehen aufskizziert.
+
+\begin{figure}[!htb]
+\centering\includegraphics{obj-rec/conv-schema.png}
+  \caption{ Jedes Neuron ist mit einer Faltungsoperation (Filter) mit
+    dem darueber liegenden Neuron verbunden. Vorteil eines \acp{CNN}
+    ist: gelernte Objekte muessen nur einmal gelernt werden, egal wo
+    im Bild zu sehen (ob oben oder unten, links oder rechts). Das gilt
+    nicht fuer \emph{Fully Connected Networks}. Dort muss ein und das
+    selbe Objekt mehrmals gelernt werden, wenn im Bild wo anders
+    liegt.}
+  \label{fig:conv-schema}
+\end{figure}
+
+Die Parameter der Filter haben anfangs zufaellige Werte. Die Werte
+werden im Trainingsprozess `gelernt` oder `antrainiert`. Die Faltung,
+d.\,h. der Filter, wird nicht nur auf den Input (das Bild) , sondern
+auch zur Reduktion \emph{Feature Extraction} der inneren Schichten
+\emph{Hidden Layers} angewandt. Man kann fuer die inneren Schichten ein
+schon vortrainiertes, voellig beliebiges \acp{CNN} verwenden. Vorteil
+ist, es muss weniger Zeit fuer das Lernen seines Anwendungsgebietes
+aufgewendet werden und die \emph{Feature Extraction} ist schon
+aufgebaut. Es gibt hierbei zwei wesentliche Punkte zu beachten:
+
+\begin{itemize}
+  \item Es muss `nur` der Eingang auf die korrekte Groesse des
+    Bildes angepasst werden.
+  \item Die letzte Schicht muss ein \emph{YOLO-Layer} sein mit den
+    gewuenschten Ausgangsneuronen fuer jede Klasse an zu
+    detektierenden Objekten.
+\end{itemize}
+
+\begin{figure}[!htb]
+\includegraphics[width=1\linewidth]{obj-rec/yolo-v2-schema.png}
+  \caption{
+    Links (hellblau) der Eingang (der Situation angepasst), in der Mitte (dunkelblau)
+    das pretrained CNN Network, rechts (braun) das YOLO-Layer (auf
+    Beduerfnisse angepasst)}
+  \label{fig:yolo-v2-schema}
+\end{figure}
+
+In \autoref{fig:yolo-v2-schema} ist die Struktur des YOLO-Netzwerks
+aufskizziert. Es gibt noch sehr viel mehr zu beachten und Parameter
+einzustellen. 
+
+%%\noindent\textbf{Training eines \ac{KNN}}
+\section*{Training eines Kuenstlich Neuronalen Netzes}
+
+
+\section*{YOLO Algorithmus}
