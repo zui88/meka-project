@@ -1,0 +1,82 @@
+%===============================================================================
+
+\chapter{CUDA-Code-Generierung}\label{Kap:Cuda}
+%===============================================================================
+\section{CUDA-Code}
+Der bisher generierte und auf dem Pi ausgelagerte Code wurde mithilfe der CPU des Raspberry Pi ausführt. Hierbei handelt es sich um eine ARM Cortex-A72 Einheit mit 4 Kernen. Wie jede CPU ist auch diese auf die Abarbeitung von Programmschritten in sequentiellen Pipelines designed. Hierbei werden die entsprechenden Maschinenbefehle in jedem Kern nacheinander ausgeführt. Es können daher maximal vier Prozesse gleichzeitig bearbeitet werden. Die Bearbeitung weiterer Prozesse muss daher über Multi-Tasking, also das scheibchenweise Abarbeiten der verschieden priorisierten Prozesse, geschehen. Insbesondere bei Maschine-Learning-Algorithmen bietet sich zur Berechnung der Parameter eines KNN eine Parallelisierung dieses Prozesses an, da hierdurch einiges an Rechenzeit gespart werden kann. Daher soll der bereits auf die CPU ausgelagerte Code nun auf die GPU des Raspberry übertragen werden. Diese verfügt über eine große Zahl an Kernen, kann somit also mehr Prozesse gleichzeitig bearbeiten. Sie besitzt jedoch keinen so umfangreichen Befehlssatz wie eine CPU. Um die vorhergehend erstellten Funktionen daher auf der GPU ausführen zu können bedarf es eines bestimmten Befehlssatzes und somit einer bestimmten Programmiersprache, dem CUDA-Code. Hierbei handelt es sich um eine von NVIDIA entwickelte Programmierschnittstelle, mit welcher sich eine GPU vergleichsweise einfach für universelle Berechnungsprozesse verwenden lässt. Daher soll nachfolgend mittels CUDA ein zur GPU kompatibler Maschinencode erstellt werden, um eventuelle Leistungssteigerungen und eine Verkürzung der Zykluszeiten zu erzielen.  
+
+\subsection{Automatische Code-Erzeugung mittels GPU-Coder-App}
+
+Mithilfe des GPU-Coders ist es möglich, aus MATLAB-Code automatisch optimierten CUDA-Code zu erzeugen. Hierzu muss zusätzlich zu den Matlab Toolboxen eine CUDA-Environment (dt:Umgebung) und zur Erzeugung der Funktionen aus der Deep-Learning-Toolbox die ''cuDNN'' Bibliotheken installiert werden. Danach müssen die jeweiligen Dateipfade in MATLAB hinterlegt werden. Dies geschieht am einfachsten mittels der Funktion ''gpuCoderSetup''. Mit diesem graphischen Tool kann zusätzlich geprüft werden, ob eine kompatible GPU vorliegt und die nötigen Toolboxen und Bibliotheken vorhanden sind. Trifft dies zu, kann mit der Code-Generierung begonnen werden. Hierzu öffnet man die App ''GPU-Coder'' und wählt die Hauptfunktion (='top level'/'entry-point-function') der auszulagernden Funktionen aus.\newpage
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7 \textwidth]{./figures/cuda_1.png}
+	\end{center}
+	\caption{Entry-point-Function auswählen}
+	\label{fig:Entry-point-Function auswählen}
+\end{figure}
+Hiernach müssen die Datentypen aller Eingabevariablen definiert werden, um diese während der Code-Generierung richtig erzeugen zu können. Da es sich in unserem Fall um ein Farbbild der Größe 224x224 Pixel handelt, spezifizieren wir: \textbf{'in=uint8[224x224x3]'}.\\
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7 \textwidth]{./figures/cuda_2.png}
+	\end{center}
+	\caption{Input spezifizieren}
+	\label{fig:Input spezifizieren}
+\end{figure}
+Da Funktionen der Deep-Learning-Toolbox verwendet werden, müssen wir unter den Coder-Einstellungen die Target-Library als \textbf{''cuDNN''} wählen.\newpage
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7 \textwidth]{./figures/cuda_3.png}
+	\end{center}
+	\caption{Target-Library auf cuDNN stellen}
+	\label{fig:Target-Library auf cuDNN stellen}
+\end{figure}
+
+Auf keinem uns zur Verfügung stehenden Rechner war eine CUDA kompatible NVIDIA GPU verbaut, deshalb mussten wir zusätzlich die Einstellung \textbf{''Generate Code Only = yes''} auswählen.\\
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7 \textwidth]{./figures/cuda_4.png}
+	\end{center}
+	\caption{Auswahl nur Code-Generierung}
+	\label{fig:Auswahl nur Code-Generierung}
+\end{figure}
+
+Hiernach kann mit \textbf{''Generate''} der Vorgang zur Code-Erzeugung gestartet werden, sodass nach erfolgreicher Kompilierung ein positiver 'Code-Generation-Report' ausgegeben wird.\newpage
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7 \textwidth]{./figures/cuda_5.png}
+	\end{center}
+	\caption{Code-Generation-Report erfolgreich}
+	\label{fig:Code-Generation-Report erfolgreich}
+\end{figure}
+
+Nachfolgend wird ein kurzer Ausschnitt des generierten Codes der ''Entry-Function'' dargestellt. Diese kann nun mitsamt der benötigten Header-Funktionen auf ein kompatibles Target übertragen, und dort zur Ausführung gebracht werden.
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=0.7 \textwidth]{./figures/cuda_6.png}
+	\end{center}
+	\caption{Ausschnitt des erzeugten CUDA-Codes der Entry-Function}
+	\label{fig:Ausschnit des erzeugten CUDA-Codes der Entry-Function}
+\end{figure}
+\newpage
+
+\subsection{Automatische Code-Erzeugung mittels MATLAB-Skript}
+Falls eine kompatible GPU vorhanden ist, kann mittels eines einfachen Skriptes mit folgendem Code wesentlich einfacher und schneller der gewünschte Code erzeugt werden. Hierzu müssen lediglich folgende Einstellungen an der Coder-Config vorgenommen werden:
+\begin{matlabcode}
+	cfg = coder.config('mex');
+	cfg.TargetLang = 'C++';
+	cfg.DeepLearningConfig = coder.DeepLearningConfig('cudnn');
+\end{matlabcode}
+
+Mittels \textbf{''codegen()''} wird nun mit der Übergabe der Input-Parameter der Entry-Function, sowie deren Dateinamen die Code-Generierung eingeleitet.
+\begin{tiny}
+	\begin{matlabcode}
+		codegen -args {ones(224,224,3,'uint8')} -config cfg raspi_webcam_v014_small_1280_720_with_CUDA;	
+	\end{matlabcode}
+\end{tiny}
+
+Es stellte sich jedoch heraus, dass der CUDA-Code nur mit bestimmten NVIDIA GPUs wie \textbf{JETSON} o.Ä., jedoch nicht mit dem auf dem Raspberry verbauten Broadcom Video-Core kompatibel ist. Der generierte Code kann daher nicht ohne weiteres auf dem Pi zur Ausführung gebracht werden. \\ Eine Möglichkeit, dies trotzdem zu tun bestünde darin, eine kompatible NVIDIA-GPU mittels USB an den Raspberry anzuschließen und den Code dort auszuführen. Unklar ist hierbei jedoch ob bei einer Kommunikation über USB der erhoffte Leistungsgewinn noch erzielt wird. \\ Die einzig sinnvolle Möglichkeit stellt daher ein Targetwechsel zu einem Gerät mit einer kompatiblen GPU dar. Da hierbei jedoch kein objektiver Vergleich mit den Benchmarkergebnissen des Raspberry auf der CPU gezogen werden kann, wird dieser Ansatz in dieser Arbeit nicht weiter verfolgt. Da sich darüber hinaus in nachfolgend durchgeführten Benchmark-Testen herausstellte, dass die mit der CPU erzielbare Zykluszeit den Ansprüchen vollkommen genüge leisten kann, ist ein solcher Schritt auch nicht von Nöten gewesen.
+
+
+%-------------------------------------------------------------------------------
+% EOF

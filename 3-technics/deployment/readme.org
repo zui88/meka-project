@@ -1,0 +1,9 @@
+<2021-03-07 Sun>
+
+Bevor dem Installationsvorgan muessen einige Voraussetzungen erfuellt
+sein:
+
+- Ein Netzwerk muss vorhanden sein
+- 
+
+Die Absicht ist, Matlab Code in CUDA Code umzuwandeln. 

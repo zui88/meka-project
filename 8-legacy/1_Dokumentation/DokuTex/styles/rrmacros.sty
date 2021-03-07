@@ -1,0 +1,128 @@
+%===============================================================================
+% Template für Bachelor- oder Masterarbeiten an der Hochschule Esslingen
+%
+% 20.09.2015 Ralf Rothfuß
+%===============================================================================
+%-------------------------------------------------------------------------------
+% Abkuerzung fuer mathematische Ausdrücke
+%-------------------------------------------------------------------------------
+\newcommand{\imagi}{\mathrm{j}}                                    % Imaginäre Einheit
+\newcommand{\jw}{\imagi\omega}                                     % j omega
+\newcommand{\Real}{\mbox{Re}\,}                                    % Realteil
+\newcommand{\Imag}{\mbox{Im}\,}                                    % Imaginärteil
+\newcommand{\unit}[1]{\, \mbox{#1}}                                % Physikalische Einheiten
+\DeclareMathOperator{\Rang}{Rang} % Rang einer Matrix
+\DeclareMathOperator{\sign}{sign}\def\Sign#1{\sign\left\{#1\right\}}
+%-------------------------------------------------------------------------------
+% Abkuerzung fuer mathematische Symbole
+%-------------------------------------------------------------------------------
+% Zahlenmengen (benoetigt amsmath)
+\def\CC{\mathbb{C}}
+\def\DD{\mathbb{D}}
+\def\LL{\mathbb{L}}
+\def\NN{\mathbb{N}}
+\def\QQ{\mathbb{Q}}
+\def\RR{\mathbb{R}}
+\def\WW{\mathbb{W}}
+\def\ZZ{\mathbb{Z}}
+%-------------------------------------------------------------------------------
+% Vektoren
+% \newcommand{\vek}[1]{\boldsymbol{#1}}% fett
+\newcommand{\vek}[1]{\vec{#1}}% mit Pfeil
+\newcommand{\0}{{\vek{0}}}
+\newcommand{\av}{\vek{a}}
+\newcommand{\bv}{\vek{b}}
+\newcommand{\yv}{\vek{y}}
+\newcommand{\cv}{\vek{c}}
+\newcommand{\dv}{\vek{d}}
+\newcommand{\ev}{\vek{e}}
+\newcommand{\f}{\vek{f}}
+\newcommand{\g}{\vek{g}}
+\newcommand{\h}{\vek{h}}
+\newcommand{\kv}{\vek{k}}
+\newcommand{\nv}{\vek{n}}
+\newcommand{\p}{\vek{p}}
+\newcommand{\q}{\vek{q}}
+\newcommand{\rv}{\vek{r}}
+\newcommand{\s}{\vek{s}}
+\newcommand{\tv}{\vek{t}}
+\newcommand{\uv}{\vek{u}}
+\newcommand{\vv}{\vek{v}
+}
+\newcommand{\w}{\vek{w}}
+\newcommand{\x}{\vek{x}}
+\newcommand{\xd}{\vek{\hat{x}}}
+\newcommand{\yd}{\vek{\hat{y}}}
+\newcommand{\xe}{\vek{\tilde{x}}}
+\newcommand{\y}{\vek{y}}
+\newcommand{\z}{\vek{z}}
+\newcommand{\zd}{\vek{\hat{z}}}
+\newcommand{\ze}{\vek{\tilde{z}}}
+\newcommand{\Ord}{\vek{O}}
+\newcommand{\Ox}{\vek{O}(\x)^3}
+\newcommand{\Oxu}{\vek{O}(\x,\uv)^3}
+\newcommand{\fx}{\f\grad{2}(\x)}
+\newcommand{\gx}{\g\grad{1}(\x)}
+\newcommand{\hx}{\h\grad{2}(\x)}
+\newcommand{\qx}{\q\grad{2}(\x)}
+%-------------------------------------------------------------------------------
+% Matrizen
+\newcommand{\mat}[1]{\mbox{\boldmath $#1$}}
+%\newcommand{\mat}[1]{\mbox{\underline{$#1$}}}
+\newcommand{\A}{\mat{A}}
+\newcommand{\B}{\mat{B}}
+\newcommand{\C}{\mat{C}}
+\newcommand{\Dm}{\mat{D}}
+\newcommand{\E}{\mat{E}}
+\newcommand{\F}{\mat{F}}
+\newcommand{\FF}{{\cal F}}
+\newcommand{\G}{\mat{G}}
+\newcommand{\I}{\mat{I}}
+\newcommand{\K}{\mat{K}}
+\newcommand{\Lm}{\mat{L}}
+\newcommand{\LaplaceL}{{\mathscr{L}}}
+\newcommand{\M}{\mat{M}}
+\newcommand{\Om}{\mat{O}}
+\newcommand{\Pm}{\mat{P}}
+\newcommand{\Q}{\mat{Q}}
+\newcommand{\R}{\mat{R}}
+\newcommand{\Sm}{\mat{S}}
+\newcommand{\T}{\mat{T}}
+\newcommand{\U}{\mat{U}}
+\newcommand{\W}{\mat{W}}
+%-------------------------------------------------------------------------------
+% Partielle Ableitungen
+\newcommand{\partab}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\partabl}[1]{\frac{\partial #1}{\partial \vek{x}}}
+\newcommand{\partzwei}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\partzwgm}[3]{\frac{\partial^2 #1}{\partial #2\partial #3}}
+%-------------------------------------------------------------------------------
+% Matrizen: z.B. \Matrix[cc]{f_1 & f_2\\ f_3 & f_4}
+\newcommand{\Matrix}[2]{#1}
+\def\Matrix[#1]#2{\left(\begin{array}{#1}
+                    #2
+                  \end{array}\right)}
+\newcommand{\myDet}[2]{#1}
+\def\myDet[#1]#2{\left|\begin{array}{#1}
+                    #2
+                  \end{array}\right|}
+% \Vektor[c]{x_1\\x_2}
+\newcommand{\Vektor}[2]{#1}
+\def\Vektor[#1]#2{\left[\begin{array}{#1}
+                    #2
+                  \end{array}\right]}
+%-------------------------------------------------------------------------------
+% Differentiale
+\newcommand{\dt}{\,\mbox{d}t}
+\newcommand{\dtau}{\,\mbox{d}\tau}
+\newcommand{\duu}{\,\mbox{d}u}
+\newcommand{\dom}{\,\mbox{d}\omega}
+\newcommand{\dx}{\,\mbox{d}x}
+\newcommand{\dy}{\,\mbox{d}y}
+\newcommand{\dz}{\,\mbox{d}z}
+%-------------------------------------------------------------------------------
+% Farben
+\newcommand{\black}{\color{black}}
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+% EOF

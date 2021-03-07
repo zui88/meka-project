@@ -1,0 +1,124 @@
+%===============================================================================
+\chapter{Benchmark-Test}\label{Kap:bench}
+%08.07.2020
+%===============================================================================
+
+
+%===============================================================================
+\section{Einleitung}
+Mit dem in Kapitel \ref{Kap:Frame1} erstellten Framework können Netzwerke mit grundlegend unterschiedlichen Charakteristika erstellt werden. Dies sind insbesondere:
+\begin{itemize}
+	\item \textbf{Netzwerkarchitektur und -tiefe}: Aufbau, Anzahl und Verknüpfung der einzelnen KNN-Layer.
+	\item \textbf{Targets}: Zielobjekte
+	\item \textbf{Training-Sets}: Bildobjekte unterschiedlichster Situationen und Aufnahmemethoden )
+	\item \textbf{Trainingsoptionen} 
+	\item \textbf{Form des zyklischen Trainings mit Variation der grundlegenden Parameter } 
+	\item \textbf{Kombination mehrerer spezifisch trainierter KNN } 
+\end{itemize}
+
+Viele dieser Eigenschaften können bereits mit den in diesem Framework enthaltenen Evaluierungsfunktionen in konkrete Maßzahlen wie Precision oder Recall überführt und die Effektivität der jeweiligen Trainingsmethode, sowie verschiedene Netzwerkarchitekturen miteinander verglichen werden. Hieraus können bereits grundlegende Entscheidungen bezüglich der Ansätze zur einer praktischen Umsetzung und der Bewältigung eines gestellten Problems getroffen werden. Um deren tatsächlichen praktischen Nutzen beurteilen zu können, müssen diese jedoch auf der entsprechenden Target-Hardware und unter realistischen Bedingungen getestet werden. 
+\section{Setup}
+Hierfür sollen daher nachfolgend exemplarisch ein KNN mit 25 Layern und ein tieferes KNN mit 150 Layern auf zwei verschiedenen Target-Plattformen, einem Raspberry Pi 3B und einem Pi 4 (mit vier GB RAM), einem eingehenden Test unterzogen werden. 
+\subsection{Zu ermittelnde Kenngrößen}
+Hierbei sollen unter Variation der verwendeten Bildgrößen folgende wichtige Anhaltspunkte zur Einordnung der jeweiligen Konfiguration ermittelt werden:
+\begin{enumerate}
+	\item \textbf{Capture-Time}: Dauer der Erfassung eines auszuwertenden Bildes.
+	\item \textbf{Detection-Time}: Dauer der Auswertung durch das KNN.
+	\item \textbf{Zyklusdauer}: Dauer von der Aufnahme bis zur Ausgabe des Ergebnisses.
+	\item \textbf{Zyklusdauer inkl. Postprocessing}: Inklusive Aufbereitung der Ergebnisse zur optischen Darstellung durch Skalierung und Markierung des Objekts und dessen Wahrscheinlichkeit.
+	\item \textbf{CPU-Auslastung}
+	\item \textbf{RAM-Auslastung} 
+\end{enumerate}
+Hierbei wurden zu den Punkten 1-4 jeweils die Maximal- , Minimal- und Durchschnittswerte ermittelt.
+
+\subsection{Konfigurationen}
+Alle Konfigurationen der KNN wurden auf die Image-Size=[128,128,3] trainiert. Zum Zwecke einer besseren Darstellung wurde jedoch eine Skalierung des auszugebenden Bildes eingeführt, deren Einfluss auf die Rechendauer und -ressourcen ebenfalls mit betrachtet werden sollten. Es ergaben sich daraus folgende zu analysierende Konfigurationen:
+
+\begin{tabular}{ll}
+	\parbox{8cm}{
+		\begin{itemize}
+			\item 25 Layer; Postprocessing 320x240 Px
+			\item 25 Layer; Postprocessing 1280x720 Px
+	\end{itemize}}
+	&
+	\parbox{8.3cm}{
+		\begin{itemize}
+		\item 150 Layer; Postprocessing 320x240 Px
+		\item 150 Layer; Postprocessing 1280x720 Px
+	\end{itemize}}	
+\end{tabular}
+
+Auf folgender Target-Hardware:
+\begin{itemize}
+	\item Raspberry Pi 3B (1GB RAM) wie bereits verbaut
+	\item Raspberry Pi 4 (4GB RAM) als Alternative
+\end{itemize}
+
+\section{Ergebnisse in der Theorie}
+Die Ergebnisse der jeweiligen Konfigurationen können den, nach Target-Plattform unterteilten Tabellen, in Abbildung \ref{fig:pi3} und \ref{fig:pi4} entnommen werden.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=1.0 \textwidth]{./figures/Benchmark_Pi_3.png}
+	\end{center}
+	\caption{Ergebnisse des Benchmarkings auf dem Pi 3B}
+	\label{fig:pi3}
+\end{figure}
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=1.0 \textwidth]{./figures/Benchmark_Pi_4.png}
+	\end{center}
+	\caption{Ergebnisse des Benchmarkings auf dem Pi 4}
+	\label{fig:pi4}
+\end{figure}
+
+Hierbei fällt zuerst ein bereits erwarteter Unterschied in den Frameraten des Pi 3 im Vergleich zum Pi 4 auf. Dieser Arbeitet mit einem CPU-Takt von 1500 MHz anstatt der 1200 MHz des Pi 3B. Hierdurch kann bei gleicher Konfiguration ein Zeitgewinn um etwa den Faktor zwei erzielt werden. Die jeweilige CPU Auslastung schwanken um die 50 Prozent, liegen bei dem neueren Pi jedoch etwas höher. Dasselbe gilt für die Auslastung des Arbeitsspeichers, wobei dessen Unterschiede hauptsächlich in den unterschiedlichen, im Hintergrund ausgeführten Programmen begründet liegen. Das KNN mit 25 Layern kann bei einer Bildgröße von 320x240 Pixeln, was für eine hervorragende Detektion vollkommen ausreichend ist, auf beiden Geräten eine sehr hohe Framerate erzielen. Beide ermöglichen hierbei eine ausreichend kurze Verarbeitungszeit um diese praktisch anwenden zu können. Zu beachten ist hierbei jedoch, dass die Dauer des Detektionsvorganges gewissen zeitlichen Schwankungen unterliegt, sodass ein Verarbeitungsschritt durchaus länger dauern kann, als der durchschnittliche Wert. Die sollte bei einer weiteren Anwendung beachtet werden. Interessanterweise dauert die Erfassung des Bildes auf beiden Geräten in etwa gleich lange, sodass nicht der Pi, sondern die Kamera hierbei der limitierende Faktor zu sein scheint. \\
+Die Ergebnisse des KNN mit 150 Layern unterscheiden sich jedoch drastisch: Da der Pi 3B lediglich über 1GB RAM verfügt, das KNN jedoch sehr groß ist, kommt es beim Laden desselben in den RAM zu einem Speicherüberlauf, sodass das Programm abstürzt. Um dieses trotzdem ausführen zu können, wurde ein virtueller Arbeitsspeicher in Form eines SWAP eingerichtet. Da dieser jedoch in etwa um den Faktor 100 langsamer beschrieben und gelesen werden kann, musste bereits zu diesem Zeitpunkt mit einem erheblichen Leistungsverlust gerechnet werden, welcher jedoch nicht theoretisch abgeschätzt werden konnte. Daher wurde mit folgendem Befehl ein SWAP erstellt.
+\begin{matlabcode}
+sudo swapon -a
+\end{matlabcode}
+Dessen Größe kann in folgender Textdatei eingestellt werden. Es stellte sich heraus, dass bereits 100MB ausreichten, um einen Memory-Overflow sicher zu verhindern.
+\begin{matlabcode}
+sudo nano /etc/dphys-swapfile
+\end{matlabcode}
+Mit nachfolgendem Code kann der SWAP anschließend je nach Wunsch wieder deaktiviert werden.
+\begin{matlabcode}
+	sudo swapoff -a
+\end{matlabcode}
+
+Durch die Nutzung des SWAP schnellte insbesondere auch die CPU-Auslastung durch die Schreib-/Lesevorgänge deutlich an, wobei sehr unterschiedliche Zykluszeiten erreicht werden konnten. Da jedoch die maximal gemessene Zykluszeit bei über 120 Sekunden liegt, sollte klar sein, dass eine Implementierung eines solch großen KNN auf einem Pi 3 nicht sinnvoll möglich ist. \\
+Im Gegensatz hierzu konnten auf dem Pi 4 jedoch trotz des enormen Rechenaufwandes eine durchaus überraschend hohe Framerate von 2,5 Bilder pro Sekunde  im Mittel erzielt werden. Jedoch reicht hierbei für ein praktische Anwendung dieses tiefen KNN die Leistung des Pi nicht aus, um eine gewünschte, kurze Reaktionszeit des Assistenzsystems zu garantieren.\\
+Ebenfalls muss bei einer folgenden Anwendung bedacht werden, dass zum Betrieb und zur Steuerung des Fahrzeuges ebenfalls Rechen-Ressourcen benötigt werden. Hierdurch kann die Framerate, und somit die Eignung dieser Konfiguration nochmals negativ beeinflusst werden.\\
+Für eine weitergehende Anwendung kann daher folgende Empfehlung ausgesprochen werden: Um hochperformant und trotzdem mit großer Präzision Objekte erfassen zu können, sollte das im Framework erstellte 25 schichtige KNN auf einem weiteren Pi 4 zur Anwendung kommen. Falls hierbei keine weiteren Funktionen parallel hierzu abgearbeitet werden müssen, würde auch ein RAM von 1GB ausreichen. Zwecks zukünftiger Erweiterbarkeit um weitere Detektionsklassen oder andere Netzwerkarchitekturen sollten jedoch mindestens 2GB an RAM zur Verfügung gestellt werden. Hierdurch sollten selbst unter ungünstigen Bedingungen Zykluszeiten von unter 100ms garantiert werden können. 
+\section{Ergebnisse im Praxistest}
+Diese Erkenntnisse sollen nun nachfolgend anhand eines realistischen Versuchsaufbaus für eine praktische Anwendung plausibilisiert werden. Hierzu wird auf das eingangs beschriebene RC-Modell und den Fahrbahnsimulator zurückgegriffen. Auf dem RC-Modell wurde hierzu der Pi 4, sowie die Pi-Cam befestigt. Dieser Aufbau wurde auf der rechten Fahrspur platziert und die Kamera auf den am Fahrbahnkopf angebrachten Monitor gerichtet, auf welchem nachfolgend Bilder- und Videosequenzen abgespielt wurden. Zu Testzwecken wurde ein entsprechender Code auf den Raspberry ausgelagert, welcher über eine Remoteverbindung zu einem lokalen Laptop entsprechend gestartet zur Ausführung gebracht werden konnte. Hierbei wurden in einer Endlosschleife Bilder erfasst, durch das KNN analysiert, dessen Ergebnisse als Annotation in das Bild eingefügt und schlussendlich mit den entsprechenden Kennwerten auf dem Remoterechner dargestellt. Der genaue Versuchsaufbau kann nachfolgender Abbildung entnommen werden. 
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[angle=-90,width=0.3 \textwidth]{./figures/aufbau.jpg}
+	\caption{Versuchsaufbau für den Praxistest}
+		\end{center}
+	\label{fig:aufbau1}
+\end{figure}
+\newpage
+Dieser Aufbau lieferte als Beispiel folgend dargestelltes Ergebnis:\newline
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=1.0 \textwidth]{./figures/ergebnis.png}
+	\end{center}
+	\caption{Exemplarisches Ergebnis des Praxistests}
+	\label{fig:aufbau2}
+\end{figure}\newline
+Hierbei wurden auf dem aufgenommenen Bild drei Fahrzeuge erkannt, mit einer Bounding Box versehen und deren jeweiliges Confidence-Level eingefügt. Das vorliegende Beispiel wurde hierbei als empirischer Mittelwert der Erkennungsgenauigkeit gewählt, da eine Schwankung der Confidence-Level zwischen 65 und 99 Prozent mit einem etwaigen Durchschnitt von rund 90 Prozent den erhaltenen Ergebnissen entspricht. Zusätzlich können der Abbildung die hierfür benötigte Aufnahme- und Analysedauer aus der Titelleiste entnommen werden. \newline
+ 
+Während der Durchführung wurde ersichtlich, dass die Grundgedanken eines Convolution-Nets, sehr gut verwirklicht werden konnten. Diese besagen, dass das CNN (Convolutional Neuronal Network) möglichst Sensitiv auf feine, das Target-Objekt charakterisierende Merkmale ansprechen soll, jedoch sehr in-sensitiv gegenüber Störeinflüssen wie Belichtung, Streulicht oder Drehung des Bildes reagieren soll. Eine Änderung der Beleuchtung oder des Winkels hatte daher keinerlei merklichen Einfluss auf die Ergebnisse und deren Genauigkeit. Des Weiteren stellte sich heraus, dass vor allem Objekte mit mittlerer Größe sehr gute Confidence-Level aufwiesen. Dies spiegelt die Tatsache wieder, dass ein überwiegender Teil der Trainingsdaten dieser Größe entsprach. Um vereinzelt vorkommende besonders kleine oder große Objekte zu erkennen, war der Umfang der Trainingsdaten schlichtweg zu klein. \newline
+Zusammenfassend lässt sich jedoch sagen, dass selbst das ''kleine'' Netzwerk mit lediglich 25 Hidden-Layern trotz des begrenzten Datensatzes sehr brauchbare Ergebnisse liefern konnte, sodass die praktische Anwendbarkeit der erstellten Funktionen und Netzwerke bewiesen werden konnte.
+\section{Empfehlung zur Umsetzung}
+Um diese Erkenntnisse nun zukünftig zur praktischen Implementierung eines Kollisionsvermeidungsassistenten nutzen zu können, werden folgende Empfehlungen abhängig vom jeweiligen Ziel gegeben werden:
+\subsection{Binäre Klassifikation}
+Falls der Assistent in der Lage sein soll, lediglich eine Klasse von Targets, beispielsweise Autos zu erkennen, reicht ein vergleichsweise kleines Netz mit 25 Layern aus, wodurch eine sehr hohe Framerate ermöglicht werden kann. Hierzu sollte ein umfassender und möglichst vielfältiger Satz an Trainings-Beispielen zur Verfügung stehen, um möglichst viele Fahrsituationen mit einer hohen Präzision analysieren zu können. Hierbei sollten die Daten nach Möglichkeit durch Data-Augmentation zwecks eines umfassenderen Trainings-Sets und zur Vermeidung von Overfitting verwendet werden. Zur Implementierung empfiehlt sich die Verwendung eines Pi4 mit mindestens 2GB Arbeitsspeicher, um genügend Resourcen zur Bearbeitung weiterer Prozesse vorhalten zu können   
+\subsection{Klassifikation mit mehreren Klassen} 
+Sollen darüber hinaus mehrere Klassen wie Fahrradfahrer oder Fußgänger erkannt werden, stellt sich die Anwendung dieses kleinen Netzes als nicht praktikabel heraus. Da aufgrund der geringen Tiefe von 25 Layern nur maximal 4 Bounding-Boxes als Targets beim Training übergeben werden können, können keine Daten mit einer gewissen Varianz in der Größe der Objekte verarbeitet werden (vergl. Framework 1). Es sollte daher ein tieferes Netz von etwa der 75 Layern verwendet werden, sodass jeder Klasse mindestens vier verschiedene Bounding-Boxes als Output spezifiziert werden können, jedoch die Zykluszeit gegenüber dem erprobten Netzwerk von 150 Layern noch gering gehalten werden kann. Zur Implementierung auf der Target-Hardware ergeben sich hieraus nur geringfügig höhere Forderungen, sodass dies ebenfalls mit einem Raspberry Pi4 mit 2GB Arbeitsspeicher zufriedenstellend verarbeitet werden sollte.\newline\newline
+Zusammenfassend lässt sich daher festhalten, dass die im Zuge der vorliegenden Arbeit gewonnenen Erkenntnisse und die hieraus entsprechend erzeugten Funktionen eine breite praktische Anwendung ermöglichen.
+%===============================================================================
+% EOF

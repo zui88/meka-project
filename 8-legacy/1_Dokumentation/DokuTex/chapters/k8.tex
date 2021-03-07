@@ -1,0 +1,14 @@
+
+\chapter{Zusammenfassung/Endstand}\label{Kap:Zusammenfassung}
+%08.07.2020
+%===============================================================================
+Nachfolgend soll daher nochmals zusammengefasst werden, was für Schritte hierzu von Nöten waren und worauf für eine zukünftige, weitere Verwendung der Ergebnisse ein besonderes Augenmerk gelegt werden sollte.\newline
+Nach einer eingehenden Analyse des Stands der Technik, sowie den durch den Laboraufbau vorgegebenen Rahmenbedingungen, musste ein konkreter Lösungsansatz herausgearbeitet werden. Hierbei wurde festgelegt, dass die Erkennung mittels eines Convolutional-Neural-Networks (CNN) mit einem YOLOv2 Output-Layer geschehen soll. Hiermit sollte ein Framework erschaffen werden, welches ein einfaches und schnelles Training und eine Evaluierung verschiedener Netze mit unterschiedlichen Targets und Training-Sets ermöglicht. Hierzu wurden nach einer Datenakquise in Göppingen Training-Sets mithilfe des Image- bzw. des Video-Labelers erstellt. Auf deren Grundlage wurde das Framework in Form eines Livescripts mit vielen umfassenden, selbst erarbeiteten Funktionen erstellt. Hierdurch konnte ein tiefes Verständnis für die Prozesse während des Trainingsvorgangs, in Abhängigkeit von den jeweiligen Trainingsoptionen erlangt werden, sodass durch die ebenfalls implementierten Evaluierungsfunktionen sehr hoch optimierte Netzwerke erschaffen werden konnten. \newline
+Diese konnten daher sehr gut zum Deployment auf die Zielhardware genutzt werden, welches ebenfalls durch im Zuge dieser Arbeit erstellte Funktionen realisiert werden konnte. Im Zuge dessen wurde zur Optimierung der Zykluszeit zusätzlich ein Deployment auf eine GPU mithilfe von CUDA-CODE in Erwägung gezogen. Da die zur Verfügung stehenden Target-Plattformen dessen Ausführung jedoch nicht ohne weiteres unterstützen, musste dessen Verwendung auf etwaige Folgeprojekte mit entsprechender Hardware verschoben werden. Um dies zu ermöglichen, wurde ebenfalls eine detaillierte Beschreibung, sowie Funktionen zur Erzeugung erstellt.\newline
+Anschließend wurden die verschiedenen Konfigurationen der CNN anhand eines umfangreichen Benchmarkings auf verschiedenen Target-Plattformen evaluiert und deren Anwendbarkeit anhand eines realistischen Versuchsaufbaus des Fahrbahnmodells verifiziert werden. Wie in Kapitel \ref{Kap:bench} aufgezeigt, konnte eine sehr hohe und von Umwelteinflüssen kaum beeinflusste Detektionsrate von über 90 Prozent bei einer Zykluszeit von unter 100 Millisekunden erzielt werden.
+Einer praktischen Anwendung steht daher im Folgenden nichts mehr entgegen!
+
+
+%Eventuel Verweis auf anhang und beschreibung wie gut Bilder und Video funktioniert
+%===============================================================================
+% EOF

@@ -1,0 +1,190 @@
+
+
+%Ein eigenes Symbolverzeichnis erstellen
+\newglossary[slg]{symb}{syi}{syg}{Symbolverzeichnis}
+\newglossary[ilg]{indi}{iyi}{iyg}{Indizes}
+%\newglossary[stlg]{str}{styi}{styg}{Streckenparameterverzeichnis}
+%Den Punkt am Ende jeder Beschreibung deaktivieren
+\renewcommand*{\glspostdescription}{}
+
+%Glossar-Befehle anschalten
+\makeglossaries
+
+%Symbolliste
+\newglossaryentry{symb:a1}{name=\ensuremath{\alpha_1},description={Winkel Drehen AWB },sort=a1, type=symb}
+\newglossaryentry{symb:a2}{name=\ensuremath{\alpha_2},description={Winkel Heben AWB },sort=a2, type=symb}
+\newglossaryentry{symb:a3}{name=\ensuremath{\alpha_3},description={Winkel Klappe AWB },sort=a3, type=symb}
+\newglossaryentry{symb:MSoll}{name=\ensuremath{\vec{M}_{Soll}},description={Sollauftreffpunkt Erntegut },sort=MSoll, type=symb}
+\newglossaryentry{symb:aSoll}{name=\ensuremath{\vec{\alpha}_{Soll}},description={Sollwinkelvorgabevektor },sort=aSoll, type=symb}
+\newglossaryentry{symb:a1s}{name=\ensuremath{\alpha_{1S}},description={Winkel Drehwinkelsensor AWB },sort=a1s, type=symb}
+\newglossaryentry{symb:a2s}{name=\ensuremath{\alpha_{2S}},description={Winkel Hubwinkelsensor AWB },sort=a2s, type=symb}
+\newglossaryentry{symb:a3s}{name=\ensuremath{\alpha_{3S}},description={Winkel Klappenwinkelsensor AWB },sort=a3s, type=symb}
+\newglossaryentry{symb:PKi}{name=\ensuremath{\vec{P}_{Ki}},description={Distanzwert Pixel TOF-Kamera},sort=PKi, type=symb}
+\newglossaryentry{symb:PTi}{name=\ensuremath{\vec{P}_{Ti}},description={Transformierter Distanzwert Pixel TOF-Kamera},sort=PTi, type=symb}
+\newglossaryentry{symb:K}{name=\ensuremath{\vec{K}},description={Koordinatenursprung TOF-Kamerasystem},sort=K, type=symb}
+\newglossaryentry{symb:lk}{name=\ensuremath{l_K},description={Abstand Kamerakoordinatenursprung zum Bezugskoordinatensystem},sort=lk, type=symb}
+\newglossaryentry{symb:a2k}{name=\ensuremath{\alpha_{2K}},description={Differenzwinkel zwischen \gls{symb:K} und $h$-Achse in der $hz$-Ebene},sort=a2k, type=symb}
+\newglossaryentry{symb:a2O}{name=\ensuremath{\alpha_{2O}},description={Differenzwinkel zwischen \gls{symb:K} und Erntegutaustrittspunkt $\vec{D}$ in der $hz$-Ebene},sort=a2O, type=symb}
+\newglossaryentry{symb:a2y}{name=\ensuremath{\alpha_{2Y}},description={Differenzwinkel zwischen \gls{symb:K} und $y_K$-Achse in der $hz$-Ebene},sort=a2y, type=symb}
+\newglossaryentry{symb:ax}{name=\ensuremath{\alpha_{xK}},description={Rotationswinkel um $x_K$-Achse},sort=axk, type=symb}
+\newglossaryentry{symb:Rx}{name=\ensuremath{R_{X}},description={Rotationsmatrix für Rotation um $x$-Achse},sort=Rx, type=symb}
+\newglossaryentry{symb:Rz}{name=\ensuremath{R_{Z}},description={Rotationsmatrix für Rotation um $z$-Achse},sort=Rz, type=symb}
+\newglossaryentry{symb:PTis}{name=\ensuremath{\vec{P}_{Ti}^*},description={Transformierter Distanzwert Pixel TOF-Kamera innerhalb relevantem Sichtfeldbereich},sort=PTis, type=symb}
+\newglossaryentry{symb:xMin}{name=\ensuremath{x_{Min}},description={Untere Sichtfeldbegrenzung in $x$-Richtung},sort=xmin, type=symb}
+\newglossaryentry{symb:xMax}{name=\ensuremath{x_{Max}},description={Obere Sichtfeldbegrenzung in $x$-Richtung},sort=xmax, type=symb}
+\newglossaryentry{symb:yMin}{name=\ensuremath{y_{Min}},description={Untere Sichtfeldbegrenzung in $y$-Richtung},sort=ymin, type=symb}
+\newglossaryentry{symb:yMax}{name=\ensuremath{y_{Max}},description={Obere Sichtfeldbegrenzung in $y$-Richtung},sort=ymax, type=symb}
+\newglossaryentry{symb:dj}{name=\ensuremath{d_{j}},description={Abstand eines Distanzwerts von einem anderen Distanzwert von $\vec{P}_{Ti}^*$ },sort=dj, type=symb}
+\newglossaryentry{symb:dMax}{name=\ensuremath{d_{Max}},description={Maximal zulässiger Abstand zu Distanzwerten },sort=dMax, type=symb}
+\newglossaryentry{symb:yStart}{name=\ensuremath{y_{Start}},description={Untere Grenze $y$-Achse Punktwolke },sort=yStart, type=symb}
+\newglossaryentry{symb:yEnd}{name=\ensuremath{y_{End}},description={Obere Grenze $y$-Achse Punktwolke },sort=yEnd, type=symb}
+\newglossaryentry{symb:dy}{name=\ensuremath{\Delta y},description={Schrittweite Punktwolkendetektion in $y$-Achse},sort=dy, type=symb}
+\newglossaryentry{symb:PWki}{name=\ensuremath{\vec{P}_{Wki}},description={Distanzwert $i$ der Punktwolke $k$},sort=PWki, type=symb}
+\newglossaryentry{symb:np}{name=\ensuremath{n_{P}},description={Anzahl Punktwolken},sort=np, type=symb}
+\newglossaryentry{symb:mpk}{name=\ensuremath{m_{Pk}},description={Arithmetischer Mittelwert der $y$-Koordinaten der Distanzdaten der Punktwolke $k$ },sort=mpk, type=symb}
+\newglossaryentry{symb:npk}{name=\ensuremath{n_{Pk}},description={Anzahl der Punkte der  Punktwolke $k$},sort=npk, type=symb}
+\newglossaryentry{symb:npmin}{name=\ensuremath{n_{PMin}},description={ Mindestanzahl von Punkten zur Auswertung einer Punktwolke},sort=npmin, type=symb}
+\newglossaryentry{symb:dw1}{name=\ensuremath{d_{W1}},description={Abstand zwischen Punktwolken mit aritmetischem Mittelwert $m_{P1}$ und $m_{P2}$},sort=dw1, type=symb}
+\newglossaryentry{symb:dw2}{name=\ensuremath{d_{W2}},description={Abstand zwischen Punktwolken mit aritmetischem Mittelwert $m_{P2}$ und $m_{P3}$},sort=dw2, type=symb}
+\newglossaryentry{symb:PFBWi}{name=\ensuremath{\vec{P}_{FBWi}},description={Punktwolke Frontbordwand},sort=PFBWi, type=symb}
+\newglossaryentry{symb:PHBWi}{name=\ensuremath{\vec{P}_{HBWi}},description={Punktwolke Heckbordwand},sort=PHBWi, type=symb}
+\newglossaryentry{symb:a11}{name=\ensuremath{a_1},description={$x$-Koordinate Ebenennormalenvektor},sort=a11, type=symb}
+\newglossaryentry{symb:a22}{name=\ensuremath{a_2},description={$z$-Koordinate Ebenennormalenvektor},sort=a11, type=symb}
+\newglossaryentry{symb:a3H}{name=\ensuremath{a_{3H}},description={Abstand Heckbordwand zu Koordinatenursprung},sort=a3H, type=symb}
+\newglossaryentry{symb:a3F}{name=\ensuremath{a_{3F}},description={Abstand Frontbordwand zu Koordinatenursprung},sort=a3F, type=symb}
+\newglossaryentry{symb:ne}{name=\ensuremath{\vec{n}_{E}},description={Normalenvektor Bordwandebene},sort=ne, type=symb}
+\newglossaryentry{symb:ri}{name=\ensuremath{r_{i}},description={Residuum},sort=ri, type=symb}
+\newglossaryentry{symb:A}{name=\ensuremath{A},description={Systemmatrix Distanzpunkte},sort=A, type=symb}
+\newglossaryentry{symb:a}{name=\ensuremath{\vec{a}},description={Ebenenparametervektor},sort=a, type=symb}
+\newglossaryentry{symb:h}{name=\ensuremath{\vec{h}},description={Lösungsdistanzvektor},sort=h, type=symb}
+\newglossaryentry{symb:PFBWis}{name=\ensuremath{\vec{P}_{FBWi}^*},description={Projizierter Distanzpunkt $i$ auf Frontbordwandebene $E_F$},sort=PFBWis, type=symb}
+\newglossaryentry{symb:lf}{name=\ensuremath{\lambda_F},description={Geradenlaufparameter für Schnittpunkt der Ebene $E_F$ mit der Geraden $g_{PF}$},sort=lf, type=symb}
+\newglossaryentry{symb:PHBWis}{name=\ensuremath{\vec{P}_{HBWi}^*},description={Projizierter Distanzpunkt $i$ auf Heckbordwandebene $E_H$},sort=PHBWis, type=symb}
+\newglossaryentry{symb:lh}{name=\ensuremath{\lambda_H},description={Geradenlaufparameter für Schnittpunkt der Ebene $E_H$ mit der Geraden $g_{PH}$},sort=lh, type=symb}
+\newglossaryentry{symb:Fxmin}{name=\ensuremath{F_{xMin}},description={Minimale $x$-Koordinate der Punktwolke $\vec{P}_{FBWi}^*$ },sort=Fxmin, type=symb}
+\newglossaryentry{symb:Fxmax}{name=\ensuremath{F_{xMax}},description={Maximale $x$-Koordinate der Punktwolke $\vec{P}_{FBWi}^*$ },sort=Fxmax, type=symb}
+\newglossaryentry{symb:Fz}{name=\ensuremath{F_{z}},description={Maximale $z$-Koordinate der Punktwolke $\vec{P}_{FBWi}^*$ },sort=Fz, type=symb}
+\newglossaryentry{symb:FL}{name=\ensuremath{\vec{F}_{L}},description={Linke obere Frontbordwandkante },sort=FL, type=symb}
+\newglossaryentry{symb:FR}{name=\ensuremath{\vec{F}_{R}},description={Rechte obere Frontbordwandkante },sort=FR, type=symb}
+\newglossaryentry{symb:Hxmin}{name=\ensuremath{H_{xMin}},description={Minimale $x$-Koordinate der Punktwolke $\vec{P}_{HBWi}^*$ },sort=Hxmin, type=symb}
+\newglossaryentry{symb:Hxmax}{name=\ensuremath{H_{xMax}},description={Maximale $x$-Koordinate der Punktwolke $\vec{P}_{HBWi}^*$ },sort=Hxmax, type=symb}
+\newglossaryentry{symb:Hz}{name=\ensuremath{H_{z}},description={Maximale $z$-Koordinate der Punktwolke $\vec{P}_{HBWi}^*$ },sort=Hz, type=symb}
+\newglossaryentry{symb:HL}{name=\ensuremath{\vec{H}_{L}},description={Linke obere Heckbordwandkante },sort=HL, type=symb}
+\newglossaryentry{symb:HR}{name=\ensuremath{\vec{H}_{R}},description={Rechte obere Heckbordwandkante },sort=HR, type=symb}
+\newglossaryentry{symb:ef}{name=\ensuremath{\vec{e}_{F}},description={Einheitsvektor von $\overrightarrow{F_LF_R}$ },sort=ef, type=symb}
+\newglossaryentry{symb:eh}{name=\ensuremath{\vec{e}_{H}},description={Einheitsvektor von $\overrightarrow{H_LH_R}$ },sort=eh, type=symb}
+\newglossaryentry{symb:dl}{name=\ensuremath{d_{L}},description={Abstand der Ebene $E_L$ vom Koordinatenursprung },sort=dl, type=symb}
+\newglossaryentry{symb:tl}{name=\ensuremath{\tau_L},description={Geradenlaufparameter für Schnittpunkt der Ebene $E_L$ mit der Geraden $g_{L}$},sort=tl, type=symb}
+\newglossaryentry{symb:dr}{name=\ensuremath{d_{R}},description={Abstand der Ebene $E_R$ vom Koordinatenursprung },sort=dr, type=symb}
+\newglossaryentry{symb:tr}{name=\ensuremath{\tau_R},description={Geradenlaufparameter für Schnittpunkt der Ebene $E_R$ mit der Geraden $g_{R}$},sort=tr, type=symb}
+\newglossaryentry{symb:aSolls}{name=\ensuremath{\vec{\alpha}_{Soll}^*},description={Sollwinkelvorgabevektor Trajektorienplanung},sort=aSolls, type=symb}
+\newglossaryentry{symb:svs}{name=\ensuremath{\vec{s}_{VS}},description={Sollschieberstellungsvorgabe Hydraulikventile},sort=svs, type=symb}
+\newglossaryentry{symb:Q}{name=\ensuremath{\vec{Q}},description={Volumenströme Hydraulikventile},sort=Q, type=symb}
+\newglossaryentry{symb:Fh}{name=\ensuremath{\vec{F}_H},description={Stellkraftvektor Aktorik AWB},sort=Fh, type=symb}
+\newglossaryentry{symb:Is}{name=\ensuremath{\vec{I}_S},description={Stromsignalvektor Winkelsensoren AWB},sort=Is, type=symb}
+\newglossaryentry{symb:l1}{name=\ensuremath{l_1},description={Ersatzlänge des AWB},sort=l1, type=symb}
+\newglossaryentry{symb:nm}{name=\ensuremath{\vec{n}_M},description={Normalenvektor Ebene $E_M$},sort=nm, type=symb}
+\newglossaryentry{symb:Dh}{name=\ensuremath{D_H},description={$h$-Koordinate des Erntegutaustrittspunkts $\vec{D}$},sort=Dh, type=symb}
+\newglossaryentry{symb:Dz}{name=\ensuremath{D_Z},description={$z$-Koordinate des Erntegutaustrittspunkts $\vec{D}$},sort=Dz, type=symb}
+\newglossaryentry{symb:Mh}{name=\ensuremath{M_H},description={$h$-Koordinate des Punkts $\vec{M}_{Soll}$ },sort=Mh, type=symb}
+\newglossaryentry{symb:Mz}{name=\ensuremath{M_Z},description={$z$-Koordinate des Punkts $\vec{M}_{Soll}$},sort=Mz, type=symb}
+\newglossaryentry{symb:v0}{name=\ensuremath{v_0},description={Austrittsgeschwindigkeit Erntegut},sort=v0, type=symb}
+\newglossaryentry{symb:g}{name=\ensuremath{g},description={Erdbeschleunigung},sort=g, type=symb}
+\newglossaryentry{symb:beta}{name=\ensuremath{\beta},description={Austrittswinkel Erntegut},sort=beta, type=symb}
+\newglossaryentry{symb:FLuft}{name=\ensuremath{F_{Luft}},description={Luftwiderstand},sort=FLuft, type=symb}
+\newglossaryentry{symb:kl}{name=\ensuremath{k_{L}},description={Luftwiderstandskoeffizient},sort=kl, type=symb}
+\newglossaryentry{symb:Al}{name=\ensuremath{A_{L}},description={Senkrecht zur Fluggeschwindigkeit projizierte Fläche des Ernteguts },sort=kl, type=symb}
+\newglossaryentry{symb:rhol}{name=\ensuremath{\rho_{L}},description={Luftdichte },sort=rhol, type=symb}
+\newglossaryentry{symb:cw}{name=\ensuremath{c_{W}},description={Luftwiderstandsbeiwert },sort=cw, type=symb}
+\newglossaryentry{symb:v}{name=\ensuremath{v},description={Geschwindigkeit Erntegut},sort=v, type=symb}
+\newglossaryentry{symb:me}{name=\ensuremath{m_E},description={Masse Erntegutelement },sort=me, type=symb}
+\newglossaryentry{symb:ez}{name=\ensuremath{e_z},description={Flugbahnabweichung},sort=ez, type=symb}
+\newglossaryentry{symb:hs}{name=\ensuremath{h_S},description={Vertikaler Abstand zwischen Erntegutaustritt- und Sollauftreffpunkt},sort=hs, type=symb}
+\newglossaryentry{symb:a2min}{name=\ensuremath{\alpha_{2Min}},description={Minimaler Stellwinkel $\alpha_2$},sort=a2min, type=symb}
+\newglossaryentry{symb:a2max}{name=\ensuremath{\alpha_{2Max}},description={Maximaler Stellwinkel $\alpha_2$},sort=a2min, type=symb}
+\newglossaryentry{symb:a31}{name=\ensuremath{\alpha_{31}},description={Winkel Klappe nach $\beta_1$},sort=a31, type=symb}
+\newglossaryentry{symb:a32}{name=\ensuremath{\alpha_{32}},description={Winkel Klappe nach $\beta_2$},sort=a32, type=symb}
+\newglossaryentry{symb:a3min}{name=\ensuremath{\alpha_{3Min}},description={Minimaler Stellwinkel $\alpha_3$},sort=a3min, type=symb}
+\newglossaryentry{symb:a3max}{name=\ensuremath{\alpha_{3Max}},description={Maximaler Stellwinkel $\alpha_3$},sort=a3min, type=symb}
+\newglossaryentry{symb:aX}{name=\ensuremath{\alpha_{X}},description={Allgemeine Winkelkoordinate},sort=aX, type=symb}
+\newglossaryentry{symb:eX}{name=\ensuremath{e_{X}},description={Allgemeine Regeldifferenz},sort=eX, type=symb}
+\newglossaryentry{symb:aXs}{name=\ensuremath{\alpha_{XS}},description={Allgemeine Sollwinkelkoordinate},sort=aXs, type=symb}
+\newglossaryentry{symb:sVSX}{name=\ensuremath{s_{VSX}},description={Allgemeine Sollschieberposition Ventil},sort=sVSX, type=symb}
+\newglossaryentry{symb:sKX}{name=\ensuremath{s_{KX}},description={Allgemeine Totzonenkompensationsstellgröße},sort=sKX, type=symb}
+\newglossaryentry{symb:sXON}{name=\ensuremath{s_{XON}},description={Allgemeine negative Totzonengrenze der Ventilschieberstellung},sort=sXON, type=symb}
+\newglossaryentry{symb:sXOP}{name=\ensuremath{s_{XOP}},description={Allgemeine positive Totzonengrenze der Ventilschieberstellung},sort=sXOP, type=symb}
+\newglossaryentry{symb:sRX}{name=\ensuremath{s_{RX}},description={Allgemeine Stellgröße PI-Regler},sort=sRX, type=symb}
+\newglossaryentry{symb:sVSXMin}{name=\ensuremath{s_{VSXMin}},description={Allgemeine negative Stellgrößenbeschränkung Ventil},sort=sVSXMin, type=symb}
+\newglossaryentry{symb:sVSXMax}{name=\ensuremath{s_{VSXMax}},description={Allgemeine positive Stellgrößenbeschränkung Ventil},sort=sVSXMax, type=symb}
+\newglossaryentry{symb:Kpx}{name=\ensuremath{K_{PX}},description={Verstärkung P-Anteil Regler},sort=Kpx, type=symb}
+\newglossaryentry{symb:Kix}{name=\ensuremath{K_{IX}},description={Verstärkung I-Anteil Regler},sort=Kix, type=symb}
+
+
+
+\newglossaryentry{symb:ms}{name=\ensuremath{m_{S}},description={Umrechnungsfaktor Winkelsensor},sort=ms, type=symb}
+\newglossaryentry{symb:I1s}{name=\ensuremath{I_{1S}},description={Sensorstrom Drehwinkelsensor AWB},sort=I1s, type=symb}
+\newglossaryentry{symb:I2s}{name=\ensuremath{I_{2S}},description={Sensorstrom Hubwinkelsensor AWB},sort=I2s, type=symb}
+\newglossaryentry{symb:I3s}{name=\ensuremath{I_{3S}},description={Sensorstrom Klappenwinkelsensor AWB},sort=I3s, type=symb}
+\newglossaryentry{symb:a1s0}{name=\ensuremath{\alpha_{1S0}},description={Referenzwinkel Drehwinkelsensor AWB},sort=a1s0, type=symb}
+\newglossaryentry{symb:a2s0}{name=\ensuremath{\alpha_{2S0}},description={Referenzwinkel Hubwinkelsensor AWB},sort=a2s0, type=symb}
+\newglossaryentry{symb:a3s0}{name=\ensuremath{\alpha_{3S0}},description={Referenzwinkel Klappenwinkelsensor AWB},sort=a3s0, type=symb}
+\newglossaryentry{symb:I1s0}{name=\ensuremath{I_{1S0}},description={Referenzsensorstrom Drehwinkelsensor AWB},sort=I1s0, type=symb}
+\newglossaryentry{symb:I2s0}{name=\ensuremath{I_{2S0}},description={Referenzsensorstrom Hubwinkelsensor AWB},sort=I2s0, type=symb}
+\newglossaryentry{symb:I3s0}{name=\ensuremath{I_{3S0}},description={Referenzsensorstrom Klappenwinkelsensor AWB},sort=I3s0, type=symb}
+
+
+\newglossaryentry{symb:ra1s}{name=\ensuremath{r_{\alpha1S}},description={Abstand der Drehachsen von $\alpha_1$ und $\alpha_{1S}$},sort=ra1s, type=symb}
+\newglossaryentry{symb:la1s}{name=\ensuremath{l_{\alpha1S}},description={Länge Rollenhebel Drehwinkelsensor AWB},sort=la1s, type=symb}
+\newglossaryentry{symb:ra1k}{name=\ensuremath{r_{\alpha1K}},description={Aktueller Radius Kurvenscheibe},sort=ra1k, type=symb}
+\newglossaryentry{symb:ma1}{name=\ensuremath{m_{\alpha1}},description={Umrechnungsfaktor zwischen Winkel und Kurvenscheibenradius},sort=ma1, type=symb}
+\newglossaryentry{symb:ra10}{name=\ensuremath{r_{\alpha10}},description={Referenzkurvenscheibenradius},sort=ra10, type=symb}
+\newglossaryentry{symb:nG}{name=\ensuremath{n_{G}},description={Anzahl Gelenke},sort=nG, type=symb}
+\newglossaryentry{symb:nEl}{name=\ensuremath{n_{El}},description={Anzahl Elemente},sort=nEl, type=symb}
+\newglossaryentry{symb:F}{name=\ensuremath{F},description={Anzahl Freiheitsgrade},sort=F, type=symb}
+\newglossaryentry{symb:nu}{name=\ensuremath{n_U},description={Anzahl Unbekannte},sort=nu, type=symb}
+
+
+\newglossaryentry{symb:FLM}{name=\ensuremath{\left \vert \vec{F}_{LM} \right \vert},description={Gemessener Abstand der vorderen oberen linken Bordwandecke zum Bezugskoordinatenursprung},sort=FLM, type=symb}
+\newglossaryentry{symb:FRM}{name=\ensuremath{\left \vert \vec{F}_{RM} \right \vert},description={Gemessener Abstand der vorderen oberen rechte Bordwandecke zum Bezugskoordinatenursprung},sort=FRM, type=symb}
+\newglossaryentry{symb:HLM}{name=\ensuremath{\left \vert \vec{H}_{LM} \right \vert},description={Gemessener Abstand der hinteren oberen linken Bordwandecke zum Bezugskoordinatenursprung},sort=HLM, type=symb}
+\newglossaryentry{symb:HRM}{name=\ensuremath{\left \vert \vec{H}_{RM} \right \vert},description={Gemessener Abstand der hinteren oberen rechten Bordwandecke zum Bezugskoordinatenursprung},sort=HRM, type=symb}
+\newglossaryentry{symb:eFL}{name=\ensuremath{e_{FL}},description={Absolute Abweichung zwischen gemessenem und berechnetem Abstand der vorderen oberen linken Bordwandecke},sort=eFL, type=symb}
+\newglossaryentry{symb:eFR}{name=\ensuremath{e_{FR}},description={Absolute Abweichung zwischen gemessenem und berechnetem Abstand der vorderen oberen rechten Bordwandecke},sort=eFR, type=symb}
+\newglossaryentry{symb:eHL}{name=\ensuremath{e_{HL}},description={Absolute Abweichung zwischen gemessenem und berechnetem Abstand der hinteren oberen linken Bordwandecke},sort=eHL, type=symb}
+\newglossaryentry{symb:eHR}{name=\ensuremath{e_{HR}},description={Absolute Abweichung zwischen gemessenem und berechnetem Abstand der hinteren oberen rechten Bordwandecke},sort=eHR, type=symb}
+\newglossaryentry{symb:MSollM}{name=\ensuremath{\left \vert \vec{M}_{SollM} \right \vert},description={Gemessener Abstand des Sollauftreffpunkts zum Koordinatenursprung},sort=MSollM, type=symb}
+\newglossaryentry{symb:dA}{name=\ensuremath{d_{A}},description={Diagonale des Anhängers},sort=dA, type=symb}
+\newglossaryentry{symb:eMS}{name=\ensuremath{e_{MS}},description={Absolute Abweichung zwischen gemessenem und berechnetem Abstand des Erntegutauftreffpunkts},sort=eMS, type=symb}
+\newglossaryentry{symb:a1Soll}{name=\ensuremath{\alpha_{1Soll}},description={Sollwinkelvorgabe Drehausrichtung AWB},sort=a1Soll, type=symb}
+\newglossaryentry{symb:a2Soll}{name=\ensuremath{\alpha_{2Soll}},description={Sollwinkelvorgabe Hubausrichtung AWB},sort=a2Soll, type=symb}
+\newglossaryentry{symb:a3Soll}{name=\ensuremath{\alpha_{3Soll}},description={Sollwinkelvorgabe Ausrichtung Klappe AWB},sort=a3Soll, type=symb}
+\newglossaryentry{symb:lA}{name=\ensuremath{l_{A}},description={Gemessene Länge des Anhängers },sort=lA, type=symb}
+\newglossaryentry{symb:bA}{name=\ensuremath{b_{A}},description={Gemessene Breite des Anhängers },sort=bA, type=symb}
+\newglossaryentry{symb:elA}{name=\ensuremath{e_{lA}},description={Absolute Abweichung zwischen gemessener und berechneter Länge des Anhängers},sort=elA, type=symb}
+\newglossaryentry{symb:ebA}{name=\ensuremath{e_{bA}},description={Absolute Abweichung zwischen gemessener und berechneter Breite des Anhängers},sort=ebA, type=symb}
+\newglossaryentry{symb:D}{name=\ensuremath{\vec{D}},description={Erntegutaustrittspunkt AWB},sort=D, type=symb}
+
+\newglossaryentry{symb:EF}{name=\ensuremath{E_F},description={Frontbordwandebene},sort=Ef, type=symb}
+\newglossaryentry{symb:EH}{name=\ensuremath{E_H},description={Heckbordwandebene},sort=Eh, type=symb}
+\newglossaryentry{symb:EL}{name=\ensuremath{E_L},description={Linke Seitenbordwand},sort=El, type=symb}
+\newglossaryentry{symb:ER}{name=\ensuremath{E_R},description={Rechte Seitenbordwand},sort=Er, type=symb}
+
+\newglossaryentry{symb:EM}{name=\ensuremath{E_M},description={Ebene der Erntegutflugbahn},sort=Em, type=symb}
+
+
+%Indizeliste%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newglossaryentry{indi:L}{name=$_L$,description={lastseitig},sort=iL, type=indi}
+\newglossaryentry{indi:M}{name=$_M$,description={motorseitig},sort=iM, type=indi}
+
+
+%Abkürzungen
+\newacronym{SEM}{SEM}{Selbstfahrende Erntemaschine}
+\newacronym{AWB}{AWB}{Auswurfbogen}
+\newacronym{VKM}{VKM}{Verbrennungskraftmaschine}
+\newacronym{TOF}{TOF}{Time-of-Flight}
+\newacronym{PMD}{PMD}{Photomischdetektor}
+\newacronym{RCP}{RCP}{Rapid Control Prototyping}
+\newacronym{CAN}{CAN}{Controller Area Network}
+\newacronym{UDP}{UDP}{User Datagram Protocol}
+\newacronym{PKW}{PKW}{Personenkraftwagen}
+

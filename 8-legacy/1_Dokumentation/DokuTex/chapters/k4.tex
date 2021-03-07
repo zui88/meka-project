@@ -1,0 +1,89 @@
+%===============================================================================
+\chapter{Trainieren mit Videodatensätzen}\label{Kap:VideoLabel}
+%08.07.2020
+%===============================================================================
+Im Kapitel \ref{Kap:Frame1} wurde das Framework zu Datenaufbereitung, Training und Evaluation beschreiben. Ein Ziel dieses Netzwerkes war es auch skalierbar und modulierbar zu sein. In Abschnitt \ref{sec:Frame1UseCase} sind einige plausible Anwendungsmöglichkeiten beschrieben. \\
+
+In diesem Livescript wird das Training von Datensätzen, die aus gelabelten Videos bestehen dargestellt. Hierbei weicht das Format und die Vorgehensweise leicht von der der auf Bildsätzen basiertrenden Datensätzen ab.
+Deshalb konnten diese Datensätze nicht einfach mit dem bisherigen, in der Datei 'yolov2\_Framwork1.mlx' abgelegten, Framework bearbeitet werden. Nichts desto trotz, zeigt diese Anwendung, wie eben dieses Framework durch leichte Veränderung auf neue Anforderungen appliziert werden kann.
+Somit bildet das bisherige Framework auch für diese Anwendung die Grundlage. Aus diesem Grund wurde auch die Nummerierung und die Strukturierung aus dem bisherigen Framework übernommen. Deshalb ist es hier nicht erforderlich alle einzelnen Programmabschnitte zu beschreiben. Besteht eine Frage zum Aufgabenbereich oder zur Wirkweise einer bestimmten Section, so ist die Beschreibung in der Dokumentation unter Kapitel 4.2 und die ''Original-Version'' im Livescript 'yolov2\_Framwork1.mlx'. Fehlt eine Section (wie beispielsweise 1.e)) so wird diese hier nicht benötigt. Wurden Sections verändert, ist dies beschrieben.\\
+Die Datei  "Framework1\_video.mlx" muss teil der bereits etablierten Ordnerstruktur sein. Sie wird im Unterordner ''MatlabCode'' abgelegt.
+Um die Datensätze wie hier gezeigt erzeugen zu können, wird außerdem die Funktion ''objektDetectorTrainingDataEveryPicture.m'' benötigt.
+
+
+\section{Videolabelung}
+Analog zu Abschnitt \ref{sec:Frame1Label} in Kapitel \ref{Kap:Frame1} wird hier nun das Beschaffen der Trainingsdaten aus Videos anstelle aus Bildersätzen beschrieben.\\
+Wie in Kapitel \ref{Kap:Frame1} bereits beschrieben, hatten wir zusätzlich zu den Bilder-Datensätzen auch kurze Videos im Straßenverkehr aufgenommen. \\
+Vom Video '00004-Kopie.mp4' wurde die Labelsessions 'videoLabelSession\_new.mat' und der Labelsatz 'videolabel\_new\_3.mat' erstellt.\\
+Der 'videoLabeler' ist genauso wie der 'imageLabeler' eine von Matlab bereitgestellte App, die über den Befehl 'videoLabeler' im Command-Window geöffnet werden kann.\\
+Der Video Labeler benötigt eine .mp4 Datei als Datenbasis. Die Videos müssen also zuvor konvertiert werden.\\
+Durch 'Load/Session' kann eine bereits erstellte Session gestartet werden. Dazu muss das zugehörige Video im selben Ordner liegen. Da Ändern/Applizieren der Pfade über ein Framework ist hier nicht möglich.\\
+
+Über 'Load/Video' kann ein Video geladen werden. Das Anlegen von Label-Klassen, das Speichern der Session und das Exportieren der Label, sind in Funktionsweise und Bedienung identisch zum Image-Labeler.\\
+Der eigentliche Unterschied des Video-Labelers besteht im Tracking der Objekte, sodass er in einer Videosequenz einem sich bewegenden Objekt folgen kann. Abbildung \ref{fig:VideoLabeler1} zeigt einen Screenshot des Video-Labelers. Über die Slider unterhalb des Bildes, wird eine zu bearbeitende Bildsequenz definiert. Die gelb markierte Start-Time und Stop-Time der Sequenz werden angezeigt. Nachdem ein Algorithmus zum Tracking ausgewählt ist (hier 'Point-Tracker') kann über den Button ''Zoom In Time Interval'' reingezomt werden. Durch 'Automate' kann das Labeln dieser Sequenz gestartet werden. \\
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.8 \textwidth]{./figures/VideoLabeler1.jpg}
+		\caption{Konfigurationen im Video-Labeler}
+		\label{fig:VideoLabeler1}
+	\end{center}
+\end{figure}
+
+Wie in Abbildung \ref{fig:VideoLabeler2} gezeigt, kann nun nach dem Plazieren der Label auf dem ersten Bild, über 'Run/Stop/Undo Run' das Labeln durchgeführt werden. Nach dem 'Run' einer Sequenz können einzelne Label auch händisch korrigiert werden. Dies war bei uns immer nötig. Durch 'Accept' können die Label übernommen werden. \\
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.8 \textwidth]{./figures/VideoLabeler2.jpg}
+		\caption{Handling des Objekt-Trackings innerhalb des ausgewählten Zeitintervalls  }
+		\label{fig:VideoLabeler2}
+	\end{center}
+\end{figure}
+Dieser Vorgang muss nun wiederholt werden. Die Größe der Zeitintervalle lässt sich händisch frei und variabel einstellen. Nachdem die Labelsession erstellt ist, kann sie auch im Videolabeler mit sichtbaren Label als ganzes angeschaut werden. Leider mussten wir feststellen, dass bei unseren Labelsessions immer wieder zeitliche Versätze zwischen Bild und Label entstanden sind. Dieses Problem gilt es noch zu lösen.
+
+
+
+
+
+
+\section{Erzeugen der Trainingsdaten}
+Die Datei vom Video-Labeler exportierten Label, beziehungsweise die Entsprechende .mat Datei, besteht auch aus einem Objekt der Klasse 'gTruth'. Dieses 'gTruth' ist jedoch anders aufgebaut, als bei den Bilderdatensätzen.\\
+Bevor das Live-Script 'Framework1\_video' gestartet werden kann, müssen die Daten deshalb aufbereitet werden. Mithilfe der Matlab-Funktion 'objectDetectorTrainingData()' lässt sich durch übergeben dieser 'gTruth' Datei jedoch ein Object der Form 'TrainingData' erzeugen. Dieses kann später wiederum für das Training verwendet werden. Wird die beschreibene Funktion aufgerufen und das Ojekt 'gTruth' übergeben, so wird im angewählten Matlab-Pfad ein Bilderdatensatz und eine Objekt der Klasse 'TrainingData' erzeugt. Für das Ausführen dieser Funktion, sollte man sich also im Unterordner 'OriginalBilder' befinden.\\
+Da die Funktion 'objectDetectorTrainingData()' nur jedes fünfte gelabelte Bild aus dem Video herauskopiert um es für die Trainingsdaten zu verwenden, wurde die Funktion manipuliert und als 'objectDetectorTrainingDataEveryPicture()' abgespeichert. So konnte ein größerer Datensatz erzeugt werden. 
+
+\subsection{Daten einlesen und Aufbereiten}
+Bevor der Code des Livescripts ausgeführt werden kann, muss das im vorherigen Abschnitt erwähnte Objekt, 'trainingsData' in den Workspace geladen werden.\\
+Wie oben bereit erwähnt, werden in diesem Kapitel im Folgenden nur die Abweichungen zum in Abschnitt \ref{sec:Frame1} beschriebenen Livescript eingegangen. Ist eine Section identisch, wird sie hier nicht erwähnt.
+
+\textbf{Section 1.b)}
+\begin{itemize}
+	\item Als 'wished-pictures' muss der, aus dem Video erzeugte Bilderdatensatz angewählt werden. Genauer gesagt wird hier natürlich der Ordnername in dem die Bilder abgelegt sind, beschrieben.
+	\item Da ''trainingData'' schon erstellt ist, müssen entsprechende Pfade nicht geaddet und keine Label geladen werden.
+\end{itemize}
+  
+\textbf{Section 1.c)}
+Da ''trainingData'' schon erzeugt sind, muss dieses Objekt hier nicht erzeugt werden.
+
+%1.d) f) g) h)i) Identisch zu original
+
+\subsection{Trainieren}
+
+\textbf{Section 2.b)}
+Dieser Teil ist prinzipiell identisch zum Framework1, aufgrund der großen Ähnlichkeit der Bilder zueinander. Daher sollten beim Training von Videodatensätzen eventuell lieber bereits vortrainierte Detektoren verwendet und das Laden von KNN vermieden werden, um ''Overfitting'' zu verhindern."
+
+%a)c) d) e) f) identisch
+
+\subsection{Trainiertes Netzwerk testen und evaluieren}
+Dieser Teil ist komplett identisch zum Framework aus Kapitel \ref{Kap:Frame1}
+
+\section{Zwischenstand Ergebnisse}
+Das Erstellen der Trainingsdaten funktioniert prinzipiell, es gibt jedoch Probleme damit, dass das Video und die zugehörigen Label auseinanderdriften. Dieses Problem müsste noch gelöst werden. Des Weiteren gab es bei der Arbeit mit dem Video-Labeler immer wieder Probleme und Bucks. Es könnte sein, dass die mit neuen Matlab Releases besser wird (den Video-Labeler gibt es noch nicht lange).\\
+Nicht desto trotz, konnte ein KNN trotzdem auf einen Video-Datensatz trainiert werden. Die Ergebnisse sind in Kapitel \ref{Kap:Zusammenfassung} zu finden.
+
+\section{Fazit/Ausblick}
+Das Training von Videos ist unserer Ansicht nach ein wichtiger Erfolgsfaktor beim weiteren Vorgehen. So ist das Video als Datensatz sehr nahe an der Realität/ Anwendung.\\
+Das Labeln der Daten ist immer noch sehr zeitintensiv. Außerdem hatten wir Probleme mit dem Zeitstempel Die bis jetzt nicht gelöst werden konnten. Insgesamt sind wir im Rahmen unseres Projektes hier noch nicht sehr weit vorgedrungen. Es wartet noch viel Arbeit.
+
+Beim weiteren Vorgehen wird das Labeln und Trainieren von Video-Datensätzen ein wichtiger Baustein sein. Hierfür sollten aber auch einiges an Arbeitszeit erwartet werden. Des Weiteren erfordert das Video-Labeln auch viel Rechenpower und die Datensätze, sowohl die erzeugten Bilder, als auch deren Anwendung erfordern relativ viel Rechner-Resourcen.
+
+%===============================================================================
+% EOF
