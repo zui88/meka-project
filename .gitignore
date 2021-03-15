@@ -1,7 +1,5 @@
 # exclude folder
-/8-legacy/2_Presentation/*
-/8-legacy/3_Technik/*
-/8-legacy/4_Anhang/*
+/8-legacy/*
 
 # exclude tmp latex files
 *.aux
