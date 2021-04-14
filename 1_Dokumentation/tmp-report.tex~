@@ -13,7 +13,8 @@
   fancyhdr,
   lmodern,
   color,
-  subfig %% for alignning pictures horizontally
+  subfig, %% for alignning pictures horizontally
+  wrapfig %% arrange image and text side by side
 }
 
 \usepackage[
@@ -30,8 +31,6 @@
 \geometry{a4paper, top=25mm, left=25mm, right=20mm, bottom=40mm,
 headsep=10mm, footskip=12mm}
 
-\graphicspath{ {./img} }
-
 \addto\extrasngerman{\def\figureautorefname{Abb.}}
 
 \KOMAoptions{
@@ -43,10 +42,8 @@ headsep=10mm, footskip=12mm}
 \begin{document}
 
 \include{abkv}
-
-%\part{Live Objekterkennung}
-\include{70_burkhardt}
-\include{71_burkhardt}
+%%\include{430_Deployment_Installation}
+\include{410_Einfuehrung}
 
 %================ Literaturverzeichnis ================%
 %% Zwei mal
