@@ -4,7 +4,7 @@
 % 2.)    Verify if all needed libraryies are installed on the Jetson
 % 3.)    Prepare Matlab Code -> Create the main function for detection
 % 4.)    Generate the Code for the Jetson
-% 5.)    Run the application on Jetson (right now not pursued)
+% 5.)    Run the application on Jetson (right now not followed)
 
 %% Step 1
 %%% Host %%%

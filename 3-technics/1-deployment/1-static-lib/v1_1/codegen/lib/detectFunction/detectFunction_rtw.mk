@@ -2,7 +2,7 @@
 ## Makefile generated for component 'detectFunction'. 
 ## 
 ## Makefile     : detectFunction_rtw.mk
-## Generated on : Fri Mar 12 08:28:36 2021
+## Generated on : Fri Mar 12 17:28:09 2021
 ## Final product: ./detectFunction.a
 ## Product type : static-library
 ## 
@@ -22,7 +22,7 @@ MAKEFILE                  = detectFunction_rtw.mk
 MATLAB_ROOT               = $(MATLAB_WORKSPACE)/C/Program_Files/MATLAB/R2020b
 MATLAB_BIN                = $(MATLAB_WORKSPACE)/C/Program_Files/MATLAB/R2020b/bin
 MATLAB_ARCH_BIN           = $(MATLAB_BIN)/win64
-START_DIR                 = $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-auto-generated/v1_1/codegen/lib/detectFunction
+START_DIR                 = $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-static-lib/v1_1/codegen/lib/detectFunction
 TGT_FCN_LIB               = ISO_C++
 SOLVER_OBJ                = 
 CLASSIC_INTERFACE         = 0
@@ -151,7 +151,7 @@ BUILD_TYPE = "Static Library"
 ## INCLUDE PATHS
 ###########################################################################
 
-INCLUDES_BUILDINFO = -I$(START_DIR) -I$(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-auto-generated/v1_1 -I$(MATLAB_WORKSPACE)/C/ProgramData/MATLAB/SupportPackages/R2020b/toolbox/target/supportpackages/nvidia/sources/server -I$(MATLAB_WORKSPACE)/C/ProgramData/MATLAB/SupportPackages/R2020b/toolbox/target/supportpackages/nvidia/include -I$(MATLAB_WORKSPACE)/C/ProgramData/MATLAB/SupportPackages/R2020b/toolbox/target/supportpackages/nvidia/sources/utils -I$(MATLAB_ROOT)/toolbox/coder/rtiostream/src/utils -I$(MATLAB_ROOT)/extern/include
+INCLUDES_BUILDINFO = -I$(START_DIR) -I$(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-static-lib/v1_1 -I$(MATLAB_WORKSPACE)/C/ProgramData/MATLAB/SupportPackages/R2020b/toolbox/target/supportpackages/nvidia/sources/server -I$(MATLAB_WORKSPACE)/C/ProgramData/MATLAB/SupportPackages/R2020b/toolbox/target/supportpackages/nvidia/include -I$(MATLAB_WORKSPACE)/C/ProgramData/MATLAB/SupportPackages/R2020b/toolbox/target/supportpackages/nvidia/sources/utils -I$(MATLAB_ROOT)/toolbox/coder/rtiostream/src/utils -I$(MATLAB_ROOT)/extern/include
 
 INCLUDES = $(INCLUDES_BUILDINFO)
 
@@ -366,19 +366,19 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 	$(CPP) $(CPPFLAGS) -o $@ $<
 
 
-%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-auto-generated/v1_1/%.c
+%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-static-lib/v1_1/%.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 
-%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-auto-generated/v1_1/%.c
+%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-static-lib/v1_1/%.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 
-%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-auto-generated/v1_1/%.cpp
+%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-static-lib/v1_1/%.cpp
 	$(CPP) $(CPPFLAGS) -o $@ $<
 
 
-%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-auto-generated/v1_1/%.cu
+%.o : $(MATLAB_WORKSPACE)/C/Users/Marco/projects/meka-project/3-technics/1-deployment/1-static-lib/v1_1/%.cu
 	$(CPP) $(CPPFLAGS) -o $@ $<
 
 

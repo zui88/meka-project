@@ -5,7 +5,7 @@
 // File: detectFunction.cu
 //
 // GPU Coder version                    : 2.0
-// CUDA/C/C++ source code generated on  : 12-Mar-2021 08:28:21
+// CUDA/C/C++ source code generated on  : 12-Mar-2021 17:27:33
 //
 
 // Include Files
@@ -1086,7 +1086,7 @@ static __global__ __launch_bounds__(512, 1) void detectFunction_kernel30(const
   int oldIdx;
   oldIdx = static_cast<int>(mwGetGlobalThreadIndex());
   if (oldIdx < 1024) {
-    b_data[oldIdx] = (static_cast<double>(boxOut[oldIdx + 4096]) >= 0.2);
+    b_data[oldIdx] = (boxOut[oldIdx + 4096] >= 0.5F);
   }
 }
 
@@ -4715,6 +4715,7 @@ void detectFunction(double *x_, double *y_, double *width_, double *height_,
     iv_size[0] = 0;
   }
 
+  //  only the one with the highest score
   initStatus = 0;
   camIndex = iv_size[0];
   if (scores_data_dirtyOnGpu) {

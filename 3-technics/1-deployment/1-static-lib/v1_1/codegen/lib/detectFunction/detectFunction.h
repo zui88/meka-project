@@ -5,7 +5,7 @@
 // File: detectFunction.h
 //
 // GPU Coder version                    : 2.0
-// CUDA/C/C++ source code generated on  : 12-Mar-2021 08:28:21
+// CUDA/C/C++ source code generated on  : 12-Mar-2021 17:27:33
 //
 #ifndef DETECTFUNCTION_H
 #define DETECTFUNCTION_H
