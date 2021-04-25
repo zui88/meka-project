@@ -16,7 +16,7 @@
    (TeX-run-style-hooks
     "latex2e"
     "abkv"
-    "420_Jetson_Nano"
+    "440_Detector_Und_Filter"
     "scrreprt"
     "scrreprt12"
     "inputenc"

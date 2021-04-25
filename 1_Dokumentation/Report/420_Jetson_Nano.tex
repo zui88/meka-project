@@ -1,0 +1,242 @@
+\chapter{Jetson Nano}
+
+In diesem Kapitel wird die Jetson Nano Hardware vorgestellt, weiterhin die
+Einrichtung der Hardware und die Ordenerstruktur --- wo das Netzwerk und die
+Anwendungsprogramme liegen.
+
+Es folgt:
+\begin{itemize}
+  \item Uebersicht Jetson Nano
+  \item Installation der noetigen Abhaengigkeiten
+  \item Ordnerstruktur der Projektdateien
+\end{itemize}
+
+Die Hauptinformationsquelle seitens der Hardware ist Hersteller
+selbst~\cite{nvidia} und~\cite{nvidiaJetson}.
+
+
+
+
+\section*{Overview Jetson Nano}
+
+% Hardwarebeschreibung Jetson Nano
+Einen Ueberblick der Hardware ist in \autoref{fig:Jet_Schema} zu sehen. Der
+Jetson besteht aus einen Developement-Board --- Eine Hardwareumgebung fuer die
+Entwicklung von Projekten --- und einem Steckmodul. Das Steckmodul wird in die
+Steckleiste des Dev-Boards befestigt. Der Grafik- wie auch der Mikroporzessor
+sitzen auf dem Steckmodul. Somit kann nach Entwicklung und Testen das Steckmodul
+unmittelbar in das Produktivsystem integriert werden; sprich, es kann auf die
+Entwicklerplatine im Endprodukt verzichtet werden. Eine gute Einfuehrung ist auf
+\href{https://elinux.org/Jetson_Nano}{dieser} Internequelle zu sehen.
+
+\begin{figure}[!htb]
+  \centering
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{OBJ_ERK/420/JetsonNanoKitAndComputeModule.png}}
+  \qquad
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{OBJ_ERK/420/JetsonSchematic.png}}
+  \caption{Developement-Board mit Steckmodul (a) und Schema (b)}
+  \label{fig:Jet_Schema}
+\end{figure}
+
+\autoref{fig:SysOverview} zeigt, wie der Jetson Nano im Gesamtprojekt eingesetzt
+wird. Im System gibt es vier wesentliche Komponenten:
+
+\begin{figure}[!htb]
+  \includegraphics[width=0.75\linewidth]{OBJ_ERK/420/SystemOverview.jpeg}
+  \caption{Alle Hardwarekomponenten des Systems}
+  \label{fig:SysOverview}
+\end{figure}
+
+\begin{itemize}
+  \item Raspberry Pie --- Zentrale Steuereinheit des Systems
+  \item Jetson Nano --- Das ``Auge'' des Systems
+  \item Arduino --- Auswertung von Sensoren und Stellglied von Aktoren
+  \item Vesc Motorcontroller --- Stellglied fuer den BLDC Motor
+\end{itemize}
+
+Alle Hauptkomponenten sind mit dem \emph{CAN}-Bussystem verbunden --- siehe
+\autoref{fig:SysOverview}. Hierueber wird die Kommunikation abgewickelt. Der
+Jetson nimmt ueber ein Kameramodul Bilder der Umgebung auf. Intern werden die
+aufgenommen Bilder einem Neuronalen Netzwerk uebergeben, das das Bild auf
+interessierende Objekte untersucht. Hier sind die interessierenden Objekte
+Fahrzeuge. Und zwar nur Fahrzeuge als solches, heisst, es wird nicht weiter
+zwischen verschiedene Fahrzeugarten unterschieden. Die Objekterkennung ist somit
+binaerer Natur. Wurde ein Fahrzeug erkannt, wird eine Nachricht ueber das
+Bussystem verschickt. Es ist Aufgabe des Can-Protokolls, die Nachricht dem
+richtigen Adressaten zu uebergeben. Hier ist der richtige Adressat das
+Raspberry-Modul. Dort wird entschieden, was mit den eingehenden Informationen
+geschehen soll.
+
+
+
+
+\section*{Software-Installation}
+
+Die Softwareinstallation wird detailiert auf der Nvidia Homepage beschrieben
+\cite{nvidiaJetson}. Deswegen hier nur ein paar Punkte, die aufgefallen sind und
+zu erwaehnen sich lohnen:
+
+\begin{itemize}
+  \item Jetpack
+        \begin{itemize}
+          \item Aktuellste Installation auf SD Card Image
+          \item SD Card Image von \emph{Getting Started with Jetson Nano}
+          herunterladen
+          \item Gibt auch andere Quellen, aber dort nicht garantiert, dass
+          \emph{JetPack} und Abhaengigkeiten installiert werden
+  \end{itemize}
+
+  \item SD Karte manchmal nicht lesbar gewesen
+  \begin{itemize}
+    \item Staubeinschluss
+    \item Wie bei Nintendo 64 oder Gameboy
+    \begin{itemize}
+      \item SD Karte entfehrnen und ``pusten'' hilft
+    \end{itemize}
+  \end{itemize}
+
+  \item Starten im ``Headless'' Mode
+  \begin{itemize}
+    \item benoetigt IP Adresse
+    \item mit Befehl \verb+$ ipconfig+ im Jetson zu bekommen
+  \end{itemize}
+\end{itemize}
+
+
+
+\section*{Ordner Struktur}
+\label{sec:ordner-struktur}
+
+Es existieren zwei Hauptordnerstrukturen:
+
+%% ToDo
+\begin{itemize}
+  \item <Detector>
+  \item <Hauptprogramm>
+\end{itemize}
+
+Beide liegen im Home-Verzeichnis des Users \verb+</home/<user>/>+, wobei
+\verb+<user>+ in diesem Fall \verb+jetson+ ist.\\
+
+\emph{<Detector>}: Im der ersten Struktur liegt der von Matlab generierte Code
+und das Kompilat (Statische Library). Jedes mal, wenn der Anwender am Host PC in
+Matlab einen neuen Algorithmus definiert und uebersetzen laesst, diesen
+anschliessend auf das Zielsystem uebertraegt, finden sich die generierten Files
+und die kompilerte Datei in dieser Ordnerstruktur.
+
+Matlab erstellt eine tiefe Struktur, heisst: sehr viele Unterorder und
+Verzweigungen. Aber saemtlicher Code und Kompilate finden sich dort.
+
+\textbf{Wichtig!!!}: Auch wenn spaeter statische Library in anderes Programm ---
+anderer Ausfuehrungsprozess --- eingebunden wird, liegt das YoLo Netzwerk in
+dieser Struktur und ist somit eine \textbf{Abhaengikeit}. Die Ordnerstruktur
+darf \textbf{nicht} geloescht oder veraendert werden. Die statische Library
+verwenden absolute Pfade.\\
+
+\emph{<Hauptprogramm>}: Dort sind wiederum drei Haupt-Unter-Verzeichnisse
+angedacht:
+\begin{itemize}
+  \item Detector
+  \item Filter
+  \item CAN\_Dispatcher
+\end{itemize}
+
+Jeder dieser Unterverzeichnisse definiert ein seperates Programm, das jeweils
+einen eigenen Prozess startet.
+
+\emph{Detector}: Das ist ein in Cuda geschriebenes Programm, das die von Matlab
+generierte statische Library einbindet und autark auf der Zielhardware nach dem
+Kompilierungsvorgang (NVidia Cuda Compiler --- NVCC) ausfuehrbar ist. Vorteil
+dieser Vorgehensweise:
+
+\begin{itemize}
+  \item Host PC zum Starten des Algorithmus nicht mehr noetig
+  \begin{itemize}
+    \item Statische Library in unabhaengiges Programm (spaeterer Prozess)
+          eingebunden
+  \end{itemize}
+
+  \item Anwendungsprogrammierer kann beliebige weitere Funktionalitaeten dem
+  Programm hinzufuegen
+  \begin{itemize}
+    \item Kommandozeilen Parser
+    \item Individuelle Ausgabe
+    \begin{itemize}
+      \item Visuellen Modus
+      \item Ausgabe File Descriptor
+      \item Bit Stream
+      \item usw \dots
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+Nachteilig zu erwaehnen ist: Programmierer sollte sich mit CUDA Syntax
+auskennen. Aber oft nicht so grosses Problem, da Schnittmenge mit C++ respektive
+C Syntax vorhanden. Dennoch ist erstrebenswert: so wenig wie moeglich in CUDA
+Code zu arbeiten. Deswegen Aufteilung in weitere Programme nach Motto: viele
+kleine Programme, die nur \emph{eine} Aufgabe haben, aber diese gut und
+effizient umsetzen.
+
+Makefile fuer den Kompaliervorgang im Projekt hinterlegt und kann mit
+\verb+$ make+ Befehl gestartet werden.\\
+
+\emph{Filter}: Die Uebertragung der Information (Objekt erkannt oder nicht) ist
+als Bit-Stream uber die Standartausgabe definiert. Da oben erwaehnt, ein Ziel
+ist, so wenig wie moeglich in CUDA zu Programmieren --- sehr lange Compile-Time,
+sehr viel Abhaengikeiten, kompliziertes Make-File ---, werden weitere
+Manipulationen in einem getrennten Programm umgesetzt \emph{Filter}. Der Filter
+ist in C++ geschrieben und bereitet die Versendung der Informationen ueber CAN
+vor. Eine weitere Bearbeitung der Daten koennte wie folgt ausehen:
+
+Es werden nur weitere Nachrichten an Busteilnehmer gesendet, wenn signifikante
+Aenderungen in der Objekterkennung vorliegen. Bspw.\ Objekt (Fahrzeug) wurde
+erkannt und Information ueber Bus gesendet. Es werden in der Sekunde mehrere
+Bilder aufgenommen und auf erkannte oder nicht erkannte Objekte ueberprueft. Es
+gibt jetz zwei Moeglichkeiten: Es kann immer eine Nachricht versendet werden,
+wenn Objekt erkannt --- unter Umstaenden viele Nachrichten pro Sekunden ueber
+Bus --- oder es wird eine Initialnachricht versendet: Signalisierung Objekt
+erstamlig erkannt und weitere nur, wenn sich bspw.\ Entfehrnung oder
+Naeherungsgeschwindigkeit signifikant aendern. Nachteil der ersten Moeglichkeit
+ist, dass Bus mit Nachriten ``ueberschwemmt'' wird, aber aus den vielen
+Nachrichten sich keine neue Erkenntnis generieren lassen. Diesen Nachteil wird
+in der zweiten Moeglichkeit versucht zu umgehen. Dort werden nur weitere
+Nachrichten versendet, wenn es wesentliche Aenderungen gibt --- hohe
+Naeherungsgeschwindigkeit von erkanntem Fahrzeug, usw\dots.\\
+
+\emph{CAN\_Dispatcher}: Im Projekt wurde das \emph{Hauptprogramm} und der
+\emph{Filter} implementiert. Die entgueltige Kommunikation ueber CAN Bus blieb
+aus. Folgearbeiten konnen mit einer beliebigen anderen Sprache --- bspw.\
+Python, C, Rust, \dots --- durchgefuehrt werden. Nvidia stellt bspw.\ ein Python
+Interface fuer die GPIO bereit. Es ist dementsprechend zu pruefen, ob ein
+Interface fuer SPI Controller existiert. Der Jetson hat kein eigenen CAN
+Controller, deswegen CAN Kommunikation nur ueber SPI moeglich.\\
+
+\textbf{Zusammengefasst}\\
+
+Die komplette Bearbeitung laeuft in drei getrennten Prozessen ab. Eine
+unidirektionale Kommunikation ist notwendig. Die Informationen von ``tiefer''
+liegenden Prozessen muessen an den darueberliegenden Prozess weitergegeben
+werden. Erwaehnt wurde, dass als Ausgang ein Bit-Strom ueber Standart Ausgabe
+definiert wurde. Da auf dem Jetson ein Linux Betriebssystem ausgefuehrt wird,
+kann die Umsetzung der \emph{Inter-Prozess-Kommunikation} dem Betriebssystem
+uebergeben werden. Als Mechanismus werden dafuer Pipes verwendet.
+
+\begin{itemize}
+  \item \verb+$ <Hauptprogramm> | <Filter> | <CAN_Dispatcher>+
+\end{itemize}
+
+Der senkrechte Balken signalisiert dem Betriebssystem, dass ein Kommunikationskanal von Prozess 1 zu Prozess 2 gebildet werden soll.
+
+Die gesamte Ordnerstrukture ist wie folgt in \autoref{fig:directory-structure}
+gezeigt umgesetzt.
+
+\begin{figure}
+  \centering
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{OBJ_ERK/420/dir-structure-voodo.png}}
+  \qquad
+  \subfloat[]{\includegraphics[scale=0.25]{OBJ_ERK/420/dir-cnn-yolo.png}}
+  \caption{(a) Voodo Code: Dort sind saemtlchen Prozesse definiert und werden
+    von dort ausgefuehrt (Bash-Skript), (b) Yolo Netzwerk: Viele
+    Unterverzeichnisse von Matlab generiert}
+  \label{fig:directory-structure}
+\end{figure}

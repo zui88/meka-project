@@ -1,9 +1,9 @@
 \chapter{Einführung Künstliche Intelligenz}
 
-Damit ein Fahrzeug autonom, d.\,h. ohne menschliches Zutun, im
-Straßenverkehr reagieren kann, muss es Fähig sein, die verschiedenen
-Verkehrsteilnehmer zu identifizieren. Hierbei wird sich einem
-Teilgebiet der angewandten Informatik bedient --- der \ac{KI}, auch
+Damit ein Fahrzeug autonom, d.\,h.\ ohne menschliches Zutun, im Straßenverkehr
+reagieren kann, muss es Fähig sein, die verschiedenen Verkehrsteilnehmer zu
+identifizieren. Hierbei wird sich einem Teilgebiet der angewandten Informatik
+bedient --- der \ac{KI}, auch
 \ac{AI} genannt.\\
 
 In diesem Kapitel wird folgendes behandelt:
@@ -96,9 +96,9 @@ Softwarebausteins nachgebildet. Ein Neuron \emph{j} besteht aus:
     Gewichte $W_{kj}$ und dem Wert des Eingangs
     $O_k$. $net_j$ stellt damit die Information zusammen,
     die aus dem Netz in das Neuron eingehen.
-  \item der Aktivitaet des Neurons, d.\,h. wie stark der potenzielle
-    Einfluss von $net_j$ auf andere Neuronen sein kann. $\Theta_j$ ist
-    ein \emph{Hyper Parameter}.
+  \item der Aktivitaet des Neurons, d.\,h.\ wie stark der potenzielle Einfluss
+        von $net_j$ auf andere Neuronen sein kann. $\Theta_j$ ist ein
+        \emph{Hyper Parameter}.
   \item der Ausgabe --- Verbindung zu anderen Neuronen
 \end{itemize}
 
@@ -138,9 +138,9 @@ nachfolgenden Neuron verbunden.
 
 Die erste Schicht bildet den Eingang. Dort treffen Signale ein, z.\,B. in Form
 eines Bildes. Es geht weiter in die zweite Schicht. Tiefer liegende Schichten
-werden auch als \emph{hidden layer} bezeichnet, da sie von außen, d.\,h von den
-Schnittstellen, nicht zu sehen sind. Die letzte Schicht ist die Schnittstelle
-nach Aussen. Jedes Neuron gibt eine Wahrscheinlichkeit über den
+werden auch als \emph{hidden layer} bezeichnet, da sie von außen, d.\,h.\ von
+den Schnittstellen, nicht zu sehen sind. Die letzte Schicht ist die
+Schnittstelle nach Aussen. Jedes Neuron gibt eine Wahrscheinlichkeit über den
 repräsentierenden \emph{Classifier} aus. Zum Beispiel als Anwendungsfall in der
 Objekterkennung, ob Objekt von der Klasse `Afrikanischer Elefant` ist.
 Existieren mehrere Neuronen in der letzten Schicht, kann das Netz Aussagen ueber
@@ -173,15 +173,14 @@ Neuronen. In \autoref{fig:conv-schema} ist das Vorgehen aufskizziert.
   \label{fig:conv-schema}
 \end{wrapfigure}
 
-Die Parameter der Filter haben anfangs zufaellige Werte. Die Werte
-werden im Trainingsprozess `gelernt` oder `antrainiert`. Die Faltung,
-d.\,h. der Filter, wird nicht nur auf den Input (das Bild) , sondern
-auch zur Reduktion \emph{Feature Extraction} der inneren Schichten
-\emph{Hidden Layers} angewandt. Man kann fuer die inneren Schichten ein
-schon vor trainiertes, völlig beliebiges \acp{CNN} verwenden. Vorteil
-ist, es muss weniger Zeit für das Lernen seines Anwendungsgebietes
-aufgewendet werden und die \emph{Feature Extraction} ist schon
-aufgebaut. Es gibt hierbei zwei wesentliche Punkte zu beachten:
+Die Parameter der Filter haben anfangs zufaellige Werte. Die Werte werden im
+Trainingsprozess `gelernt` oder `antrainiert`. Die Faltung, d.\,h.\ der Filter,
+wird nicht nur auf den Input (das Bild) , sondern auch zur Reduktion
+\emph{Feature Extraction} der inneren Schichten \emph{Hidden Layers} angewandt.
+Man kann fuer die inneren Schichten ein schon vor trainiertes, völlig beliebiges
+\acp{CNN} verwenden. Vorteil ist, es muss weniger Zeit für das Lernen seines
+Anwendungsgebietes aufgewendet werden und die \emph{Feature Extraction} ist
+schon aufgebaut. Es gibt hierbei zwei wesentliche Punkte zu beachten:
 
 \begin{itemize}
   \item Es muss `nur` der Eingang auf die korrekte Größe des
@@ -193,7 +192,7 @@ aufgebaut. Es gibt hierbei zwei wesentliche Punkte zu beachten:
 
 Die Vorgaengergruppe hat dieses Vorgehen angewandt und ein schon vortrainiertes
 Netzwerk als Grundlage verwendet. Vorteil: Lernprozess kostet weniger Zeit,
-weniger Trainingsmaterial wird benoetig, d.\,h es kann mehr Energie / Zeit an
+weniger Trainingsmaterial wird benoetig, d.\,h.\ es kann mehr Energie / Zeit an
 die Anpassung des konkreten Anwendungsfalls aufgewand werden.
 
 \begin{figure}[!htb]
