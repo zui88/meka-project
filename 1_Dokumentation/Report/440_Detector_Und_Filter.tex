@@ -42,6 +42,9 @@ Fragen, die hier behandelt werden, sind:
   \item Welche Daten werden uebergeben
 \end{itemize}
 
+
+
+
 \section*{Detector}
 \label{sec:detector}
 
@@ -51,7 +54,9 @@ Abhaengigkeiten liegen tiefer und Verbindungslinien kennzeichnen die
 Abhaengigkeiten.
 
 % \begin{picture}
-
+  % \includegraphics[width=1\textwidth]{OBJ_ERK/...}
+  % \caption{Softwareaufbau von Detector Hauptprozess}
+  % \label{fig:detector-arch}
 % \end{picture}
 
 Der oberste Block kennzeichnet den Hauptprozess. Die naechsten beiden
@@ -61,7 +66,9 @@ und liesst die in der Kommandozeile beim Starten des Prozess definierten
 Zusatzparameter und dekodiert diese, was die weitere Prozessabarbeitung
 beeinflusst. Bspw.\ wird der Prozess wie folgt:
 
-\verb+$ detector --visual-mode+
+\begin{verbatim}
+$ detector --visual-mode
+\end{verbatim}
 
 gestartet, liesst der Parser das uebergebene Flag und die Ausgabe des Prozesses ist fuer den Anwender in lesbarer Form. Im \emph{visual mode} ist aber eine Prozessausfuehrung innerhalb der Pipeline so nicht moeglich. Der ausgehende Prozess muss Schnittstellenkonform mit dem nachfolgenden Prozess der Pipeline sein, was \emph{visual mode} nicht erfuellt. Somit kann der Prozess in \emph{visual mode} nur getrennt gestartet und betrachtet werden (z.B.\ Zeitmessung, wie schnell \emph{FPS} die Objekterkennung arbeitet).
 
@@ -83,7 +90,9 @@ Handler reagiert auf System Signale und fuer diese, wofuer er definiert wurde,
 unterbricht er den Hauptprozess und stellt sicher, dass die abhaengige Hardware
 wie Kamera Modul sicher gelschlossen wird. Bspw.\ mit dem asynchronen Befehl:
 
-\verb_$ SIGINT_
+\begin{verbatim}
+$ <CTR+C> [SIGINT]
+\end{verbatim}
 
 wird der Prozess unterbrochen und die Hardware und diverse Filedeskriptoren geschlossen. Vor dem Signal Handler traten Probleme auf bei Testdurchlaeufen, in denen das Programm mehrmals unterbrochen wurde, dass die Hardware nicht mehr reagierte. Die Hauptfunktionalitaet uebergibt gewonnenen Daten dem \emph{Output-Stream}.
 
@@ -118,6 +127,146 @@ Gibt \emph{Detector} Daten vor dem Flag \emph{0xBADEAFFE} aus, werden diese von 
 Bleibt nur noch zu klaeren, welche Daten der \emph{Detector} Prozess der
 Pipeline uebergibt.
 
+\subsection{Datenstruktur}
+\label{sec:datenstruktur}
+
+Das unterliegende Neuronale Netzwerk hat eine Eingangsgroesse
+von: \[[224\ 224\ 3].\] Die \emph{3} ist die Tiefe --- RGB Farbraum. Das
+Kameramodul nimmt Bilder in \emph{720p} Aufloesung auf. Die Bilder muessen
+anschliessend heruntergerechnet werden und werden dann dem Neuronalen Netzwerk
+uebergeben. Um erkannte Objekte (Fahrzuege) werden \emph{Bounding-Boxes}
+(Begrenzungskaesten) gezogen. Sie signalisieren, wo im Bild das erkannt Objekt
+liegt. Kleinere Bounding-Boxes bedeuten, dass das erkannt Objekt weiter
+entfehrnt ist, wobei groessere weiter weg bedueten. Sie koennen weiterhin weiter
+links in der Aufnahme liegen oder weiter rechts, sowie nach unten oder oben
+versetzt. Somit besitzen Bounding-Boxes mehrere Attribute:
+
+\begin{itemize}
+  \item Position
+  \begin{itemize}
+    \item X-Kord
+    \item Y-Kord
+    \item Height
+    \item Widht
+  \end{itemize}
+  \item Konfidenz-Score
+\end{itemize}
+
+Das Positions-Attribute bezieht sich auf die linke obere Ecke der Bounding-Box
+relativ zur linken oberen Ecke der Aufnahme. Die Y-Koordinate wird nach unten
+abgetragen. Der Konfidenz-Score gibt an, wie ``sicher'' sich das Netzwerk ist,
+ob das erkannte Objekt tatsaechlich ein Fahrzeug ist oder nicht.  Der
+Konfidenz-Wert kann in spaetere Algorithmen verwendet werden. Wird kein Objekt
+in einer Aufnahme erkannt, nimmt der Konfidenz-Score einen Wert von -1 an.
+
+Daten, die ueber den Stream in die Pipelineverarbeitung miteingehen, sind:
+
+\begin{itemize}
+  \item X-Kord
+  \item Y-Kord
+  \item Height
+  \item Width
+  \item Score
+\end{itemize}
+
+Wie oben beschrieben, ist eine Aufnahmen maximal \(224 \cdot 224\) Bildpunkte
+tief. Somit gilt:
+
+\[
+  M := \{X, Y, Height, Width\}
+\]
+\[
+  \{ x \in M \mid x \leq 224\}.
+\]
+
+Das heisst, die benoetigte Breite betraegt:
+
+\[Bitbreite = \lceil ld(224) \rceil.\]
+
+Der Score liegt zwischen: \(0 \le Score \le 100\) und \(Score < x \in M\).
+Zusammengefasst: Jedem Wert genuegt eine Bitbreite von mindestens 8 Bit. Die
+gesamte Datenbreite ist: \(5 \cdot 8 Bit = 40 Bit\). Die Reihenfolge der Daten
+wird wie folgt ausgegeben:
+
+\[[X\ Y\ Height\ Width\ Score].\]
+
+Wird kein Objekt (Fahrzeug) erkannt, wird eine Null-Folge versendet.
+Plausibilitaet: In einer Nullfolge ist jedes Bit 0. Somit auch die Hoehe und
+Breite 0. Eine Bounding-Box mit Hoehe und Breite 0 ist nicht vorhanden. Daraus
+folgt: Eine Nullfolge kennzeichnet ``kein Objekt erkannt''.
+
+
+
 
 \subsection{Temperatur \& Verarbeitungsgeschwindigkeit}
 \label{sec:temp--verarb}
+
+Die Verarbeitungsgeschwindigkeit wird allgemein von der Hardware begrenzt. Im
+Speziellen hier von der \ac{GPU}. Die \ac{GPU} ist aus Halbleiterstrukturen
+gefertiegt. Es gilt: Je waermer das Bauteil wird, desto groesser die
+Leitfaehigkeit der inneren Schalter, desto groesser die Verlustleistungen und
+das resultiert wiederum in mehr produzierte Abwaerme, was wiederum zum Anfang der
+Argumentationskette fuehrt. Eine Konsequenz daraus ist, dass die Waerme
+abgefuehrt werden muss. Wird sie nicht in einem ausreichenden Masse abgefuehrt,
+drosselt sich die \ac{GPU}. Im gedrosselten Zustand produziert sie weniger
+Abwaerme. Die \ac{GPU} drosselt sich soweit herunter, bis sich ein Gleichgewicht
+einstellt zwischen produzierter und abgefuehrter Waerme.
+
+Der Jetson Nano hat von Werk aus ein Passiv-Kuehlsystem --- siehe
+\autoref{fig:Jet_Schema}. Betriebsarten des Jetson sind:
+
+\begin{itemize}
+  \item X Server
+  \item Terminal
+\end{itemize}
+
+Der X-Server startet beim Hochfahren des Betriebssystem die graphische
+Oberflaeche --- wie normaler Betrieb in bspw.\ Windows 10. Wurde in dieser
+Betriebsart der Objekterkennungsprozess angestossen, kam nach wenigen
+Augenblicken eine Mitteilung, dass die Temperatur unzulaessig hoch sei und
+deshalb die \ac{GPU} gedrosselt werde. Diese Meldung wird nicht im Terminal Mode
+angezeigt, expliziet nur im X Server Betrieb.
+
+Als Gegenmassnahme ist eine Aktiv-Kuehlung verbaut worden. Eine Besonderheit
+ist: Die Aktiv-Kuehlung muss vom Anwender ``angestossen'' werden. Befehle sind
+aus \cite{jetFan} entnommen. Die wichtigsten sind:
+
+\begin{itemize}
+  \item \verb+$ sudo /usr/bin/jetson_clocks+
+  \begin{itemize}
+    \item Setzt CPU, GPU auf FULL POWAH
+  \end{itemize}
+
+  \item \verb+$ sudo sh -c 'echo 255 > /sys/devices/pwm-fan/target_pwm'+
+  \begin{itemize}
+    \item Aktiviert Fan
+  \end{itemize}
+
+  \item \verb+$ sudo sh -c 'echo 0 > /ysy/devices/pwm-fan/target_pwm'+
+  \begin{itemize}
+    \item Deaktiviert Fan
+  \end{itemize}
+\end{itemize}
+
+Die Ausfuehrungsgeschwindigkeit mit der Passiv-Kuehlung betrug im Schnitt ca.\ 8--9 \ac{FPS}. Mit Aktiv-Kuehlung lagen die Werte auf ca.\ 8--9.5 \ac{FPS}.
+
+\begin{table}
+  \begin{tabular}{lrr}
+ & Passiv Kuehlung & Aktiev Kuehlung\\
+\hline
+FPS & 8--9 & 8--9.5\\
+\end{tabular}
+\caption{\label{tab:cooling}Aktiv-/ vs.\ Passivkuehlung}
+\end{table}
+
+In \autoref{tab:cooling} sind beide Kuehlarten gegenuebergestellt. Die Messungen
+wurden jeweils in einem Zeitintervall von 60 Sekunden und dem selben Bild
+durchgefuehrt. Es ist somit zweifelhaft, ob die Aktivkuehlung einen Mehrwert
+bietet. Wenn es gegen den erhoeten Energiebedart des Luefters gegengerechnet
+wird, ist die Passivkuehlung die bessere Wahl.
+
+
+
+
+\section*{Filter 1}
+\label{sec:filter-1}
