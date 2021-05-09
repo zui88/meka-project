@@ -18,7 +18,7 @@ In diesem Kapitel wird folgendes behandelt:
 
 
 
-\section*{Was ist Künstliche Intelligenz}
+\section{Was ist Künstliche Intelligenz}
 
 \begin{center}\emph{
   Artificial Intelligence is the study of how to make computers do things at which, at the mo-
@@ -68,7 +68,7 @@ Bereich \emph{autonomes Fahren}.
 
 
 
-\section*{Künstlich Neuronales Netz}
+\section{Künstlich Neuronales Netz}
 
 \acp{KNN} versuchen das menschliche Gehirn nachzubilden. Wie unsere
 Nervenzellen trainierbar sind und Steuerungsaufgaben übernehmen, so
@@ -78,9 +78,8 @@ Beispielen zu reagieren. Man bedient sich hierbei dem Gehirn als
 biologischen Bauplan \autoref{fig:neuron}.
 
 \begin{wrapfigure}{r}{5.5cm}
-  \includegraphics[width=5.5cm]{OBJ_ERK/Intro/neuron.png}
-  \caption{Menschliches Neuron; \cite{bosl}}
-  \label{fig:neuron}
+  \includegraphics[width=\linewidth]{410/neuron.png}
+  \caption{\label{fig:neuron}Menschliches Neuron;~\cite{bosl}}
 \end{wrapfigure}
 
 Die Dendriten nehmen das Signal auf, leiten es an den Zellkoerper
@@ -106,7 +105,7 @@ Softwarebausteins nachgebildet. Ein Neuron \emph{j} besteht aus:
 
 \begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.5\linewidth]{OBJ_ERK/Intro/artificial-neuron.png}
+  \includegraphics[width=0.5\linewidth]{410/artificial-neuron.png}
   \caption{Modellierung eines einzelnen Neurons -- Kuenstliches Neuron; \cite{bosl}}
   \label{fig:art-neuron}
 \end{figure}
@@ -118,11 +117,11 @@ interessiert.
 
 \begin{figure}[!htb]
   \centering
-  \subfloat[][]{\includegraphics[width=0.25\linewidth]{OBJ_ERK/Intro/forward-looking-network-v1}}
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{410/forward-looking-network-v1}}
   \qquad
-  \subfloat[][]{\includegraphics[width=0.25\linewidth]{OBJ_ERK/Intro/forward-looking-network-v2}}
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{410/forward-looking-network-v2}}
   \qquad
-  \subfloat[][]{\includegraphics[width=0.25\linewidth]{OBJ_ERK/Intro/forward-looking-network-v3}}
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{410/forward-looking-network-v3}}
   \caption{Fully Connected, Forward Looking Networks:
     a) Neuronen der Hidden Layer gehen in die Breite; b) Hidden Layer
     gleichbleibende Anzahl an Neuronen; c) Hintere Neuronen greifen direkt auf
@@ -153,7 +152,7 @@ Variante als die \emph{Fully Connected} Variante eingesetzt - das \ac{CNN}.
 
 
 
-\section*{Uebersicht CNN}
+\section{Uebersicht CNN}
 
 Im Gegensatz zum \emph{Fully Connected Network} sind die Neuronen des
 \acp{CNN} nicht mit jedem Neuron der übergeordneten Schicht
@@ -167,7 +166,7 @@ Filter pro Schicht; dementsprechend besteht jede Schicht aus mehreren
 Neuronen. In \autoref{fig:conv-schema} ist das Vorgehen aufskizziert.
 
 \begin{wrapfigure}{r}{6.5cm}
-\centering\includegraphics[width=5.0cm]{OBJ_ERK/Intro/conv-schema.png}
+\centering\includegraphics[width=\linewidth]{410/conv-schema.png}
   \caption{ Jedes Neuron ist mit einer Faltungsoperation (Filter) mit
     dem darueber liegenden Neuron verbunden.}
   \label{fig:conv-schema}
@@ -196,7 +195,7 @@ weniger Trainingsmaterial wird benoetig, d.\,h.\ es kann mehr Energie / Zeit an
 die Anpassung des konkreten Anwendungsfalls aufgewand werden.
 
 \begin{figure}[!htb]
-\includegraphics[width=1\linewidth]{OBJ_ERK/Intro/yolo-v2.png}
+\includegraphics[width=0.9\linewidth]{410/yolo-v2.png}
   \caption{
     Links (hellblau) der Eingang (der Situation angepasst), in der Mitte (dunkelblau)
     das pretrained CNN Network, rechts (braun) das YOLO-Layer (auf
@@ -256,7 +255,7 @@ es die Matlab IDE bereitstellt, nicht von Grundwissen befreit.
 
 
 
-\section*{Bisheriger Stand im Projekt}
+\section{Bisheriger Stand im Projekt}
 
 
 

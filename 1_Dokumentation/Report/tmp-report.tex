@@ -13,8 +13,9 @@
   fancyhdr,
   lmodern,
   color,
-  subfig, %% for alignning pictures horizontally
-  wrapfig %% arrange image and text side by side
+  subfig,  %% for alignning pictures horizontally
+  wrapfig, %% arrange image and text side by side
+  floatrow %% image caption to the side
 }
 
 \usepackage[
@@ -40,15 +41,72 @@ headsep=10mm, footskip=12mm}
   bibliography=openstyle
 }
 
+% ================ for structure depth ================
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+
+
+% ============= Kopf- und Fußzeile =============
+\pagestyle{fancy}
+
+\lhead{}
+\chead{}
+\rhead{\slshape \leftmark}
+
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+
 % ============= Dokumentbeginn =============
 \begin{document}
 
+\pagestyle{plain}
+
+\include{10_title}
+
+\pagenumbering{Roman}
+
+
+\include{20_danksagungen}
+
+
+\include{400_Abstract}
+
+
+% Beendet eine Seite und erzwingt auf den nachfolgenden Seiten die Ausgabe aller Gleitobjekte (z.B. Abbildungen), die bislang definiert, aber noch nicht ausgegeben wurden. Dieser Befehl fügt, falls nötig, eine leere Seite ein, sodaß die nächste Seite nach den Gleitobjekten eine ungerade Seitennummer hat.
+\cleardoubleoddpage
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+\newpage
+
+
+
+% ================ Abkv ================
 \include{abkv}
 
-% \include{410_Einfuehrung}
-% \include{420_Jetson_Nano}
-% \include{430_Deployment_Installation}
+
+
+% ================ Pagenumbering ================
+\pagenumbering{arabic}
+\pagestyle{fancy}
+
+
+\include{410_Einfuehrung}
+\include{420_Jetson_Nano}
+\include{430_Deployment_Installation}
 \include{440_Detector_Und_Filter}
+\include{450_CAN_And_Fazit}
+
 
 %================ Literaturverzeichnis ================%
 %% Zwei mal
