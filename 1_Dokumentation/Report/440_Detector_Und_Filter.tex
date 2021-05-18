@@ -1,45 +1,45 @@
 \chapter{Detektor \& Filter}
 \label{cha:processes}
 
-Bilder werden ueber ein Kameramodul aufgenommen, einem internen neuronalen
-Netzwerk uebergeben und auf erkannte Objekte (Fahrzeuge) ausgewertet. Sind
+Bilder werden \"uber ein Kameramodul aufgenommen, einem internen neuronalen
+Netzwerk \"ubergeben und auf erkannte Objekte (Fahrzeuge) ausgewertet. Sind
 Objekte --- oder auch keine Objekte --- erkannt worden, findet eine
 Informationsweitergabe statt. Die Ergebnisse des Neuronalen Netzwerks und seinem
-unterliegendem Algorithmus (YoLo) werden der Verarbeitungspipeline uebergeben.
+unterliegendem Algorithmus (YoLo) werden der Verarbeitungspipeline \"ubergeben.
 
-Hintergedanken fuer diese Herangehensweisse:
+Hintergedanken f\"ur diese Herangehensweisse:
 
 \begin{itemize}
-  \item Weiterfuehrende Datenaufbereitungen sind somit von ``Detektor'' Prozess
+  \item Weiterf\"uhrende Datenaufbereitungen sind somit von ``Detektor'' Prozess
   entkoppelt
   \begin{itemize}
-    \item Neue Algorithmen koennen sehr einfach durch andere Algorithmen der
-          ``Daten-Pipeline'' ersetzt oder hinzugefuegt werden.
-    \item Abarbeitungsreihenfolgen der Algorithmen koennen beliebig neu
+    \item Neue Algorithmen k\"onnen sehr einfach durch andere Algorithmen der
+          ``Daten-Pipeline'' ersetzt oder hinzugef\"ugt werden.
+    \item Abarbeitungsreihenfolgen der Algorithmen k\"onnen beliebig neu
           angeordnet werden
-    \item Neue Algorithmen koennen in gewuenschter Sprache implementiert und der
-          Pipeline hinzugefuegt werden
+    \item Neue Algorithmen k\"onnen in gew\"unschter Sprache implementiert und der
+          Pipeline hinzugef\"ugt werden
           \begin{itemize}
             \item Somit keine Neukompilierung von eiem einzigen
-                  \emph{monolitischen} Prozesses mit \ac{NVCC} notwendig
+                  \emph{monolitischen} Prozess mit \ac{NVCC} notwendig
           \end{itemize}
   \end{itemize}
 \end{itemize}
 
-Ein digitlaer Filter ist ein diskreter Algorithmus, eine Rechenvorschrift. Wenn
+Ein digitaler Filter ist ein diskreter Algorithmus, eine Rechenvorschrift. Wenn
 hier von einem Filter gesprochen wird, ist ein Algorithmus in einem eigenen
-Ausfuehrungsprozess gemeint. Werden mehrere Filter hintereinander ausgefuhrt,
+Ausf\"uhrungsprozess gemeint. Werden mehrere Filter hintereinander ausgefuhrt,
 findet eine Pipeline-Verarbeitung
 statt\footnote{https://www.elektronik-kompendium.de/sites/com/1705221.htm}. Es
 existiert ein unidirektionaler Kommunikationskanal zwischen den Prozessen,
-d.\,h.\ die Kommunikationsrichtung fliesst nur in eine Richtung.\\
+d.\,h.\ die Kommunikationsrichtung flie{\ss}t nur in eine Richtung.\\
 
 Fragen, die hier behandelt werden, sind:
 
 \begin{itemize}
   \item Wie sind die Prozesse intern aufgebaut
-  \item Wie sind deren Schnittstellen zur \emph{Aussenwelt} definiert
-  \item Welche Daten werden uebergeben
+  \item Wie sind deren Schnittstellen zur \emph{Au{\ss}enwelt} definiert
+  \item Welche Daten werden \"ubergeben
 \end{itemize}
 
 
@@ -49,56 +49,57 @@ Fragen, die hier behandelt werden, sind:
 \label{sec:detector}
 
 Die Architektur ist Stufenweise aufgebaut. In \autoref{fig:detector-arch} ist zu
-sehen, Softwareteile hoeherer Ordnung sind weiter oben angeordnet und deren
-Abhaengigkeiten liegen tiefer und Verbindungslinien kennzeichnen die
-Abhaengigkeiten.
+sehen, Softwareteile h\"oherer Ordnung sind weiter oben angeordnet und deren
+Abh\"angigkeiten liegen tiefer und Verbindungslinien kennzeichnen die
+Abh\"angigkeiten.
 
 \begin{wrapfigure}{r}{8.5cm}
   \includegraphics[width=\linewidth]{440/detection-arch.png}
   \caption{\label{fig:detector-arch}Softwareaufbau von Detector Hauptprozess}
 \end{wrapfigure}
 
-Der oberste Block kennzeichnet den Hauptprozess. Die naechsten beiden
+Der oberste Block kennzeichnet den Hauptprozess. Die n\"achsten beiden
 Softwareblocke sind der \emph{Command Line Parse} und die \emph{Detect
-  Funktion}. Der Command Line Parser wird beim ersten Prozessstart ausgefuehrt
-und liesst die in der Kommandozeile beim Starten des Prozess definierten
+  Funktion}. Der Command Line Parser wird beim ersten Prozessstart ausgef\"uhrt
+und lie{\ss}t die in der Kommandozeile beim Starten des Prozess definierten
 Zusatzparameter und dekodiert diese, was die weitere Prozessabarbeitung
-beeinflusst. Bspw.\ wird der Prozess wie folgt:
+beeinflu{\ss}t. Bspw.\ wird der Prozess wie folgt:
 
 \begin{verbatim}
 $ detector --visual-mode
 \end{verbatim}
 
-gestartet, liesst der Parser das uebergebene Flag und die Ausgabe des Prozesses ist fuer den Anwender in lesbarer Form. Im \emph{visual mode} ist aber eine Prozessausfuehrung innerhalb der Pipeline so nicht moeglich. Der ausgehende Prozess muss Schnittstellenkonform mit dem nachfolgenden Prozess der Pipeline sein, was \emph{visual mode} nicht erfuellt. Somit kann der Prozess in \emph{visual mode} nur getrennt gestartet und betrachtet werden (z.B.\ Zeitmessung, wie schnell \emph{FPS} die Objekterkennung arbeitet).
+gestartet, lie{\ss}t der Parser das \"ubergebene Flag und die Ausgabe des Prozesses ist f\"ur den Anwender in lesbarer Form. Im \emph{visual mode} ist aber eine Prozessausf\"uhrung innerhalb der Pipeline so nicht m\"oglich. Der ausgehende Prozess muss Schnittstellenkonform mit dem nachfolgenden Prozess der Pipeline sein, was \emph{visual mode} nicht erf\"ullt. Somit kann der Prozess in \emph{visual mode} nur getrennt gestartet und betrachtet werden (z.B.\ Zeitmessung, wie schnell \emph{FPS} die Objekterkennung arbeitet).
 
-Die \emph{Detect Funktion} ist der in Matlab generierte CUDA Algorithmus fuer
+Die \emph{Detect Funktion} ist der in Matlab generierte CUDA Algorithmus f\"ur
 die Objekterkennung. Der Algorithmus wird in einer Endlosschleife zyklisch
-ausgefuehrt. Die direkten Abhaengikeiten des Algorithmus sind die CUDA
+ausgef\"uhrt. Die direkten Abh\"angikeiten des Algorithmus sind die CUDA
 Libraries. Vorteil von Matlab generierten Algorithmus ist: Softwareentwickler
 definiert den Algorithmus in Matlab-Code und Matlab produziert den CUDA Code,
-kompiliert ihn und erzeugt eine statische Library, die in ein unabhaengiges
-Projekt eingefuegt werden kann. Wie hier: Eingliederung CUDA Library in Detector
+kompiliert ihn und erzeugt eine statische Library, die in ein unabh\"angiges
+Projekt eingef\"ugt werden kann. Wie hier: Eingliederung CUDA Library in Detector
 Hauptprozess. Somit muss der Entwickler nicht direkt mit den CUDA Libraries
 arbeiten. Deren Aufrufe sind in der statischen Library \emph{wegabstrahiert}.
 Ergebnis ist: Es kann weitgehend auf CUDA Code Syntax verzichtet werden und mit
 C++ respektive C Code Style gearbeitet werden, weil eine gemeinsame Schnittmenge
 mit CUDA Syntax vorhanden ist.
 
-Der Hauptfunktionalitaet ist ein \emph{Signal Handler} uebergeordnet. Der Signal
-Handler reagiert auf System Signale und fuer diese, wofuer er definiert wurde,
-unterbricht er den Hauptprozess und stellt sicher, dass die abhaengige Hardware
-wie Kamera Modul sicher gelschlossen wird. Bspw.\ mit dem asynchronen Befehl:
+Der Hauptfunktionalit\"at ist ein \emph{Signal Handler} \"ubergeordnet. Der
+Signal Handler reagiert auf System Signale und f\"ur diese, wof\"ur er definiert
+wurde, unterbricht er den Hauptprozess und stellt sicher, dass die abh\"angige
+Hardware wie Kamera Modul sicher gelschlo{\ss}en wird. Bspw.\ mit dem
+asynchronen Befehl:
 
 \begin{verbatim}
 $ <CTR+C> [SIGINT]
 \end{verbatim}
 
-wird der Prozess unterbrochen und die Hardware und diverse Filedeskriptoren geschlossen. Vor dem Signal Handler traten Probleme auf bei Testdurchlaeufen, in denen das Programm mehrmals unterbrochen wurde, dass die Hardware nicht mehr reagierte. Die Hauptfunktionalitaet uebergibt gewonnenen Daten dem \emph{Output-Stream}.
+wird der Prozess unterbrochen und die Hardware und diverse Filedeskriptoren geschlossen. Vor dem Signal Handler traten Probleme auf bei Testdurchl\"aufen, in denen das Programm mehrmals unterbrochen wurde, dass die Hardware nicht mehr reagierte. Die Hauptfunktionalit\"at \"ubergibt gewonnenen Daten dem \emph{Output-Stream}.
 
 Informationen werden mittels dem Betriebssystem bereitgestellten Pipelinesystem
-uebertragen. Die Schnittstellendefinition zum naechsten Prozess der Pipeline ist
-daher jeweil der Outputstream. Dem uebergeordneten Verarbeitungsprozess (Filter)
-wird mit einem definierten Signal mitgeteilt, das ab diesem Zeitpunkt gueltige
+\"ubertragen. Die Schnittstellendefinition zum n\"achsten Prozess der Pipeline ist
+daher jeweil der Outputstream. Dem \"ubergeordneten Verarbeitungsprozess (Filter)
+wird mit einem definierten Signal mitgeteilt, das ab diesem Zeitpunkt g\"ultige
 Daten am Stream anliegen. Ein Codeausschnitt ist:
 
 \begin{verbatim}
@@ -121,24 +122,25 @@ Bash Skript starte bspw.\ beide Prozesse in einer Pipelinestruktur:
 $ Detector | Filter1
 \end{verbatim}
 
-Gibt \emph{Detector} Daten vor dem Flag \emph{0xBADEAFFE} aus, werden diese von \emph{Filter1} nicht weiter bearbeitet. Erst wenn das Flag gelesen wurde, werden die nachfolgenden Daten des Streams als gueltige Daten betrachtet und gehen in die Bearbeitung mit ein.\\
+Gibt \emph{Detector} Daten vor dem Flag \emph{0xBADEAFFE} aus, werden diese von \emph{Filter1} nicht weiter bearbeitet. Erst wenn das Flag gelesen wurde, werden die nachfolgenden Daten des Streams als g\"ultige Daten betrachtet und gehen in die Bearbeitung mit ein.\\
 
-Bleibt nur noch zu klaeren, welche Daten der \emph{Detector} Prozess der
-Pipeline uebergibt.
+Bleibt nur noch zu kl\"aren, welche Daten der \emph{Detector} Prozess der
+Pipeline \"ubergibt.
 
 \subsection*{Datenstruktur}
 \label{sec:datenstruktur}
 
-Das unterliegende Neuronale Netzwerk hat eine Eingangsgroesse
-von: \[[224\ 224\ 3].\] Die \emph{3} ist die Tiefe --- RGB Farbraum. Das
-Kameramodul nimmt Bilder in \emph{720p} Aufloesung auf. Die Bilder muessen
-anschliessend heruntergerechnet werden und werden dann dem Neuronalen Netzwerk
-uebergeben. Um erkannte Objekte (Fahrzuege) werden \emph{Bounding-Boxes}
-(Begrenzungskaesten) gezogen. Sie signalisieren, wo im Bild das erkannt Objekt
-liegt. Kleinere Bounding-Boxes bedeuten, dass das erkannt Objekt weiter
-entfehrnt ist, wobei groessere weiter weg bedueten. Sie koennen weiterhin weiter
-links in der Aufnahme liegen oder weiter rechts, sowie nach unten oder oben
-versetzt. Somit besitzen Bounding-Boxes mehrere Attribute:
+Das unterliegende Neuronale Netzwerk hat eine Eingangsgr\"o{\ss}e
+von: \[[224\ 224\ 3].\] Die \emph{3} ist die Tiefe --- \ac{RGB} Farbraum. Das
+Kameramodul nimmt Bilder in \emph{720p} Aufl\"osung auf. Die Bilder m\"ussen
+anschlie{\ss}end heruntergerechnet werden und werden dann dem Neuronalen
+Netzwerk \"ubergeben. Um erkannte Objekte (Fahrzuege) werden
+\emph{Bounding-Boxes} (Begrenzungsk\"asten) gezogen. Sie signalisieren, wo im
+Bild das erkannte Objekt liegt. Kleinere Bounding-Boxes bedeuten, dass das
+erkannt Objekt weiter entfehrnt ist, wobei gr\"o{\ss}ere weiter weg bedueten.
+Sie k\"onnen weiterhin weiter links in der Aufnahme liegen oder weiter rechts,
+sowie nach unten oder oben versetzt. Somit besitzen Bounding-Boxes mehrere
+Attribute:
 
 \begin{itemize}
   \item Position
@@ -154,8 +156,8 @@ versetzt. Somit besitzen Bounding-Boxes mehrere Attribute:
 Das Positions-Attribute bezieht sich auf die linke obere Ecke der Bounding-Box
 relativ zur linken oberen Ecke der Aufnahme. Die Y-Koordinate wird nach unten
 abgetragen (\autoref{fig:aufnahme}). Der Konfidenz-Score gibt an, wie ``sicher''
-sich das Netzwerk ist, ob das erkannte Objekt tatsaechlich ein Fahrzeug ist oder
-nicht. Der Konfidenz-Wert kann in spaetere Algorithmen verwendet werden. Wird
+sich das Netzwerk ist, ob das erkannte Objekt tats\"achlich ein Fahrzeug ist oder
+nicht. Der Konfidenz-Wert kann in sp\"atere Algorithmen verwendet werden. Wird
 kein Objekt in einer Aufnahme erkannt, nimmt der Konfidenz-Score einen Wert von
 -1 an.
 
@@ -165,7 +167,7 @@ kein Objekt in einer Aufnahme erkannt, nimmt der Konfidenz-Score einen Wert von
 {\includegraphics[width=10cm]{440/aufnahme.png}}
 \end{figure}
 
-Daten, die ueber den Stream in die Pipelineverarbeitung miteingehen, sind:
+Daten, die \"uber den Stream in die Pipelineverarbeitung miteingehen, sind:
 
 \begin{itemize}
   \item X-Kord
@@ -185,20 +187,20 @@ tief. Somit gilt:
   \{ x \in M \mid x \leq 224\}.
 \]
 
-Das heisst, die benoetigte Breite betraegt:
+Das hei{\ss}t, die ben\"otigte Breite betr\"agt:
 
 \[Bitbreite = \lceil ld(224) \rceil.\]
 
 Der Score liegt zwischen: \(0 \le Score \le 100\) und \(Score < x \in M\).
-Zusammengefasst: Jedem Wert genuegt eine Bitbreite von mindestens 8 Bit. Die
+Zusammengefasst: Jedem Wert gen\"ugt eine Bitbreite von mindestens 8 Bit. Die
 gesamte Datenbreite ist: \(5 \cdot 8 Bit = 40 Bit\). Die Reihenfolge der Daten
 wird wie folgt ausgegeben:
 
 \[[X\ Y\ Height\ Width\ Score].\]
 
 Wird kein Objekt (Fahrzeug) erkannt, wird eine Null-Folge versendet.
-Plausibilitaet: In einer Nullfolge ist jedes Bit 0. Somit auch die Hoehe und
-Breite 0. Eine Bounding-Box mit Hoehe und Breite 0 ist nicht vorhanden. Daraus
+Plausibilit\"at: In einer Nullfolge ist jedes Bit 0. Somit auch die H\"ohe und
+Breite 0. Eine Bounding-Box mit H\"ohe und Breite 0 ist nicht vorhanden. Daraus
 folgt: Eine Nullfolge kennzeichnet ``kein Objekt erkannt''.
 
 
@@ -209,16 +211,16 @@ folgt: Eine Nullfolge kennzeichnet ``kein Objekt erkannt''.
 
 Die Verarbeitungsgeschwindigkeit wird allgemein von der Hardware begrenzt. Im
 Speziellen hier von der \ac{GPU}. Die \ac{GPU} ist aus Halbleiterstrukturen
-gefertiegt. Es gilt: Je waermer das Bauteil wird, desto groesser die
-Leitfaehigkeit der inneren Schalter, desto groesser die Verlustleistungen und
-das resultiert wiederum in mehr produzierte Abwaerme, was wiederum zum Anfang der
-Argumentationskette fuehrt. Eine Konsequenz daraus ist, dass die Waerme
-abgefuehrt werden muss. Wird sie nicht in einem ausreichenden Masse abgefuehrt,
+gefertiegt. Es gilt: Je w\"armer das Bauteil wird, desto gr\"o{\ss}er die
+Leitf\"ahigkeit der inneren Schalter, desto gr\"o{\ss}er die Verlustleistungen und
+das resultiert wiederum in mehr produzierte Abw\"arme, was wiederum zum Anfang der
+Argumentationskette f\"uhrt. Eine Konsequenz daraus ist, dass die W\"arme
+abgef\"uhrt werden muss. Wird sie nicht in einem ausreichenden Ma{\ss}e abgef\"uhrt,
 drosselt sich die \ac{GPU}. Im gedrosselten Zustand produziert sie weniger
-Abwaerme. Die \ac{GPU} drosselt sich soweit herunter, bis sich ein Gleichgewicht
-einstellt zwischen produzierter und abgefuehrter Waerme.
+Abw\"arme. Die \ac{GPU} drosselt sich soweit herunter, bis sich ein Gleichgewicht
+einstellt zwischen produzierter und abgef\"uhrter W\"arme.
 
-Der Jetson Nano hat von Werk aus ein Passiv-Kuehlsystem --- siehe
+Der Jetson Nano hat von Werk aus ein Passiv-K\"uhlsystem --- siehe
 \autoref{fig:Jet_Schema}. Betriebsarten des Jetson sind:
 
 \begin{itemize}
@@ -227,14 +229,14 @@ Der Jetson Nano hat von Werk aus ein Passiv-Kuehlsystem --- siehe
 \end{itemize}
 
 Der X-Server startet beim Hochfahren des Betriebssystem die graphische
-Oberflaeche --- wie normaler Betrieb in bspw.\ Windows 10. Wurde in dieser
-Betriebsart der Objekterkennungsprozess angestossen, kam nach wenigen
-Augenblicken eine Mitteilung, dass die Temperatur unzulaessig hoch sei und
+Oberfl\"ache --- wie normaler Betrieb in bspw.\ Windows 10. Wurde in dieser
+Betriebsart der Objekterkennungsprozess angesto{\ss}en, kam nach wenigen
+Augenblicken eine Mitteilung, dass die Temperatur unzul\"assig hoch sei und
 deshalb die \ac{GPU} gedrosselt werde. Diese Meldung wird nicht im Terminal Mode
 angezeigt, expliziet nur im X Server Betrieb.
 
-Als Gegenmassnahme ist eine Aktiv-Kuehlung verbaut worden. Eine Besonderheit
-ist: Die Aktiv-Kuehlung muss vom Anwender ``angestossen'' werden. Befehle sind
+Als Gegenma{\ss}nahme ist eine Aktiv-K\"uhlung verbaut worden. Eine Besonderheit
+ist: Die Aktiv-K\"uhlung muss vom Anwender ``angesto{\ss}en'' werden. Befehle sind
 aus \cite{jetFan} entnommen. Die wichtigsten sind:
 
 \begin{itemize}
@@ -254,28 +256,28 @@ aus \cite{jetFan} entnommen. Die wichtigsten sind:
   \end{itemize}
 \end{itemize}
 
-Die Ausfuehrungsgeschwindigkeit mit der Passiv-Kuehlung betrug im Schnitt ca.\ 8--9 \ac{FPS}. Mit Aktiv-Kuehlung lagen die Werte auf ca.\ 8--9.5 \ac{FPS}.
+Die Ausf\"uhrungsgeschwindigkeit mit der Passiv-K\"uhlung betrug im Schnitt ca.\ 8--9 \ac{FPS}. Mit Aktiv-K\"uhlung lagen die Werte auf ca.\ 8--9.5 \ac{FPS}.
 
 \begin{table}
   \begin{tabular}{lrr}
- & Passiv Kuehlung & Aktiev Kuehlung\\
+ & Passiv K\"uhlung & Aktiev K\"uhlung\\
 \hline
 [FPS] & 8--9 & 8--9.5\\
 \end{tabular}
-\caption{\label{tab:cooling}Messung: Aktiv-/ vs.\ Passivkuehlung; Zeitintervall:
+\caption{\label{tab:cooling}Messung: Aktiv-/ vs.\ Passivk\"uhlung; Zeitintervall:
   $60s$}
 \end{table}
 
-In \autoref{tab:cooling} sind beide Kuehlarten gegenuebergestellt. Die Messungen
+In \autoref{tab:cooling} sind beide K\"uhlarten gegen\"ubergestellt. Die Messungen
 wurden jeweils in einem Zeitintervall von 60 Sekunden und dem selben Bild
-durchgefuehrt. Es ist somit zweifelhaft, ob die Aktivkuehlung einen Mehrwert
-bietet. Wenn es gegen den erhoeten Energiebedart des Luefters gegengerechnet
-wird, ist die Passivkuehlung die bessere Wahl.\\
+durchgef\"uhrt. Es ist somit zweifelhaft, ob die Aktivk\"uhlung einen Mehrwert
+bietet. Wenn es gegen den erh\"oten Energiebedarf des L\"ufters gegengerechnet
+wird, ist die Passivk\"uhlung die bessere Wahl.\\
 
 \noindent \textbf{Achtung!!!}\\
-Es hat sich herausgestellt, sobal Luefter aktiviert wurde, ``fror'' das System
-nach kurzer Zeit ein. Aktueller Stand: Auf aktive Kuehlung verzichten. Aber
-Nachteil verbleibt: Mehldung, wenn Objekterkennung aktiv, dass \ac{CPU} und
+Es hat sich herausgestellt, sobal L\"ufter aktiviert wurde, ``fror'' das System
+nach kurzer Zeit ein. Aktueller Stand: Auf aktive K\"uhlung verzichten. Aber
+Nachteil verbleibt: Meldung, wenn Objekterkennung aktiv, dass \ac{CPU} und
 \ac{GPU} heruntertaktet.
 
 
@@ -286,16 +288,16 @@ Nachteil verbleibt: Mehldung, wenn Objekterkennung aktiv, dass \ac{CPU} und
 
 Dieser Prozess hat die Aufgabe, die empfangenen Inofrmationen des Detectors zu
 verarbeiten. Die Grundidee ist, nicht jede Empfangene Nachricht vom Detector
-unbehandlet durchzulassen. Erst wenn signifikante Aenderungen auftreten, soll
-dem uebergeordneten Prozess (bspw.\ dem Prozess, verantwortlich fuer die
-CAN-Uebertragung) eine Mitteilung gemacht werden.\\
+unbehandlet durchzulassen. Erst wenn signifikante \"Anderungen auftreten, soll
+dem \"ubergeordneten Prozess (bspw.\ dem Prozess, verantwortlich f\"ur die
+CAN-\"Ubertragung) eine Mitteilung gemacht werden.\\
 
-Das System soll mit Zustaenden modelliert werden. Drei Zustaende sind definiert:
+Das System soll mit Zust\"anden modelliert werden. Drei Zust\"ande sind definiert:
 \emph{Warten}, \emph{Objekt} und \emph{Velocity}. Der Wartezustand wird
 gleich nach dem Prozessstart eingenommen. Dort wird so lange verharrt, bis ein
 Objekt erkannt wurde. Ist ein Objekt erkannt worden, soll eine Message
 ausgegeben werden. Allgemein gilt: Alle Messages, die der gesamte Prozess
-erzeugt, werden der Verarbeitungspipeline uebergeben.
+erzeugt, werden der Verarbeitungspipeline \"ubergeben.
 
 Jetzt befindet man sich im \emph{Objekt-State}. Jetzt soll es wiederum
 Bedingungen geben, in denen Aktionen definiert sind. Alle Aktionen beziehen sich
@@ -305,7 +307,7 @@ impliziet auf das erkannte Objekt.\\
 \begin{itemize}
   \item Objektdistanz $> X_{Tresh}$ --- No Message
   \begin{itemize}
-    \item Erkanntes Objekt liegt ueber dem Grenzwert $X_{Tresh}$, d.\,h.\ Objekt ist nich zu nah, sondern weit ``genug'' entfehrnt. In diesem Fall muss nur noch die Positionsaenderung bezogen auf die Zeit untersucht werden. Diese wird im \emph{Velocity-State} durchgefuehrt $\Rightarrow$ Uebergang in naechsten State.
+    \item Erkanntes Objekt liegt \"uber dem Grenzwert $X_{Tresh}$, d.\,h.\ Objekt ist nich zu nah, sondern weit ``genug'' entfehrnt. In diesem Fall muss nur noch die Positions\"anderung bezogen auf die Zeit untersucht werden. Diese wird im \emph{Velocity-State} durchgef\"uhrt $\Rightarrow$ \"Ubergang in n\"achsten State.
   \end{itemize}
 
   \item Objektdistanz $\le X_{Tresh}$ --- Message
@@ -314,17 +316,18 @@ impliziet auf das erkannte Objekt.\\
   \end{itemize}
 \end{itemize}
 
-Nur wenn das erkannte Objekt weit genung entfehrnt ist, wird in den naechsten
-State (\emph{Velocity-State}) gewaechselt, in dem die Positionsaenderung bezogen
-auf die Zeit untersucht wird. Aendert sich die Position zu schnell, wird eine
-Message ausgegeben. Liegt die Positionsaenderung unter einem kritischen Wert,
-wird auf die Message verzichtet. Aber in beiden Faellen wird wieder nach der
-Untersuchung in den \emph{Objekt-State} zurueckgegangen.\\
+Nur wenn das erkannte Objekt weit genung entfernt ist, wird in den n\"achsten
+State (\emph{Velocity-State}) gew\"achselt, in dem die Positions\"anderung bezogen
+auf die Zeit untersucht wird. \"Andert sich die Position zu schnell, wird eine
+Message ausgegeben. Liegt die Positions\"anderung unter einem kritischen Wert,
+wird auf die Message verzichtet. Aber in beiden F\"allen wird wieder nach der
+Untersuchung in den \emph{Objekt-State} zur\"uckgegangen.\\
 
 \textbf{Velocity-State}:
 \begin{itemize}
-  \item Objekt-Position aendert sich nicht signifikant: \( \frac{\partial x}{\partial t}+\frac{\partial y}{\partial t} \le V_{Tresh} \) --- Keine Message
-  \item Objekt-Position aender sich signifikant:  \( \frac{\partial x}{\partial t}+\frac{\partial y}{\partial t} > V_{Tresh} \) --- Message
+  %% ToDo: instead x and h use width and height
+  \item Objekt-Position \"andert sich nicht signifikant: \( \frac{\partial x}{\partial t}+\frac{\partial y}{\partial t} \le V_{Tresh} \) --- Keine Message
+  \item Objekt-Position \"ander sich signifikant:  \( \frac{\partial x}{\partial t}+\frac{\partial y}{\partial t} > V_{Tresh} \) --- Message
   \end{itemize}
 
   Das beschriebene Vorgehen ist in \autoref{fig:fsm-f1} zu sehen.
@@ -335,11 +338,11 @@ Untersuchung in den \emph{Objekt-State} zurueckgegangen.\\
 \end{figure}
 
   Wenn vom \emph{Wait-State} in den \emph{Objekt-State} gewechselt wird, ist die
-  Bedingung: Confidence Score $\ge 70\%$ erfuellt. Das soll \emph{Jittering}
+  Bedingung: Confidence Score $\ge 70\%$ erf\"ullt. Das soll \emph{Jittering}
   verhindern. Als \emph{Jitter} wird eine Signalschwankung bezeichnet. Ein
-  haeufiges ``Hin- und Herpendeln'' des Signal am Grenzwert verursacht ein
-  genauso haeufiges ``Hin- und Herpendeln'' der Wirkung. In der Hardware wird
-  hierfuer ein \emph{Schmitt-Trigger} verwendet, der diesen of unerwuenschten
+  h\"aufiges ``Hin- und Herpendeln'' des Signals am Grenzwert verursacht ein
+  genauso h\"aufiges ``Hin- und Herpendeln'' der Wirkung. In der Hardware wird
+  hierf\"ur ein \emph{Schmitt-Trigger} verwendet, der diesen of unerw\"unschten
   Effekt verhindert. Hier hat es folgenden Hintergrund: Der Detector generiert
   ein Signal, wenn die Confidence $\ge 50\%$ ist. Wird nun bei $50\%$ direkt in
   die Objekt-Erkennung gewechselt, und im darauffolgenden Messvorgang des
@@ -348,37 +351,37 @@ Untersuchung in den \emph{Objekt-State} zurueckgegangen.\\
     (guter Fall) oder weil das Objekt an der Grenze ist, ob als Objekt erkannt
     oder nicht. Es kommt auch vor, dass sich das Netzwerk tauescht. Bspw.\ eine
     Orange ist kein Fahrzeug, kann aber unter besonderen Bedingungen als solches
-    gehalten werden. In diesem Fall waere aber ein niedriger Confidence Score
-    wuenschenswert. Gegenmassnahmen waeren bswp.\: Netzwerk mit erweiterten
-    Datensaetzen trainieren}, wird die nachfolgende Pipeline mit Nachrichten der
-  Art: Objekt erkannt, Objekt verschwunden --- ueberschwemmt.
+    gehalten werden. In diesem Fall w\"are aber ein niedriger Confidence Score
+    w\"unschenswert. Gegenma{\ss}nahmen w\"aren bswp.\: Netzwerk mit erweiterten
+    Datens\"atzen trainieren}, wird die nachfolgende Pipeline mit Nachrichten der
+  Art: Objekt erkannt, Objekt verschwunden --- \"uberschwemmt.
 
 
 
 \subsection*{CAN Dispatcher}
 \label{sec:can-dispatcher}
 
-Der \ac{CAN} Dispatcher ist das letzte Glied der Verarbeitungspipeline. Es ist logisch, da im Endeffekt eine Informationsweitergabe ueber den \ac{CAN} Bus angedacht ist. Der Empfaender der \ac{CAN} Nachricht ist im Projekt der Rasperry Pi. Dort findet die uebergeordnete Informationsbearbeitung statt.
+Der \ac{CAN} Dispatcher ist das letzte Glied der Verarbeitungspipeline. Es ist logisch, da im Endeffekt eine Informationsweitergabe \"uber den \ac{CAN} Bus angedacht ist. Der Empf\"anger der \ac{CAN} Nachricht ist im Projekt der Rasperry Pi. Dort findet die \"ubergeordnete Informationsbearbeitung statt.
 
-Die Aufgabe des \ac{CAN} Dispatchers ist es nun, eine \ac{CAN} Nachriht zu versenden. Dieser Prozess wurde noch \textbf{nicht} implementiert. Im naechsten Kapitel wird zusammengefasst, warum und welche Arbeiten hierfuer noch noetig sind.
+Die Aufgabe des \ac{CAN} Dispatchers ist es nun, eine \ac{CAN} Nachriht zu versenden. Dieser Prozess wurde noch \textbf{nicht} implementiert. Im n\"achsten Kapitel wird zusammengefasst, warum und welche Arbeiten hierf\"ur noch n\"otig sind.
 
-Punkte, die fuer die Aufteilung eines seperaten getrennten Prozesses fuer die Versendung sind:
+Punkte, die f\"ur die Aufteilung eines seperaten getrennten Prozesses f\"ur die Versendung sind:
 
 \begin{itemize}
-  \item Versendung Informationenn ueber \ac{CAN} komplett entkoppelt von anderen Prozessen/Aufgaben der Verarbeitungspipeline
+  \item Versendung Informationenn \"uber \ac{CAN} komplett entkoppelt von anderen Prozessen/Aufgaben der Verarbeitungspipeline
   \item Der Algorithmus kann in einer beliebigen Sprache geschrieben werden (da komplett von anderen Prozessen entkoppelt)
-  \item Von NVIDIA geschriebene Skripte bspw.\ in Python koennen somit problemlos verwendet werden, wenn sich fuer Python als Sprache entschieden wird
+  \item Von NVIDIA geschriebene Skripte bspw.\ in Python k\"onnen somit problemlos verwendet werden, wenn sich f\"ur Python als Sprache entschieden wird
 \end{itemize}
 
 Das was zu beachten ist: Der erstellte Prozess muss in das Bash-Skript noch
-eingefuegt werden.
+eingef\"ugt werden.
 
 
 
 \subsection*{Bash Skript --- Pipeline}
 \label{sec:bash-skript-pipeline}
 
-Sind alle gewuenschten Prozesse definiert und bereitgestellt worden, koennen sie in die Verarbeitungspipeline hinzugefuegt werden. Dafuer ist ein Bash-Skript angelegt/vorgesehen worden folgender Form:
+Sind alle gew\"unschten Prozesse definiert und bereitgestellt worden, k\"onnen sie in die Verarbeitungspipeline hinzugef\"ugt werden. Daf\"ur ist ein Bash-Skript angelegt/vorgesehen worden folgender Form:
 
 \begin{verbatim}
 #!bin/bash
@@ -386,14 +389,27 @@ Sind alle gewuenschten Prozesse definiert und bereitgestellt worden, koennen sie
 Detector | Transition | ... | CAN_Dispatcher
 \end{verbatim}
 
-Es kann gesehen werden, dass weitere Prozesse in die Pipeline hinzugefuegt werden weiter koennen. Bei aller Flexibilitaet, was diese Herangehensweisse bereitstellt, gibt es dennoch ein evtl.\ Nachteil. Ob dieser fuer die Problemstellung als gross angesehen werden kann, entscheidet der konkret vorliegende Fall.\\
+Es kann gesehen werden, dass weitere Prozesse in die Pipeline hinzugef\"ugt werden weiter k\"onnen. Bei aller Flexibilit\"at, was diese Herangehenswei{\ss}e bereitstellt, gibt es dennoch ein evtl.\ Nachteil. Ob dieser f\"ur die Problemstellung als gro{\ss} angesehen werden kann, entscheidet der konkret vorliegende Fall.\\
 
-Da alle Prozesse der Reihe nach ausgefuehrt werden, entsteht so eine Totzeit. Die Totzeit ist abhaengig von der Rechengeschwindigkeit, mit der der Prozessor taktet. Ist die Totzeit im Verhaeltniss gegenuber der im System groessten Zeitkonstante klein, dann diese vernachlaessigt werden. Hier ist die groesste Zeitkonstante die Verarbeitungsgeschwindigkeit der Objekterkennung (ca.\ 10 \ac{FPS}). Der Prozessor Taktet mit mehreren \emph{GHz} Takt\footnote{Variable Frequenz. Siehe Datenbaltt. Grundtakt ca. 1.8 GHz}. Wenn sehr grosszuegig geschaetzt wird, kann mit einem Mindesttakt von grob 1 GHz gerechnet werden. Der Kehrwert ist die Verstrichene Zeit pro Rechenoperation. Da verbauter Prozessor ARM Prozessor ist und dieser wiederrum RISC Architektur verwendet, kann mit einer schnelle Befehlsabarbeitung von ca.\ 1 Assembler Befehl pro Takt (Ziel von RISC Architektur) gerechnet werden. Jetzt kommt es an, wie viel Code den Prozessen zu Grunde liegt und schlussendlich, wie viele Prozesse in der Pipeline definiert sind.
+Da alle Prozesse der Reihe nach ausgef\"uhrt werden, entsteht so eine Totzeit.
+Die Totzeit ist abh\"angig von der Rechengeschwindigkeit, mit der der Prozessor
+taktet. Ist die Totzeit im Verh\"altniss gegen\"uber der im System gr\"o{\ss}ten
+Zeitkonstante klein, dann diese vernachl\"assigt werden. Hier ist die
+gr\"o{\ss}te Zeitkonstante die Verarbeitungsgeschwindigkeit der Objekterkennung
+(ca.\ 10 \ac{FPS}). Der Prozessor Taktet mit mehreren \emph{GHz}
+Takt\footnote{Variable Frequenz. Siehe Datenbaltt. Grundtakt ca. 1.8 GHz}. Wenn
+sehr gro{\ss}z\"ugig gesch\"atzt wird, kann mit einem Mindesttakt von grob 1 GHz
+gerechnet werden. Der Kehrwert ist die Verstrichene Zeit pro Rechenoperation. Da
+verbauter Prozessor ARM Prozessor ist und dieser wiederrum \ac{RISC} Architektur
+verwendet, kann mit einer schnelle Befehlsabarbeitung von ca.\ 1 Assembler
+Befehl pro Takt (Ziel von \ac{RISC} Architektur) gerechnet werden. Jetzt kommt
+es an, wie viel Code den Prozessen zu Grunde liegt und schlu{\ss}endlich, wie
+viele Prozesse in der Pipeline definiert sind.
 
-Ein Nachteil einer Hochsprache wie C oder C++ ist, dass man nicht so einfach die Assembler Befehle zaehlen kann, die der Compiler produziert (starke Optimierung $\Rightarrow$ fuer Menschen sehr schwer lesbarer Code). Aber wenn im ``Hauptabarbeitungspfad'' --- d.\,h.\ dort, wo hauptsaechlich die Rechenzeit aufgewendet wird --- effizient programmiert wird, kann davon ausgegangen werden, dass der Prozessor im Vergleich zu den $\frac{1}{10}s$ (benoetigte Zeit Objekterkennung) den Verarbeitungsprozess nicht allzu stark beeinflusst.\\
+Ein Nachteil einer Hochsprache wie C oder C++ ist, dass man nicht so einfach die Assembler Befehle z\"ahlen kann, die der Compiler produziert (starke Optimierung $\Rightarrow$ f\"ur Menschen sehr schwer lesbarer Code). Aber wenn im ``Hauptabarbeitungspfad'' --- d.\,h.\ dort, wo haupts\"achlich die Rechenzeit aufgewendet wird --- effizient programmiert wird, kann davon ausgegangen werden, dass der Prozessor im Vergleich zu den $\frac{1}{10}s$ (ben\"otigte Zeit Objekterkennung) den Verarbeitungsprozess nicht allzu stark beeinflusst.\\
 
 Fazit:
 \begin{itemize}
-  \item Code Komplexitaet so gering wie moeglich, aber so viel wie noetig halten. Vor allem in den Pfaden, in denen angenommen werden kann, dass dort ein Grossteil der Rechenzeit aufgewendet wird.
-  \item Anologe Ueberlegung auch auf die Verarbeitungspipeline: So wenig wie moeglich, aber so viel wie noetig
+  \item Code Komplexit\"at so gering wie m\"oglich, aber so viel wie n\"otig halten. Vor allem in den Pfaden, in denen angenommen werden kann, dass dort ein Gro{\ss}teil der Rechenzeit aufgewendet wird.
+  \item Anologe \"Uberlegung auch auf die Verarbeitungspipeline: So wenig wie m\"oglich, aber so viel wie n\"otig
 \end{itemize}

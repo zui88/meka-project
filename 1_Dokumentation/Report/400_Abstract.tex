@@ -1,15 +1,28 @@
-\addsec{Zusammenfassung / Abstract}
-\label{sec:zusammenfassung}
-
-
+\addsec{\label{sec:abstract}Zusammenfassung / Abstract}
 
 \minisec{Abstract}
 
+In dieser Arbeit wird mit einem K\"unstlich Neuronalen Netzwerk (KNN) ein
+Objekterkennungsalgorithmus mit Matlab entworfen, der in Echtzeit Fahrzeuge
+erkennt. Der Algorithmus wird auf einen Jetson Nano von Nvidia installiert und
+dort auf der Graphik Prozessor Unit (GPU) ausgef\"uhrt. Werden Objekte erkannt,
+wird die Information einer Verarbeitungspipeline \"ubergeben. Die Pipeline
+manipuliert die gewonnenen Daten in gew\"unschter Wei{\ss}e. Am Ende sollen die
+Informationen \"uber die Objekte \"uber das Control Area Network (CAN) versendet
+werden. Da der Jetson Nano \emph{nicht} \"uber einen eigenen CAN Controller
+verf\"ugt, wird eine M\"oglichkeit besprochen, wie die Kommunikation
+\"uber den Bus realisiert werden kann.\\
 
-Das ist ein Abstract.
+\minisec{\label{abstract}Zusammenfassung}
 
-
-\minisec{Zusammenfassung}
-\label{abstract}
-
-Das ist das Haus vom Nikolaus und nebenan wohnt der Weihnachtsmann.
+Im ersten Teil wird besprochen, was ein K\"unstlich Neuronales Netwerk ist und
+warum es sich f\"ur die Objekterkennung eignet. Im zweiten Teil wird der Jetson
+Nano vorgestellt, will hei{\ss}en die Hardware (Developement-Board, Platine). Im
+dritten Teil wird die Erstellung und die Installation des
+Objekterkennungsalgorithmus vorgestellt. Im vierten Teil wird die
+Verarbeitungspipeline besprochen, was diese ist und wie sie sich ins Projekt
+einf\"ugt. Im f\"unften und letzten Teil werden die einzelnen Schritte der
+Arbeit nochmals in einem gr\"o{\ss}eren Zusammenhang betrachten. Es wird die
+schlu{\ss}endliche Versendung der Nachrichten via CAN erl\"autert. Weiterhin
+wird ein Ausblick gegeben, wie das Projekt weiter gef\"uhrt werden kann und
+welche Punkte im Laufe der Arbeit auftauchten, die verbessert werden k\"onnen.

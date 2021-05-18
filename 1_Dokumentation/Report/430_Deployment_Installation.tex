@@ -1,7 +1,7 @@
 \chapter{Deployment / Installation}
 
-In der Objekterkennung hat sich der YOLO Algorithmus bewaehrt. Die YOLO Variante
-unterscheidet hauptsaechlich in den Letzten Schichten von anderen \ac{CNN}
+In der Objekterkennung hat sich der YOLO Algorithmus bew\"ahrt. Die YOLO Variante
+unterscheidet haupts\"achlich in den Letzten Schichten von anderen \ac{CNN}
 Netzwerk Architekturen.
 
 Es gibt mehrere Technologien, die den Aufbau eines Neuronalen Netzwerks
@@ -14,26 +14,26 @@ Anwendungsbereich. Beispielweise, wenn für die Evaluierung im Bild die Objekte
 gekennzeichnet werden sollen, müssen andere Tool als z.\,B. nur Tensor Flow
 verwendet werden wie OpenCV zur Bildverarbeitung. OpenCV reichert das Bild mit
 Rahmen um erkannte Objekte an und setzt Labels. In Matlab ist alles dabei und
-weitere externen Tools sind unnoetig.
+weitere externen Tools sind unn\"otig.
 
 Im Projekt wird Matlab als Entwicklungsumgebung verwendet. Vorgängerarbeiten
 bauten darauf auf. Würde man sich gegen Matlab als Framework entscheiden, müsste
 der Erstellungsprozess von vorne begonnen werden.\\
 
-Losgeloest von den verwendeten Werkzeugen, kann die Installation \emph{engl.
-  Deployment} abstrahiert werden, will heissen, der uebergeordnete Vorgang ist
-losgeloest von konkreten Technologien --- zu sehen in
+Losgel\"ost von den verwendeten Werkzeugen, kann die Installation \emph{engl.
+  Deployment} abstrahiert werden, will hei{\ss}en, der \"ubergeordnete Vorgang ist
+losgel\"ost von konkreten Technologien --- zu sehen in
 \autoref{fig:deployment_jetson}.\\
 
 \begin{figure}[!htb]
   \includegraphics[width=0.9\textwidth]{430/Deployment.png}
   \caption{Die Hauptfunktion wird als Routine geschrieben. Sie verwendet als
-    externe Abhaengigkeit das von der Vorgaengergruppe erstellte Neuronales
-    Netzwerk. Der Host (f.\,i. Windows PC) uebertraegt Quelldateien auf die
-    Zielhardware (JETSON NANO). Dort werden die Quelldateien uebersetzt und eine
-    ausfuehrbare Datei \emph{Binary} erstellt (hier: eine statische Library).
+    externe Abh\"angigkeit das von der Vorg\"angergruppe erstellte Neuronales
+    Netzwerk. Der Host (f.\,i. Windows PC) \"ubertr\"agt Quelldateien auf die
+    Zielhardware (JETSON NANO). Dort werden die Quelldateien \"ubersetzt und eine
+    ausf\"uhrbare Datei \emph{Binary} erstellt (hier: eine statische Library).
     Die Binary verwendet Nvidia CUDA Bibliotheken. Dort werden die aufwendigen
-    Berechnungen der Objekerkennung ausgefuehrt. Die Objekterkennung verwendet
+    Berechnungen der Objekerkennung ausgef\"uhrt. Die Objekterkennung verwendet
     ein Kameramodul.}
   \label{fig:deployment_jetson}
 \end{figure}
@@ -56,18 +56,18 @@ auszuführen, wird in drei Schritten abgearbeitet.\\
 \textbf{Schritt 1}: Ein Algorithmus muss erstellt werden. Der Algorithmus hat
 die Form einer Routine (Funktion). Die Routine wird in der Matlab IDE erstellt.
 Der erstellte Code wird im Laufe des Vorgangs in Cuda Code umgewandelt und in
-der Zielhardware uebersetzt (kompiliert). Der Vorgang wird Cross-Kompilierung
+der Zielhardware \"ubersetzt (kompiliert). Der Vorgang wird Cross-Kompilierung
 genannt.
 
 Jetzt foglt die Beschreibung des Algorithmus. Er ist in der Matlab-Syntax
 verfasst. Die Beschreibung setzt sich wie folgt zusammen: erst Code,
-anschliessend Erlaeuterung.
+anschlie{\ss}end Erl\"auterung.
 
 \begin{verbatim}
 function [x y width height score] = detectFunction()
 %codegen
 \end{verbatim}
-Es wird eine Fnktion deklariert, die fuenf Ausgabewerte liefert. Auch werden
+Es wird eine Fnktion deklariert, die f\"unf Ausgabewerte liefert. Auch werden
 nicht alle Matlab-Interne Funktionen für die Konvertierung unterstützt. In der
 Funktion ist die \verb+#codegen+ Direktive zu empfehlen. Es wird dann eine
 Prüfung während der Erstellung des Algorithmus durchgeführt, ob Code gültig ist
@@ -87,7 +87,7 @@ end
 Die Variablen \emph{mynet, hwobj, cam} sind mit dem Qualifier \emph{persistant}
 versehen. In anlehnung an C hat das den selben Effekt wie eine \emph{static}
 Deklaration. Der Code im if-Block wird nur im ersten Funktionsaufruf
-ausgefuehrt. Dort werden die Abhaengigkeiten initialisiert.
+ausgef\"uhrt. Dort werden die Abh\"angigkeiten initialisiert.
 
 \begin{verbatim}
 img = snapshot(cam);
@@ -97,16 +97,16 @@ img = imresize(imt, [224 224]);
 \% only the one with the highest score
 [score_ index] = max(scores);
 \end{verbatim}
-Es wird ein Bild eingefangen --- PiCam --- und dessen Greosse angepasst. Das
+Es wird ein Bild eingefangen --- PiCam --- und dessen Greo{\ss}e angepasst. Das
 verwendete Netzwerk hat 224 mal 224 mal 3 Eingangsneuronen. Der Faktor 3 steht
-fuer den RGB Farbaum. Jeder Farbraum wird intern vom Netwerk getrennt berechnet
-und am Ende der Pipline wieder zusammengefuehrt. Somit benoetigt ein Farbbild
-mehr Rechenleistung. Zukuenftig koennte geprueft werden, ob ein Netzwerk, das
-eine Graustufenabbildung verarbeitet erstens genau so zuverslaessig und zweitens
+f\"ur den RGB Farbaum. Jeder Farbraum wird intern vom Netwerk getrennt berechnet
+und am Ende der Pipline wieder zusammengef\"uhrt. Somit ben\"otigt ein Farbbild
+mehr Rechenleistung. Zuk\"unftig k\"onnte gepr\"uft werden, ob ein Netzwerk, das
+eine Graustufenabbildung verarbeitet erstens genau so zuversl\"assig und zweitens
 schneller oder genauso schnell rechnet. \emph{detect} ist eine Matlab-Interne
-Funktion. Ihr uebergibt man das \ac{KNN}, das interessierende Bild und definiert
-einen Schwellwert, ab welchen Zuverlaessigkeitswert ein Objekt auch als das
-tatsaechliche Objekt angesehen werden kann oder nicht.
+Funktion. Ihr \"ubergibt man das \ac{KNN}, das interessierende Bild und definiert
+einen Schwellwert, ab welchen Zuverl\"assigkeitswert ein Objekt auch als das
+tats\"achliche Objekt angesehen werden kann oder nicht.
 
 \begin{verbatim}
 if ~isempty(bboxes)
@@ -124,13 +124,13 @@ else
 Wenn Objekt erkannt, wird darum ein Rahmen vom Netzwerk gezogen. Dementsprechen
 ist das bbox Objekt nicht leer. Darin sind die Koordinaten der Boudingbox
 gespeichert. Im ersten if-Teil werden die Koordinate ausgelesen und den
-Ausgangsparametern uebergeben. Wurde kein Objekt erkannt, ist die Boudingbox
-leer und es wird nach den Konventionen die Werte ausgefuellt (kein gueltiger
+Ausgangsparametern \"ubergeben. Wurde kein Objekt erkannt, ist die Boudingbox
+leer und es wird nach den Konventionen die Werte ausgef\"ullt (kein g\"ultiger
 Code --- wie \emph{errno} in C). \\
 
 
 \textbf{Schritt 2}: Jetzt wird der in Schritt 1 erstellte Algorithmus auf die
-Zielhardware uebertragen---JETSON NANO.\@ Dazu muss Verbindung vom Host zur
+Zielhardware \"ubertragen---JETSON NANO.\@ Dazu muss Verbindung vom Host zur
 Zielhardware aufgebaut werden. Matlab verwendet eine SSH Verbindung über
 TCP/IP.\@ Die Verbindung wird über ein Hardware Objekt hergestellt.
 
@@ -150,7 +150,7 @@ Matlab IDE eingegeben werden.
 hwobj = jetson(<ip-address>, `jetson', `1111');
 \end{verbatim}
 Das Hardwareobjekt wird mit den Login Informationen der Zielhardware
---- JETSON NANO --- ausgefuellt. Damit kann eine SSH Verbindung vom Host erstellt
+--- JETSON NANO --- ausgef\"ullt. Damit kann eine SSH Verbindung vom Host erstellt
 werden.
 
 \begin{verbatim}
@@ -164,10 +164,10 @@ results = coder.checkGpuInstall(gpuEnvObj);
 ein Konfigurationsobjekt, das seinem Randbedingungen unterzogen wird. Jedes
 Projekt hat andere Randbedingungen. Demzufolge werden auch in unterschiedlichen
 Projekten unterschiedliche Optionen gesetzt. Zuletzt wird das
-Konfigurationsobjekt geladen und ueber die zuvor erstellte Verbindung Pruefungen
-auf der Zielhardware durchgefuehrt.
+Konfigurationsobjekt geladen und \"uber die zuvor erstellte Verbindung Pr\"ufungen
+auf der Zielhardware durchgef\"uhrt.
 
-Ist die Pruefung erfolgreich durchgefuehrt --- alle Abhaengigkeiten auf
+Ist die Pr\"ufung erfolgreich durchgef\"uhrt --- alle Abh\"angigkeiten auf
 Zielhardware geladen und vorhanden ---, kann der in Schritt eins erstellte
 Algorithmus in Code Zielcode umgewandelt werden. Dann erfolgt die Compilierung
 auf der Zielhardware. \\
@@ -183,7 +183,7 @@ abgeschlossen, wird auf dem Jetson über den NVIDIA Cuda Compiler \emph{nvcc} de
 von Matlab generierte Quellcode in eine ausführbare Datei kompiliert. \\
 
 
-Zusammengefasst, noetige Schritte für eine Installation sind:
+Zusammengefasst, n\"otige Schritte für eine Installation sind:
 
 \begin{itemize}
   \item YOLO Netzwerk bereitstellen
@@ -205,7 +205,7 @@ Version. Der Cuda Pfad, in dem die Cuda Binaries und die Cuda Bibliotheken liege
 kann beispielsweise in der \emph{.bashrc} hinterlegt werden.\\
 
 \textbf{Host}: Die Codegenerierung --- C++ und Cuda --- sind von externen Tools
-abhaengig. Matlab benutzt die \emph{Gnu Compiler Collection} und mehrere
+abh\"angig. Matlab benutzt die \emph{Gnu Compiler Collection} und mehrere
 \emph{Cuda Libraries} von Nvidia für die Erstellung der Binaries. In Linux ist
 der gcc standardmäßig in den Repos hinterlegt. Auf Windows Maschinen heißt das
 Compiler Paket MinGW. Die Abhängigkeiten seitens Nvidia müssen von deren
@@ -213,7 +213,7 @@ Homepage heruntergeladen und installiert werden. Es werden Windos- und
 Linuxsysteme unterstützt.\\
 
 \textbf{Main-Funktion}: Funktion, die in einer Endlosschleife Bilder von
-der Webcam aufnimmt und dem Detektor uebergibt. Der Detektor scannt
+der Webcam aufnimmt und dem Detektor \"ubergibt. Der Detektor scannt
 das aufgenommene Bild nach Objekten. Wenn Objekte gefunden wurde, dann
 wird die entsprechende Bounding Box und Label auf das Bild gebunden
 und anschließend auf dem Bildschirm angezeigt. Hierbei muss entweder
@@ -230,7 +230,7 @@ den Pfad angefügt werden.\\
 \textbf{Zielhardware}: Es ist nicht zwingend, eine ausführbare Datei zu
 erstellen. Eine weitere Möglichkeit ist, statische oder dynamische Bibliotheken
 zu generieren. Die Bibliotheken können dann in einem anderen Programm
-eingebunden werden. Der Vorteil, den Code fuer den Jetson direkt in Matlab als
+eingebunden werden. Der Vorteil, den Code f\"ur den Jetson direkt in Matlab als
 Executable zu generieren, ist, es müssen keine zusätzlichen Einstellungen
 getroffen werden.\\
 
@@ -239,9 +239,9 @@ getroffen werden.\\
 
 \section{Zusammenfassung}
 
-Es wurde ein Algorithmus fuer die Objekterkennung vorgestellt. Der Algorithmus
+Es wurde ein Algorithmus f\"ur die Objekterkennung vorgestellt. Der Algorithmus
 verwendet das Kameramodul, um in Echtzeit die Umgebung aufzunehmen und
-auszuwerten. Der Algorithmus ist so geschrieben, dass er in der uebergeordneten
+auszuwerten. Der Algorithmus ist so geschrieben, dass er in der \"ubergeordneten
 Umgebung zyklisch aufgerufen und abgefragt werden kann \emph{Polling}.
 
 Es wurde weiterhin die Installation des Algorithmus ausgehend von Matlab auf das
@@ -255,9 +255,9 @@ Der komplette Installationprozess ist graphisch in
   \includegraphics[width=0.9\textwidth]{430/Workflow_Deployment.png}
   \caption{Die Zielhardware (Jetson) und der Host (f.i. WIN oder UNIX) muss
     eingerichtet werden. Die Reihenfolge der Einrichtung spielt keine Rolle. Der
-    Quellcode wird im Host generiert und wird auf die Zielhardware uebertragen.
+    Quellcode wird im Host generiert und wird auf die Zielhardware \"ubertragen.
     Im Jetson wird eine static Library generiert. Die Library wird in ein
-    eigenes Cuda Projekt eingebunden und hieraus ein ausfuehrbares Programm
+    eigenes Cuda Projekt eingebunden und hieraus ein ausf\"uhrbares Programm
     generiert.}
   \label{fig:workflow_deployment_jetson}
 \end{figure}
