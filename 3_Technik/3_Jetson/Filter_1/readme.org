@@ -1,0 +1,16 @@
+#+title: Filter 1
+#+author: Marco Burkhardt
+#+date: <2021-05-19 Wed>
+
+* Abhaengigkeit
+
+Abhaengig von ~Lib~ Ordner
+
+- serializer
+- transmission
+
+  Synchronisierungs Flag: Ab wann Uebertragung synchron
+
+* Funktion
+
+* ToDo
