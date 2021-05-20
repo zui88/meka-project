@@ -1,7 +1,7 @@
-% Preamble
+% ================ Preamble ================
 \documentclass[12pt]{scrreprt}
 
-% ============= Packages =============
+% ================ Packages ================
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
 \usepackage[T1]{fontenc}
@@ -13,7 +13,9 @@
   fancyhdr,
   lmodern,
   color,
-  subfig %% for alignning pictures horizontally
+  subfig,  %% for alignning pictures horizontally
+  wrapfig, %% arrange image and text side by side
+  floatrow %% image caption to the side
 }
 
 \usepackage[
@@ -24,11 +26,13 @@
   urlcolor=blue,
   linkcolor=blue
 ]{hyperref}
+
+% ================ Options ================
+
 \geometry{a4paper, top=25mm, left=25mm, right=20mm, bottom=40mm,
 headsep=10mm, footskip=12mm}
 
-
-\graphicspath{{./img}}
+\graphicspath{{./../IMG/}}
 
 \addto\extrasngerman{\def\figureautorefname{Abb.}}
 
@@ -36,7 +40,6 @@ headsep=10mm, footskip=12mm}
   bibliography=totoc,
   bibliography=openstyle
 }
-
 
 % ================ for structure depth ================
 \setcounter{secnumdepth}{5}
@@ -69,11 +72,14 @@ headsep=10mm, footskip=12mm}
 
 \pagenumbering{Roman}
 
-\include{20_danksagungen}
 
-\include{25_zusammenfassung}
+\include{20_eidestattliche_erklaerung}
 
-% Beendet eine Seite und erzwingt auf den nachfolgenden Seiten die Ausgabe aller Gleitobjekte (z.B. Abbildungen), die bislang definiert, aber noch nicht ausgegeben wurden. Dieser Befehl fügt, falls nötig, eine leere Seite ein, sodaß die nächste Seite nach den Gleitobjekten eine ungerade Seitennummer hat. 
+
+\include{400_Abstract}
+
+
+% Beendet eine Seite und erzwingt auf den nachfolgenden Seiten die Ausgabe aller Gleitobjekte (z.B. Abbildungen), die bislang definiert, aber noch nicht ausgegeben wurden. Dieser Befehl fügt, falls nötig, eine leere Seite ein, sodaß die nächste Seite nach den Gleitobjekten eine ungerade Seitennummer hat.
 \cleardoubleoddpage
 
 \tableofcontents
@@ -95,37 +101,21 @@ headsep=10mm, footskip=12mm}
 \pagestyle{fancy}
 
 
+\include{410_Einfuehrung}
+\include{420_Jetson_Nano}
+\include{430_Deployment_Installation}
+\include{440_Detector_Und_Filter}
+\include{450_CAN_And_Fazit}
 
-%================ Hauptteil ================%
-% Jeder bekommt einen eigenen Part zugeteilt mit Nummerierung von X0 - X9
-% d.h. z.B.: 70_burkhardt,71_burkhardt,...,78_burkhardt,79_burkhardt
-% zu inkludierende Files sind in logischer Reihenfolge einzufuegen
-% d.h. wenn Einleitung in 70_XXX steht und Schluss in 76_XXX, dann aufsteigend setzen
 
-
-\part{Status Quo}
-\include{30_einleitung}
-\include{34_aktueller_stand}
-\include{38_vorbereitung}
-
-%\part{Fahrzeug}
-%\include{40_shaukal}
-
-%\part{Platine und Redesign}
-%\include{50_lange}
-
-%\part{Motorcontroller}
-%\include{60_weisse}
-
-\part{Live Objekterkennung}
-\include{70_burkhardt}
-
-\part{End Matter}
 %================ Literaturverzeichnis ================%
-%\part{Anhang}
+%% Zwei mal
+%% $ bibtex *.bib
+%% aufrufen, dann
+%% $ pdflatex *.tex
+% Bib Style
 \bibliographystyle{alphadin}
+% Bib File
 \bibliography{literatur}
-
-
 
 \end{document}
