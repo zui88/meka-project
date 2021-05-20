@@ -4,6 +4,14 @@
    (LaTeX-add-labels
     "cha:processes"
     "sec:detector"
-    "sec:temp--verarb"))
+    "fig:detector-arch"
+    "sec:datenstruktur"
+    "fig:aufnahme"
+    "sec:temp--verarb"
+    "tab:cooling"
+    "sec:filter-1"
+    "fig:fsm-f1"
+    "sec:can-dispatcher"
+    "sec:bash-skript-pipeline"))
  :latex)
 

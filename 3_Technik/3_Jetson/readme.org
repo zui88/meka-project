@@ -1,0 +1,3 @@
+#+TITLE: Readme
+
+Diese Ebende ist das Homeverzeichniss im Jetson. Das Matlab YoLo-KNN ist hier nicht vorhanden, aber auf dem Jetson. Das KNN wird mit Matlab auf dem Host PC erstellt und per LAN auf den Jetson uebertragen.

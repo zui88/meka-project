@@ -5,8 +5,6 @@
 
 namespace my {
 
-/// convert to integer
-/// @return upper bound
 template <class T> int toi(T val) { return int(ceil(val)); }
 
 // bsp.
@@ -14,8 +12,6 @@ template <class T> int toi(T val) { return int(ceil(val)); }
 // double test ...
 // cout << "toi test -> 169.33: " << toi(test) << '\n';
 
-/// convert to char
-/// @return upper bound
 template <typename T> char toc(T val) { return char(floor(val)); }
 
 } // namespace my

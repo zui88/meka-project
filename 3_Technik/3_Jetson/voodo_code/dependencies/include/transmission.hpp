@@ -15,8 +15,9 @@
 #define POS_WIDTH       0x18
 #define POS_SCORE       0x20
 
-#define GET_VAL(VALUE, POS) \
-((VALUE & (0xFFULL << POS)) >> POS)
+#define GET_VAL(VAL, POS) \
+((VAL & (0xFFULL << POS)) >> POS)
+
 
 namespace my {
 

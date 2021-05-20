@@ -17,6 +17,7 @@ void my_out(int x, int y, int height, int width, const char *msg)
 {
   if (out_mode == OUTPUT::TEST)
   {
+    // im test mode einfach string ausgabe auf std::out
     std::cout << msg << std::endl;
   }
   else
@@ -45,6 +46,7 @@ int main(int argc, const char **argv) {
   my::sync_receive_flag(std::cin, 0xAA);
 
   unsigned long long receive;
+  // doom loop
   for (;;) {
 
     // blocking read
@@ -60,27 +62,33 @@ int main(int argc, const char **argv) {
     switch (Filter1(width, height, score)) {
 
     case OBJ_STATE::NEW_OBJECT:
+      // neues objekt erkannt -> nachricht
       my_out(x, y, height, width, "New Objekt");
       break;
 
     case OBJ_STATE::OBJECT_FAULT:
-      my_out(x, y, height, width, "Objekt Fault");
+      // kein Objekt erkannt -> ~nachricht
+      my_out(0, 0, 0, 0, "Objekt Fault");
       break;
 
     case OBJ_STATE::OBJECT_CLOSE:
+      // ist noch da, aber nahe -> nachricht
       my_out(x, y, height, width, "Objekt Close");
       break;
 
     case OBJ_STATE::OBJECT_FAST:
+      // ist noch da & schnell -> nachricht
       my_out(x, y, height, width, "Objekt Fast");
       break;
 
     case OBJ_STATE::OBJECT_GONE:
+      // verschwunden -> nachricht
       my_out(x, y, height, width, "Objekt Gone");
       break;
 
     case OBJ_STATE::OBJECT_SLOW:
-      my_out(x, y, height, width, "Objekt Slow");
+      // noch da, aber langsam -> ~nachricht
+      my_out(0, 0, 0, 0, "Objekt Slow");
       break;
 
     default:
@@ -88,4 +96,5 @@ int main(int argc, const char **argv) {
       break;
     }
   }
+
 }
