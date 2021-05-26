@@ -1,121 +1,1331 @@
-% ================ Preamble ================
-\documentclass[12pt]{scrreprt}
+\chapter{Einführung Künstliche Intelligenz}
 
-% ================ Packages ================
-\usepackage[utf8]{inputenc}
-\usepackage[ngerman]{babel}
-\usepackage[T1]{fontenc}
-\usepackage[printonlyused]{acronym}
-\usepackage{
-  graphicx,
-  geometry,
-  amsmath,
-  fancyhdr,
-  lmodern,
-  color,
-  subfig,  %% for alignning pictures horizontally
-  wrapfig, %% arrange image and text side by side
-  floatrow %% image caption to the side
-}
+Damit ein Fahrzeug autonom, d.\,h.\ ohne menschliches Zutun, im Straßenverkehr
+reagieren kann, muss es Fähig sein, die verschiedenen Verkehrsteilnehmer zu
+identifizieren. Hierbei wird sich einem Teilgebiet der angewandten Informatik
+bedient --- der \ac{KI}, auch \ac{AI} genannt.\\
 
-\usepackage[
-  breaklinks=true,
-  colorlinks=true,
-  citecolor=blue,
-  menucolor=blue,
-  urlcolor=blue,
-  linkcolor=blue
-]{hyperref}
-
-% ================ Options ================
-
-\geometry{a4paper, top=25mm, left=25mm, right=20mm, bottom=40mm,
-headsep=10mm, footskip=12mm}
-
-\graphicspath{{./../IMG/}}
-
-\addto\extrasngerman{\def\figureautorefname{Abb.}}
-
-\KOMAoptions{
-  bibliography=totoc,
-  bibliography=openstyle
-}
-
-% ================ for structure depth ================
-\setcounter{secnumdepth}{5}
-\setcounter{tocdepth}{5}
+In diesem Kapitel wird folgendes behandelt:
+\begin{itemize}
+  \item Was ist Künstliche Intelligenz
+  \item Modellbildung Neuronaler Netze
+  \item Technische Umsetzung
+  \item übersicht: Convolutional Neueral Networks (CNN)
+  \item Bisheriger Stand im Projekt --- Status Quo
+\end{itemize}
 
 
 
-% ============= Kopf- und Fußzeile =============
-\pagestyle{fancy}
 
-\lhead{}
-\chead{}
-\rhead{\slshape \leftmark}
+\section{Was ist Künstliche Intelligenz}
 
-\lfoot{}
-\cfoot{\thepage}
-\rfoot{}
+\begin{center}
+  \emph{ Artificial Intelligence is the study of how to make
+    computers do things at which, at the moment, people are
+    better.\footnote{\cite{bosl}} }
+\end{center}
 
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+\ac{KI} ist eine Teildisziplin der angewandten Informatik, in der es um
+automatisierte Problemlösungen geht. Die Ursprünge lagen im Ansatz, allein Logik
+zu verwenden. Nachteil dabei: hohe Komplexität für Abdeckung aller Fälle. Es
+wurde als neuer Ansatz das menschliche Gehirn als Grundlage verwendet. Menschen
+reagieren auf eine sich verändernde Umwelt. Wir lernen aus Beispielen. Es
+erfolgt keine Abarbeitung von Schlussregeln wie ``WENN \dots, DANN \dots''. Man
+stelle sich das Halten des Gleichgewichts beim Fahrradfahren oder das Schreiben
+auf einem Blatt Papier vor. Die Reaktionszeiten für eine sequenzielle
+Abarbeitung wäre zu hoch. Beim Fahrradbeispiel wäre man schon längst vor der
+Abarbeitung aller Regeln umgeflogen. Das selbe gilt analog für den Fall des
+Schreibens, bspw.\ eines Briefes. Es würde einfach viel zu lange dauern und die
+Regeln wären viel zu komplex.
 
+Unser Gehirn funktioniert anders. Es passt sich den Situationen an und greift
+dabei auf Erfahrungen von schon erlebten Situationen zurück. Das wollte man
+auch für Maschinen --- dynamische Anpassung auf sich ändernde Randbedingungen.
+Das ist auch der Grund, warum künstliche Netze antrainiert werden müssen. Sie
+sollen auf Situationen reagieren und dabei auf ``Erfahrung von schon erlebten''
+zurückgreifen. Das ``Schon Erlebte'' stellt dabei das Trainingsmaterial dar, mit
+dem das Netzwerk antrainiert wird. Dennoch, im Allgemeinen ist zu entscheiden:
 
+\begin{itemize}
+  \item Existiert ein Algorithmus, dann ist dieser vorzuziehen.
+  \item Ist Erfahrung vorhanden, ein Problem anhand von Regeln zu
+    beschreiben, ist dies vorzuziehen.
+  \item Wenn die ersten beiden Ansätze nicht zum Erfolg führen oder
+    nicht führten, dann kann der Einsatz von \ac{KI} zielführend
+    sein, wenn genügend Daten vorhanden sind, aus denen gelernt
+    werden kann.
+\end{itemize}
 
-% ============= Dokumentbeginn =============
-\begin{document}
-
-\pagestyle{plain}
-
-\include{10_title}
-
-\pagenumbering{Roman}
-
-
-\include{20_eidestattliche_erklaerung}
-
-
-\include{400_Abstract}
-
-
-% Beendet eine Seite und erzwingt auf den nachfolgenden Seiten die Ausgabe aller Gleitobjekte (z.B. Abbildungen), die bislang definiert, aber noch nicht ausgegeben wurden. Dieser Befehl fügt, falls nötig, eine leere Seite ein, sodaß die nächste Seite nach den Gleitobjekten eine ungerade Seitennummer hat.
-\cleardoubleoddpage
-
-\tableofcontents
-
-\listoffigures
-
-\listoftables
-\newpage
-
-
-
-% ================ Abkv ================
-\include{abkv}
-
-
-
-% ================ Pagenumbering ================
-\pagenumbering{arabic}
-\pagestyle{fancy}
+Im Straßenverkehr ändern sich zu jedem Zeitpunkt die
+Randbedingungen. Autos biegen ab, bremsen, überholen. Es gibt
+Verkehrsschilder, Ampelanlagen, Fußgänger- und Fahrradwege und
+mehr. Menschen greifen im Straßenverkehr auf ihre Erfahrung
+zurück. Möchte man als Ziel ansetzen, dass Fahrzeuge in der Lage
+sein sollen, im Verkehr ohne menschliches Zutun sich zu bewegen, ist
+eines ersichtlich. Die \ac{KI} ist prädestiniert für den Einsatz im
+Bereich \emph{autonomes Fahren}.
 
 
-\include{410_Einfuehrung}
-\include{420_Jetson_Nano}
-\include{430_Deployment_Installation}
-\include{440_Detector_Und_Filter}
-\include{450_CAN_And_Fazit}
 
 
-%================ Literaturverzeichnis ================%
-%% Zwei mal
-%% $ bibtex *.bib
-%% aufrufen, dann
-%% $ pdflatex *.tex
-% Bib Style
-\bibliographystyle{alphadin}
-% Bib File
-\bibliography{literatur}
+\section{Künstlich Neuronales Netz}
 
-\end{document}
+\acp{KNN} versuchen das menschliche Gehirn nachzubilden. Wie unsere
+Nervenzellen trainierbar sind und Steuerungsaufgaben übernehmen, so
+möchte man auch, dass Computerprogramme ähnlich befähigt sein
+sollen, in analoger Weiße auf neue Situationen aus schon erlebten
+Beispielen zu reagieren. Man bedient sich hierbei dem Gehirn als
+biologischen Bauplan \autoref{fig:neuron}.
+
+\begin{wrapfigure}{r}{5.5cm}
+  \includegraphics[width=\linewidth]{410/neuron.png}
+  \caption{\label{fig:neuron}Menschliches Neuron;~\cite{bosl}}
+\end{wrapfigure}
+
+Die Dendriten nehmen das Signal auf, leiten es an den Zellkörper
+weiter. Dort findet eine Gewichtung der Informationen statt. Die
+gewichtete Gesamtinformation geht über das Axon weiter und verteilt
+sich auf die Synapsen, welche jeweils mit weiteren Dendriten anderer
+Neuronen verbunden sind. Ein einzelnes Neuron wird in Form eines
+Softwarebausteins nachgebildet. Ein Neuron \emph{j} besteht aus:
+
+\begin{itemize}
+  \item $k$ gewichteten Eingängen $W_{kj}$
+  \item aus der Summe $net_j$ der jeweils einzelnen Produkten der
+    Gewichte $W_{kj}$ und dem Wert des Eingangs
+    $O_k$. $net_j$ stellt damit die Information zusammen,
+    die aus dem Netz in das Neuron eingehen.
+  \item der Aktivität des Neurons, d.\,h.\ wie stark der potenzielle Einfluss von $net_j$ auf andere Neuronen sein kann. $\Theta_j$ ist ein
+        \emph{Hyper Parameter}.
+  \item der Ausgabe --- Verbindung zu anderen Neuronen
+\end{itemize}
+
+\autoref{fig:art-neuron} entspricht der Beschreibung.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.5\linewidth]{410/artificial-neuron.png}
+  \caption{\label{fig:art-neuron}Modellierung eines einzelnen Neurons --- Künstliches Neuron;~\cite{bosl}}
+\end{figure}
+
+Viele Neuronen sind so miteinander verbunden und bilden zusammen ein
+\emph{Neuronales Netzwerk}. Als technische Modellierung existieren verschiedene
+Varianten, von denen aber hier nur die \emph{forwärts gerichtete} Variante
+interessiert.
+
+\begin{figure}[!htb]
+  \centering
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{410/forward-looking-network-v1}}
+  \qquad
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{410/forward-looking-network-v2}}
+  \qquad
+  \subfloat[][]{\includegraphics[width=0.25\linewidth]{410/forward-looking-network-v3}}
+  \caption{\label{fig:for-lok-net}Fully Connected, Forward Looking Networks:
+    a) Neuronen der Hidden Layer gehen in die Breite; b) Hidden Layer
+    gleichbleibende Anzahl an Neuronen; c) Hintere Neuronen greifen direkt auf
+    die unteren Schichten zu}
+\end{figure}
+
+\autoref{fig:for-lok-net} zeigt verschiedene Ausführungen eines
+\emph{Feed Forward Neural Networks} oder auch \emph{Fully Connected
+Neural Network}. Das entspricht der klassischen Vorstellung eines
+\acp{KNN}. Jedes Neuron ist mit jedem vorherigen und jedem
+nachfolgenden Neuron verbunden.
+
+Die erste Schicht bildet den Eingang. Dort treffen Signale ein, z.\,B.\ in Form
+eines Bildes. Es geht weiter in die zweite Schicht. Tiefer liegende Schichten
+werden auch als \emph{hidden layer} bezeichnet, da sie von außen, d.\,h.\ von
+den Schnittstellen, nicht zu sehen sind. Die letzte Schicht ist die
+Schnittstelle nach Außen. Jedes Neuron gibt eine Wahrscheinlichkeit über den
+repräsentierenden \emph{Classifier} aus. Zum Beispiel als Anwendungsfall in der
+Objekterkennung, ob Objekt von der Klasse ``Afrikanischer Elefant'' ist.
+Existieren mehrere Neuronen in der letzten Schicht, kann das Netz Aussagen über
+mehrere Classifier machen.
+
+Es gibt noch wesentlich mehr Architekturen / Topologien, wie ein \ac{KNN}
+aufgebaut sein kann. Jede hat ihre Vor- und Nachteile und somit eigene
+Anwendungsgebiete. In der Objekterkennung / Bildverarbeitung wird eine andere
+Variante als die \emph{Fully Connected} Variante eingesetzt --- das \ac{CNN}.
+
+
+
+
+\section{übersicht \ac{CNN}}
+
+Im Gegensatz zum \emph{Fully Connected Network} sind die Neuronen des \acp{CNN}
+nicht mit jedem Neuron der übergeordneten Schicht verbunden. Die Verbindung
+entsteht als Faltungsoperation mit einem Filter bestimmter Größe
+(Kernel-Size). Der Filter ``wandert'' über das Bild und verknüpft so jeden
+Bildbereich mit den darüberliegenden Neuronen. Jedes Neuron ist somit mit einem
+Filter verknüpft. Die Ergebnisse der Faltung entsprechen den Gewichten, mit
+denen das Neuron mit der darunter liegende Schicht verbunden ist. Allgemein gibt
+es mehrere Filter pro Schicht; dementsprechend besteht jede Schicht aus mehreren
+Neuronen. In \autoref{fig:conv-schema} ist das Vorgehen aufskizziert.
+
+\begin{wrapfigure}{r}{6.5cm}
+\centering\includegraphics[width=\linewidth]{410/conv-schema.png}
+\caption{\label{fig:conv-schema}Jedes Neuron ist mit einer Faltungsoperation
+  (Filter) mit dem darüber liegenden Neuron verbunden.}
+\end{wrapfigure}
+
+Die Parameter der Filter haben anfangs zufällige Werte. Die Werte werden im
+Trainingsprozess ``gelernt'' oder ``antrainiert''. Die Faltung (\emph{der
+  Filter}), wird zur Reduktion (\emph{Feature Extraction}) der inneren Schichten
+(\emph{Hidden Layers}) angewandt.
+
+Man kann für die inneren Schichten ein schon vor trainiertes, beliebiges
+\acp{CNN} verwenden. Einzige Voraussetzung ist, das Netzwerk darf bspw.\ nicht
+mit dem Verhalten von Käferarten vortrainiert sein, wenn doch das Ziel ist,
+Objekte zu erkennen. Vorteil eines vortrainierten Netzwerks (\emph{Pre-Trained
+  Network}) ist, es muss weniger Zeit für das Lernen seines Anwendungsgebietes
+aufgewendet werden und die \emph{Feature Extraction} ist schon aufgebaut. Es
+gibt hierbei zwei wesentliche Punkte zu beachten:
+
+\begin{itemize}
+  \item Es muss ``nur'' der Eingang auf die korrekte Größe des Bildes angepasst
+        werden.
+  \item Die letzte Schicht muss ein \emph{YOLO-Layer} sein mit den
+    gewünschten Ausgangsneuronen für jede Klasse an zu
+    detektierenden Objekten.
+\end{itemize}
+
+Die Vorgängergruppe hat dieses Vorgehen angewandt und ein schon vortrainiertes
+Netzwerk als Grundlage verwendet. Vorteil: Lernprozess kostet weniger Zeit und
+weniger Trainingsmaterial wird benötig; d.\,h.\ es kann mehr Energie / Zeit an
+die Anpassung des konkreten Anwendungsfalls aufgewand werden.
+
+\begin{figure}[!htb]
+\includegraphics[width=0.9\linewidth]{410/yolo-v2.png}
+\caption{\label{fig:yolo-v2}Beschreibung von links nach rechts: Input (der
+  Situation angepasst, im Projekt: Bild), pretrained \ac{CNN} mit Faltungs- und
+  Aktivierungsschicht, YOLO-Layer (auf Bedürfnisse angepasst, da pro zu
+  erkennende Klasse ein Ausgangsneuron, im Projekt: ein Neuron (Fahrzeug))}
+\end{figure}
+
+In \autoref{fig:yolo-v2} ist die Struktur des YOLO-Netzwerks
+aufskizziert. Im Unterschied zu den vorherigen Betrachtungen:
+
+\begin{enumerate}
+  \item Die Hidden Layers bestehen intern jeweils wieder selbst aus einer
+        Struktur speziell aufeinanderfolgenden Arten von Layern.
+  \item Die letzten Schichten müssen \emph{fully connected} Yolo Layer sein.
+\end{enumerate}
+
+\textbf{Zu Erstens}:
+
+\begin{itemize}
+  \item \emph{Faltunsschicht} ist für die Reduktion des Layergröße zum einen und zum
+  anderen für die Feature Extraction (nur die wichtigen Details sind für weitere
+  Betrachtung wichtig) verantwortlich.
+
+  \item \emph{Normalisierungsschicht} ist für die Beschleunigung des Trainingsprozesses
+  verantwortlich.
+
+  \item \emph{Aktivierungsschicht} entscheided darüber, ob ein Neuron ``gezündet''
+  wird (geht in die aktuelle Berechnung ein) oder nicht.
+\end{itemize}
+
+\textbf{Zu Zweitens}:\\
+
+Es gibt so viele Neuronen im \emph{Fully Connected Layer}, wie es zu erkennende
+Objekte gibt. Hier im Projekt wird eine binäre Entscheidung getroffen --- Auto
+da oder nicht da; heißt, die letzte Schicht besteht aus einem Neuron. Sollen
+aber mehrere Objekte erkannt werden, gibt es genau so viele \emph{Fully
+  Connected} Neuronen wie zu erkennende Objekte.
+
+Die letzte Schicht \emph{Softmax Layer} hat die Aufgabe, die Wahrscheinlichkeit,
+dass ein oder mehrere Objekte im Bild erkannt werden / worden sind, in ein
+Wahrscheinlichkeitswert wiederzugeben zwischen 0 und 1 --- 0 für 0\% und 1 für
+100\%.\\
+
+Vorteil ein Framework zu verwenden --- sei es Matlab wie hier im Projekt oder
+Python Implementationen wie PyTorch, Keras und mehr --- ist, man braucht sich
+nicht expliziet um die konkrete Umsetzung der einzelnen Schichten kümmern.
+Diese Arbeit nimmt das verwendete Netzwerk ab. Man kann darauf vertrauen, dass
+die internen Strukturen und Methoden so effizient wie möglich implementiert
+wurden. Dennoch ist Wissen, wie mit dem Netzwerk umgegangen werden muss,
+Grundlagen, auf denen die Implementationen aufbauen, auch für den Anwender
+notwendig. Wie könnte man sonst abschätzen, ob das berechnete Ergebniss
+plausibel ist oder nicht? Also ist man auch als Anwender eines Frameworks, wie
+es die Matlab \ac{IDE} bereitstellt, nicht von Grundwissen befreit.
+
+
+
+
+\section{Bisheriger Stand im Projekt}
+
+Das Ergebniss von Vorgängerarbeiten sind drei antrainierte Neuronale Netze. Die
+Netze arbeiten binär --- Erkennung von Auto erkannt / nicht erkannt. Sie
+besitzet zwei unterschiedliche \emph{Tiefen}:
+
+\begin{itemize}
+  \item 25 Hidden Layers
+  \item 50 Hidden Layers
+\end{itemize}
+
+In dieser Arbeit wird die Variante mit 25 Layers verwendet~\cite{briem}. Es hat
+sich gezeigt, dass das flachere Netzwerk um ca. 900\% bis 1000\% schneller
+Objekte erkennt als das größere Netzwerk. Auch die Kompilierungszeit ist um eine
+ganze Potenz schneller. Wie es in der Zuverlässigkeit der Objekterkennung
+aussieht, bleibt offen. Da entschieden wurde, selbst wenn das größere Netzwerk
+eine höhere Zuverlässigkeit besitzt, ist die Geschwindikeit im Betrieb nicht
+tragbar --- teils geringer als ein \ac{FPS}. Genauer wird darauf im weiteren
+eigegangen.
+
+
+
+
+\chapter{Jetson Nano}
+
+In diesem Kapitel wird die Jetson Nano Hardware vorgestellt, weiterhin die
+Einrichtung der Hardware und die Ordenerstruktur --- wo das Netzwerk und die
+Anwendungsprogramme liegen.
+
+Es folgt:
+\begin{itemize}
+  \item Übersicht Jetson Nano
+  \item Installation der nötigen Abhängigkeiten
+  \item Ordnerstruktur der Projektdateien
+\end{itemize}
+
+Die Hauptinformationsquelle seitens der Hardware ist Hersteller
+selbst~\cite{nvidia} und~\cite{nvidiaJetson}.
+
+
+
+
+\section{Overview Jetson Nano}
+
+% Hardwarebeschreibung Jetson Nano
+Einen Überblick der Hardware ist in \autoref{fig:Jet_Schema} zu sehen. Der
+Jetson besteht aus einen Developement-Board --- Eine Hardwareumgebung für die
+Entwicklung von Projekten --- und einem Steckmodul. Das Steckmodul wird in die
+Steckleiste des Dev-Boards befestigt. Der Grafik- wie auch der Mikroporzessor
+sitzen auf dem Steckmodul. Somit kann nach Entwicklung und Testen das Steckmodul
+unmittelbar in das Produktivsystem integriert werden; sprich, es kann auf die
+Entwicklerplatine im Endprodukt verzichtet werden. Eine gute Einführung ist auf
+\href{https://elinux.org/Jetson_Nano}{dieser} Internequelle zu sehen.
+
+\begin{figure}[!htb]
+  \centering
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{420/JetsonNanoKitAndComputeModule.png}}
+  \qquad
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{420/JetsonSchematic.png}}
+  \caption{\label{fig:Jet_Schema}Developement-Board mit Steckmodul (a) und Schema (b)}
+\end{figure}
+
+\autoref{fig:SysOverview} zeigt, wie der Jetson Nano im Gesamtprojekt eingesetzt
+wird. Im System gibt es vier wesentliche Komponenten:
+
+\begin{figure}[!htb]
+  \includegraphics[width=0.75\linewidth]{420/SystemOverview.jpeg}
+  \caption{\label{fig:SysOverview}Alle Hardwarekomponenten des Systems}
+\end{figure}
+
+\begin{itemize}
+  \item Raspberry Pie --- Zentrale Steuereinheit des Systems
+  \item Jetson Nano --- Das ``Auge'' des Systems
+  \item Arduino --- Auswertung von Sensoren und Stellglied von Aktoren
+  \item Vesc Motorcontroller --- Stellglied für den BLDC Motor
+\end{itemize}
+
+Alle Hauptkomponenten sind mit dem \emph{CAN}-Bussystem verbunden --- siehe
+\autoref{fig:SysOverview}. Hierüber wird die Kommunikation abgewickelt. Der
+Jetson nimmt über ein Kameramodul Bilder der Umgebung auf. Intern werden die
+aufgenommen Bilder einem Neuronalen Netzwerk übergeben, das das Bild auf
+interessierende Objekte untersucht. Hier sind die interessierenden Objekte
+Fahrzeuge. Und zwar nur Fahrzeuge als solches, heißt, es wird nicht weiter
+zwischen verschiedene Fahrzeugarten unterschieden. Die Objekterkennung ist somit
+binärer Natur. Wurde ein Fahrzeug erkannt, wird eine Nachricht über das
+Bussystem verschickt. Es ist Aufgabe des Can-Protokolls, die Nachricht dem
+richtigen Adressaten zu übergeben. Hier ist der richtige Adressat das
+Raspberry-Modul (Raspberry Pi). Dort wird entschieden, was mit den eingehenden
+Informationen geschehen soll.
+
+
+
+
+\section{Software-Installation}
+
+Die Softwareinstallation wird detailiert auf der Nvidia Homepage
+beschrieben~\cite{nvidiaJetson}. Deswegen hier nur ein paar Punkte, die
+aufgefallen sind und zu erwähnen sich lohnen:
+
+\begin{itemize}
+  \item Jetpack
+        \begin{itemize}
+          \item Aktuellste Installation auf SD Card Image
+          \item SD Card Image von \emph{Getting Started with Jetson Nano}
+          herunterladen
+          \item Gibt auch andere Quellen, aber dort nicht garantiert, dass
+          \emph{JetPack} und Abhängigkeiten installiert werden
+  \end{itemize}
+
+  \item SD Karte manchmal nicht lesbar gewesen
+  \begin{itemize}
+    \item Staubeinschluss
+    \item Wie bei Nintendo 64 oder Gameboy
+    \begin{itemize}
+      \item SD Karte entfehrnen und ``pusten'' hilft
+    \end{itemize}
+  \end{itemize}
+
+  \item Starten im ``Headless'' Mode
+  \begin{itemize}
+    \item benötigt IP Adresse
+    \item mit Befehl \verb+$ ipconfig+ im Jetson zu bekommen
+  \end{itemize}
+\end{itemize}
+
+
+
+\section{\label{sec:ordner-struktur}Ordner Struktur}
+
+Es existieren zwei Hauptordnerstrukturen:
+
+%% ToDo
+\begin{itemize}
+  \item yoloCNNForDetection
+  \item voodo_code
+\end{itemize}
+
+Beide liegen im Home-Verzeichnis des Users \verb+</home/<user>>+, wobei
+\verb+<user>+ in diesem Fall \verb+jetson+ ist.\\
+
+\emph{yoloCNNForDetection}: Im der ersten Struktur liegt der von Matlab generierte Code
+und das Kompilat (Statische Library). Jedes mal, wenn der Anwender am Host PC in
+Matlab einen neuen Algorithmus definiert und übersetzen lässt, diesen
+anschliessend auf das Zielsystem überträgt, finden sich die generierten Files
+und die kompilerte Datei in dieser Ordnerstruktur.
+
+Matlab erstellt eine tiefe Struktur, heißt: sehr viele Unterorder und
+Verzweigungen. Aber sämtlicher Code und Kompilate finden sich dort.
+
+\textbf{Wichtig!!!}: Auch wenn später statische Library in anderes Programm ---
+anderer Ausführungsprozess --- eingebunden wird, liegt das YoLo Netzwerk in
+dieser Struktur und ist somit eine \textbf{Abhängikeit}. Die Ordnerstruktur
+darf \textbf{nicht} gelöscht oder verändert werden. Die statische Library
+verwenden absolute Pfade.\\
+
+\emph{voodo_code}: Dort sind wiederum drei Haupt-Unter-Verzeichnisse
+angedacht:
+\begin{itemize}
+  \item detector
+  \item filter\_1
+  \item can
+\end{itemize}
+
+Jeder dieser Unterverzeichnisse definiert ein seperates Programm, das jeweils
+einen eigenen Prozess startet.
+
+\emph{detector}: Das ist ein in Cuda geschriebenes Programm, das die von Matlab
+generierte statische Library einbindet und autark auf der Zielhardware nach dem
+Kompilierungsvorgang (NVidia Cuda Compiler --- NVCC) ausführbar ist. Vorteil
+dieser Vorgehensweise:
+
+\begin{itemize}
+  \item Host PC zum Starten des Algorithmus nicht mehr nötig
+  \begin{itemize}
+    \item Statische Library in unabhängiges Programm (späterer Prozess)
+          eingebunden
+  \end{itemize}
+
+  \item Anwendungsprogrammierer kann beliebige weitere Funktionalitäten dem
+  Programm hinzufügen
+  \begin{itemize}
+    \item Kommandozeilen Parser
+    \item Individuelle Ausgabe
+    \begin{itemize}
+      \item Visuellen Modus
+      \item Ausgabe File Descriptor
+      \item Bit Stream
+      \item usw \dots
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+Nachteilig zu erwähnen ist: Programmierer sollte sich mit CUDA Syntax
+auskennen. Aber oft nicht so grosses Problem, da Schnittmenge mit C++ respektive
+C Syntax vorhanden. Dennoch ist erstrebenswert: so wenig wie möglich in CUDA
+Code zu arbeiten. Deswegen Aufteilung in weitere Programme nach Motto: viele
+kleine Programme, die nur \emph{eine} Aufgabe haben, aber diese gut und
+effizient umsetzen.\\
+
+Makefile für den Kompaliervorgang im Projekt hinterlegt und kann mit
+\verb+$ make+ Befehl gestartet werden.\\
+
+\emph{filter\_1}: Die übertragung der Information (Objekt erkannt oder nicht) ist
+als Bit-Stream über die Standartausgabe definiert. Da oben erwähnt, ein Ziel
+ist, so wenig wie möglich in CUDA zu Programmieren --- sehr lange Compile-Time,
+sehr viel Abhängikeiten, kompliziertes Make-File ---, werden weitere
+Manipulationen in einem getrennten Programm umgesetzt \emph{Filter}. Der Filter
+ist in C++ geschrieben und bereitet die Versendung der Informationen über CAN
+vor. Eine weitere Bearbeitung der Daten könnte wie folgt ausehen:\\
+
+Es werden nur weitere Nachrichten an Busteilnehmer gesendet, wenn signifikante
+änderungen in der Objekterkennung vorliegen. Bspw.\ Objekt (Fahrzeug) wurde
+erkannt und Information über Bus gesendet. Es werden in der Sekunde mehrere
+Bilder aufgenommen und auf erkannte oder nicht erkannte Objekte überprüft. Es
+gibt jetz zwei Möglichkeiten: Es kann immer eine Nachricht versendet werden,
+wenn Objekt erkannt --- unter Umständen viele Nachrichten pro Sekunden über
+Bus --- oder es wird eine Initialnachricht versendet: Signalisierung Objekt
+erstamlig erkannt und weitere nur, wenn sich bspw.\ Entfehrnung oder
+Näherungsgeschwindigkeit signifikant ändern. Nachteil der ersten Möglichkeit
+ist, dass Bus mit Nachriten ``überschwemmt'' wird, aber aus den vielen
+Nachrichten sich keine neue Erkenntnis generieren lassen. Dieser Nachteil wird
+in der zweiten Möglichkeit versucht zu umgehen. Dort werden nur weitere
+Nachrichten versendet, wenn es wesentliche änderungen gibt --- hohe
+Näherungsgeschwindigkeit von erkanntem Fahrzeug, \ldots.\\
+
+\emph{can}: Im Projekt wurde das \emph{Hauptprogramm} und der
+\emph{Filter} implementiert. Die entgültige Kommunikation über CAN Bus blieb
+aus. Folgearbeiten können mit einer beliebigen anderen Sprache --- bspw.\
+Python, C, Rust, \dots --- durchgeführt werden. Nvidia stellt bspw.\ ein Python
+Interface für die GPIO bereit. Es ist dementsprechend zu prüfen, ob ein
+Interface für SPI Controller existiert. Der Jetson hat kein eigenen \ac{CAN}
+Controller, deswegen \ac{CAN} Kommunikation nur über SPI möglich.\\
+
+\textbf{Zusammengefasst}\\
+
+Die komplette Bearbeitung läuft in drei getrennten Prozessen ab. Eine
+unidirektionale Kommunikation ist notwendig. Die Informationen von ``tiefer''
+liegenden Prozessen müssen an den darüberliegenden Prozess weitergegeben
+werden. Erwähnt wurde, dass als Ausgang ein Bit-Strom über Standart Ausgabe
+definiert wurde. Da auf dem Jetson ein Linux Betriebssystem ausgeführt wird,
+kann die Umsetzung der \emph{Inter-Prozess-Kommunikation} dem Betriebssystem
+übergeben werden. Als Mechanismus werden dafür Pipes verwendet.
+
+\begin{itemize}
+  \item \verb+$ <Hauptprogramm> | <Filter_1> | <CAN_Dispatcher>+
+\end{itemize}
+
+Der senkrechte Balken signalisiert dem Betriebssystem, dass ein Kommunikationskanal von Prozess 1 zu Prozess 2 gebildet werden soll. Die gesamte Ordnerstrukture ist wie folgt in \autoref{fig:directory-structure} gezeigt umgesetzt.
+
+\begin{figure}
+  \centering
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{420/dir-structure-voodo.png}}
+  \qquad
+  \subfloat[]{\includegraphics[scale=0.25]{420/dir-cnn-yolo.png}}
+  \caption{\label{fig:directory-structure}(a) Voodo Code: Dort sind sämtlchen Prozesse definiert und werden
+    von dort ausgeführt (Bash-Skript), (b) Yolo Netzwerk: Viele
+    Unterverzeichnisse von Matlab generiert}
+\end{figure}
+
+
+
+
+\chapter{Deployment / Installation}
+
+In der Objekterkennung hat sich der YOLO Algorithmus bewährt. Die YOLO Variante
+unterscheidet hauptsächlich in den Letzten Schichten von anderen \ac{CNN}
+Netzwerk Architekturen.
+
+Es gibt mehrere Technologien, die den Aufbau eines Neuronalen Netzwerks
+unterstützen. Einige Bibliotheken in Python sind beispielsweise: PyTorch, Keras,
+Tensor Flow. Auch Matworks stellt ein eigenes Framework bereit. Vorteil von
+Matlab ist: Es gibt sehr viele speziell auf Matlab angepasste Tools für den
+kompletten Erstellungs-, Evaluierung- und Anwendungsprozesses. Hingegen die frei
+zugänglichen Alternativen wie in Python bieten einen kleineren
+Anwendungsbereich. Beispielweise, wenn für die Evaluierung im Bild die Objekte
+gekennzeichnet werden sollen, müssen andere Tool als z.\,B. nur Tensor Flow
+verwendet werden wie OpenCV zur Bildverarbeitung. OpenCV reichert das Bild mit
+Rahmen um erkannte Objekte an und setzt Labels. In Matlab ist alles dabei und
+weitere externen Tools sind unnötig.
+
+Im Projekt wird Matlab als Entwicklungsumgebung verwendet. Vorgängerarbeiten
+bauten darauf auf. Würde man sich gegen Matlab als Framework entscheiden, müsste
+der Erstellungsprozess von vorne begonnen werden.\\
+
+Losgelöst von den verwendeten Werkzeugen, kann die Installation \emph{engl.
+  Deployment} abstrahiert werden, will heißen, der übergeordnete Vorgang ist
+losgelöst von konkreten Technologien --- zu sehen in
+\autoref{fig:deployment_jetson}.\\
+
+\begin{figure}[!htb]
+  \includegraphics[width=0.9\textwidth]{430/Deployment.png}
+  \caption{Die Hauptfunktion wird als Routine geschrieben. Sie verwendet als
+    externe Abhängigkeit das von der Vorgängergruppe erstellte Neuronales
+    Netzwerk. Der Host (f.\,i. Windows PC) überträgt Quelldateien auf die
+    Zielhardware. Dort werden die Quelldateien übersetzt und eine
+    ausführbare Datei \emph{Binary} erstellt (hier: eine statische Library).
+    Die Binary verwendet Nvidia CUDA Bibliotheken. Dort werden die aufwendigen
+    Berechnungen der Objekerkennung ausgeführt. Die Objekterkennung verwendet
+    ein Kameramodul.}
+  \label{fig:deployment_jetson}
+\end{figure}
+
+In diesem Kapitel werden folgende Fragen beantwortet:
+\begin{itemize}
+  \item Die Installation mittels Matlab. Es wird der konkrete Code --- so wie er
+        im Projekt angewendet wird --- beschrieben.
+  \item Zusammenfassung / Evaluierung
+\end{itemize}
+
+
+
+
+\section{Installation}
+
+Der Vorgang, einen Matlab Algorithmus auf die Zielhardware zu übertragen und
+auszuführen, wird in drei Schritten abgearbeitet.\\
+
+\textbf{Schritt 1}: Ein Algorithmus muss erstellt werden. Der Algorithmus hat
+die Form einer Routine (Funktion). Die Routine wird in der Matlab IDE erstellt.
+Der erstellte Code wird im Laufe des Vorgangs in Cuda Code umgewandelt und in
+der Zielhardware übersetzt (kompiliert). Der Vorgang wird Cross-Kompilierung
+genannt.
+
+Jetzt foglt die Beschreibung des Algorithmus. Er ist in der Matlab-Syntax
+verfasst. Die Beschreibung setzt sich wie folgt zusammen: erst Code,
+anschließend Erläuterung.
+
+\begin{verbatim}
+function [x y width height score] = detectFunction()
+%codegen
+\end{verbatim}
+Es wird eine Fnktion deklariert, die fünf Ausgabewerte liefert. Auch werden
+nicht alle Matlab-Interne Funktionen für die Konvertierung unterstützt. In der
+Funktion ist die \verb+#codegen+ Direktive zu empfehlen. Es wird dann eine
+Prüfung während der Erstellung des Algorithmus durchgeführt, ob Code gültig ist
+oder nicht.
+
+\begin{verbatim}
+persistant mynet
+persistant hwobj
+persistant cam
+
+if isempty(mynet) || isempty(hwobj) || isempty(cam)
+    hwobj = jetson
+    cam   = camera(hwobj, 'vi_output, imx219 6-0010', [1280 720]);
+    mynet = coder.loadDeepLearningNetwork('yoloNetwork.mat');
+end
+\end{verbatim}
+Die Variablen \emph{mynet, hwobj, cam} sind mit dem Qualifier \emph{persistant}
+versehen. In anlehnung an C hat das den selben Effekt wie eine \emph{static}
+Deklaration. Der Code im if-Block wird nur im ersten Funktionsaufruf
+ausgeführt. Dort werden die Abhängigkeiten initialisiert.
+
+\begin{verbatim}
+img = snapshot(cam);
+img = imresize(imt, [224 224]);
+
+[bboxes scores] = detect(mynet, img, 'Threshold', 0.5);
+\% only the one with the highest score
+[score_ index] = max(scores);
+\end{verbatim}
+Es wird ein Bild eingefangen --- PiCam --- und dessen Greoße angepasst. Das
+verwendete Netzwerk hat 224 mal 224 mal 3 Eingangsneuronen. Der Faktor 3 steht
+für den RGB Farbaum. Jeder Farbraum wird intern vom Netwerk getrennt berechnet
+und am Ende der Pipline wieder zusammengeführt. Somit benötigt ein Farbbild
+mehr Rechenleistung. Zukünftig könnte geprüft werden, ob ein Netzwerk, das
+eine Graustufenabbildung verarbeitet erstens genau so zuverslässig und zweitens
+schneller oder genauso schnell rechnet. \emph{detect} ist eine Matlab-Interne
+Funktion. Ihr übergibt man das \ac{KNN}, das interessierende Bild und definiert
+einen Schwellwert, ab welchen Zuverlässigkeitswert ein Objekt auch als das
+tatsächliche Objekt angesehen werden kann oder nicht.
+
+\begin{verbatim}
+if ~isempty(bboxes)
+   tmp_bbox = bboxes(idx,:);
+   x = tmp_bbox(1);
+   y = tmp_bbox(2);
+   width  = tmp_bbox(3);
+   height = tmp_bbox(4);
+else
+   \% nothing detected
+   x = -1
+   ...
+   score = single(-1);
+\end{verbatim}
+Wenn Objekt erkannt, wird darum ein Rahmen vom Netzwerk gezogen. Dementsprechen
+ist das bbox Objekt nicht leer. Darin sind die Koordinaten der Boudingbox
+gespeichert. Im ersten if-Teil werden die Koordinate ausgelesen und den
+Ausgangsparametern übergeben. Wurde kein Objekt erkannt, ist die Boudingbox
+leer und es wird nach den Konventionen die Werte ausgefüllt (kein gültiger
+Code --- wie \emph{errno} in C). \\
+
+
+\textbf{Schritt 2}: Jetzt wird der in Schritt 1 erstellte Algorithmus auf die
+Zielhardware übertragen. Dazu muss Verbindung vom Host zur Zielhardware
+aufgebaut werden. Matlab verwendet eine SSH Verbindung über TCP/IP.\@. Die
+Verbindung wird über ein Hardware Objekt hergestellt.
+
+\begin{itemize}
+\item Target: <IP-Address>
+\item Login Name: \emph{jestson}
+\item Passwort: \emph{1111}
+\end{itemize}
+
+Für den Zugriff auf die Hardware des Jetsons muss eine IP-Adresse eingerichtet
+werden. Es kann entweder eine statische oder dynamische Adresse vergeben werden
+seitens der Zielhardware. Mit dem Befehl
+\verb+$ ifconfig+ kann die eigene IP-Adresse des Jetsons eingesehen und in der Matlab IDE eingegeben werden.
+
+\begin{verbatim}
+hwobj = jetson(<ip-address>, `jetson', `1111');
+\end{verbatim}
+Das Hardwareobjekt wird mit den Login Informationen der Zielhardware ausgefüllt. Damit kann eine SSH Verbindung vom Host erstellt werden.
+
+\begin{verbatim}
+gpuEnvObj = coder.gpuEnvConfig('jetson');
+gpuEnvConfig.BasicCodegen = 1;
+...
+results = coder.checkGpuInstall(gpuEnvObj);
+\end{verbatim}
+
+\emph{coder} ist eine statische Funktion bereitgestellt von Matlab. Sie erstellt
+ein Konfigurationsobjekt, das seinem Randbedingungen unterzogen wird. Jedes
+Projekt hat andere Randbedingungen. Demzufolge werden auch in unterschiedlichen
+Projekten unterschiedliche Optionen gesetzt. Zuletzt wird das
+Konfigurationsobjekt geladen und über die zuvor erstellte Verbindung Prüfungen
+auf der Zielhardware durchgeführt.
+
+Ist die Prüfung erfolgreich durchgeführt --- alle Abhängigkeiten auf
+Zielhardware geladen und vorhanden ---, kann der in Schritt eins erstellte
+Algorithmus in Code Zielcode umgewandelt werden. Dann erfolgt die Compilierung
+auf der Zielhardware. \\
+
+
+\textbf{Schritt 3}: Der Matlab Coder generiert nun Code --- nur von Funktionen,
+nicht von Skripten! Es sollte daher von Anfang an eine Funktion geschrieben
+werden, anstatt ein Skript zu erstellen und es hinterher in eine Funktion zu
+konvertieren.
+
+Matlab exportiert den Quellcode auf den Jeton. Ist die Übertragung
+abgeschlossen, wird auf dem Jetson über den NVIDIA Cuda Compiler \emph{nvcc} der
+von Matlab generierte Quellcode in eine ausführbare Datei kompiliert. \\
+
+
+Zusammengefasst, nötige Schritte für eine Installation sind:
+
+\begin{itemize}
+  \item YOLO Netzwerk bereitstellen
+  \item Zielhardware konfigurieren
+  \item Host konfigurieren
+  \item Main-Funktion erstellen
+  \item Code generieren
+  \item Einbindung der Binary auf Zielhardware
+\end{itemize}
+
+\textbf{YOLO Netzwerk}: Es muss ein vorhandenes Netzwerk zur Erkennung von
+Objekten vorhanden sein. Getestet wird jeweils das von den Vorgängern erstellte
+und neue erstellte Netzwerk.\\
+
+\textbf{Zielhardware}: Auf der Zielhardware müssen zusätzliche Bibliotheken
+installiert und Globale Systemvariablen exportiert werden. Benötigte Bibliothek
+ist die \emph{Simple Direct Medial Layer v1.2} in der standart und developement
+Version. Der Cuda Pfad, in dem die Cuda Binaries und die Cuda Bibliotheken liegen,
+kann beispielsweise in der \emph{.bashrc} hinterlegt werden.\\
+
+\textbf{Host}: Die Codegenerierung --- C++ und Cuda --- sind von externen Tools
+abhängig. Matlab benutzt die \emph{Gnu Compiler Collection} und mehrere
+\emph{Cuda Libraries} von Nvidia für die Erstellung der Binaries. In Linux ist
+der gcc standardmäßig in den Repos hinterlegt. Auf Windows Maschinen heißt das
+Compiler Paket MinGW. Die Abhängigkeiten seitens Nvidia müssen von deren
+Homepage heruntergeladen und installiert werden. Es werden Windos- und
+Linuxsysteme unterstützt.\\
+
+\textbf{Main-Funktion}: Funktion, die in einer Endlosschleife Bilder von
+der Webcam aufnimmt und dem Detektor übergibt. Der Detektor scannt
+das aufgenommene Bild nach Objekten. Wenn Objekte gefunden wurde, dann
+wird die entsprechende Bounding Box und Label auf das Bild gebunden
+und anschließend auf dem Bildschirm angezeigt. Hierbei muss entweder
+ein externer Monitor an den Jetson angeschlossen werden oder eine
+Remote- hergestellt werden.\\
+
+\textbf{Code Generation}: Der Code wird in der Matlab Umgebung mit ein paar
+Codezeilen generiert. Das Kompilat kann auf mehreren Wegen auf den Jetson
+überspielt werden. Entweder über einem USB, via Ethernet Verbindung, etc.
+\dots. Man kann allgemein die Binaries in einem beliebigen Pfad installieren. Es
+muss nur darauf geachtete werden, dass die ausführbaren Dateien hinterher in
+den Pfad angefügt werden.\\
+
+\textbf{Zielhardware}: Es ist nicht zwingend, eine ausführbare Datei zu
+erstellen. Eine weitere Möglichkeit ist, statische oder dynamische Bibliotheken
+zu generieren. Die Bibliotheken können dann in einem anderen Programm
+eingebunden werden. Der Vorteil, den Code für den Jetson direkt in Matlab als
+Executable zu generieren, ist, es müssen keine zusätzlichen Einstellungen
+getroffen werden.\\
+
+
+
+
+\section{Zusammenfassung}
+
+Es wurde ein Algorithmus für die Objekterkennung vorgestellt. Der Algorithmus
+verwendet das Kameramodul, um in Echtzeit die Umgebung aufzunehmen und
+auszuwerten. Der Algorithmus ist so geschrieben, dass er in der übergeordneten
+Umgebung zyklisch aufgerufen und abgefragt werden kann \emph{Polling}.
+
+Es wurde weiterhin die Installation des Algorithmus ausgehend von Matlab auf das
+Zieldevice gezeigt. Die Installationsroutine kann als Matlab Skript umgesetzt
+werden.
+
+Der komplette Installationprozess ist graphisch in
+\autoref{fig:workflow_deployment_jetson} nochmals aufgezeigt.
+
+\begin{figure}[!htb]
+  \includegraphics[width=0.9\textwidth]{430/Workflow_Deployment.png}
+  \caption{Die Zielhardware (Jetson) und der Host (f.i. WIN oder UNIX) muss
+    eingerichtet werden. Die Reihenfolge der Einrichtung spielt keine Rolle. Der
+    Quellcode wird im Host generiert und wird auf die Zielhardware übertragen.
+    Im Jetson wird eine static Library generiert. Die Library wird in ein
+    eigenes Cuda Projekt eingebunden und hieraus ein ausführbares Programm
+    generiert.}
+  \label{fig:workflow_deployment_jetson}
+\end{figure}
+
+
+
+
+\chapter{Detektor \& Filter}
+\label{cha:processes}
+
+Bilder werden über ein Kameramodul aufgenommen, einem internen neuronalen
+Netzwerk übergeben und auf erkannte Objekte (Fahrzeuge) ausgewertet. Sind
+Objekte --- oder auch keine Objekte --- erkannt worden, findet eine
+Informationsweitergabe statt. Die Ergebnisse des Neuronalen Netzwerks und seinem
+unterliegendem Algorithmus (YoLo) werden der Verarbeitungspipeline übergeben.
+
+Hintergedanken für diese Herangehensweisse:
+
+\begin{itemize}
+  \item Weiterführende Datenaufbereitungen sind somit von ``Detektor'' Prozess
+  entkoppelt
+  \begin{itemize}
+    \item Neue Algorithmen können sehr einfach durch andere Algorithmen der
+          ``Daten-Pipeline'' ersetzt oder hinzugefügt werden.
+    \item Abarbeitungsreihenfolgen der Algorithmen können beliebig neu
+          angeordnet werden
+    \item Neue Algorithmen können in gewünschter Sprache implementiert und der
+          Pipeline hinzugefügt werden
+          \begin{itemize}
+            \item Somit keine Neukompilierung von eiem einzigen
+                  \emph{monolitischen} Prozess mit \ac{NVCC} notwendig
+          \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+Ein digitaler Filter ist ein diskreter Algorithmus, eine Rechenvorschrift. Wenn
+hier von einem Filter gesprochen wird, ist ein Algorithmus in einem eigenen
+Ausführungsprozess gemeint. Werden mehrere Filter hintereinander ausgefuhrt,
+findet eine Pipeline-Verarbeitung
+statt\footnote{https://www.elektronik-kompendium.de/sites/com/1705221.htm}. Es
+existiert ein unidirektionaler Kommunikationskanal zwischen den Prozessen,
+d.\,h.\ die Kommunikationsrichtung fließt nur in eine Richtung.\\
+
+Fragen, die hier behandelt werden, sind:
+
+\begin{itemize}
+  \item Wie sind die Prozesse intern aufgebaut
+  \item Wie sind deren Schnittstellen zur \emph{Außenwelt} definiert
+  \item Welche Daten werden übergeben
+\end{itemize}
+
+
+Möchte man eine Verbindung über Serielle Schnittstelle aufbauen, sind folgende Daten nötig:
+
+\begin{itemize}
+  \item Passwort: 1111
+  \item Login Name: jetson
+  \item Baudrate: 115200
+\end{itemize}
+
+
+
+\section{Detector}
+\label{sec:detector}
+
+Die Architektur ist Stufenweise aufgebaut. In \autoref{fig:detector-arch} ist zu
+sehen, Softwareteile höherer Ordnung sind weiter oben angeordnet und deren
+Abhängigkeiten liegen tiefer und Verbindungslinien kennzeichnen die
+Abhängigkeiten.
+
+\begin{wrapfigure}{r}{8.5cm}
+  \includegraphics[width=\linewidth]{440/detection-arch.png}
+  \caption{\label{fig:detector-arch}Softwareaufbau von Detector Hauptprozess}
+\end{wrapfigure}
+
+Der oberste Block kennzeichnet den Hauptprozess. Die nächsten beiden
+Softwareblocke sind der \emph{Command Line Parse} und die \emph{Detect
+  Funktion}. Der Command Line Parser wird beim ersten Prozessstart ausgeführt
+und ließt die in der Kommandozeile beim Starten des Prozess definierten
+Zusatzparameter und dekodiert diese, was die weitere Prozessabarbeitung
+beeinflußt. Bspw.\ wird der Prozess wie folgt:
+
+\begin{verbatim}
+$ detector --visual-mode
+\end{verbatim}
+
+gestartet, ließt der Parser das übergebene Flag und die Ausgabe des Prozesses ist für den Anwender in lesbarer Form. Im \emph{visual mode} ist aber eine Prozessausführung innerhalb der Pipeline so nicht möglich. Der ausgehende Prozess muss Schnittstellenkonform mit dem nachfolgenden Prozess der Pipeline sein, was \emph{visual mode} nicht erfüllt. Somit kann der Prozess in \emph{visual mode} nur getrennt gestartet und betrachtet werden (z.B.\ Zeitmessung, wie schnell \emph{FPS} die Objekterkennung arbeitet).
+
+Die \emph{Detect Funktion} ist der in Matlab generierte CUDA Algorithmus für
+die Objekterkennung. Der Algorithmus wird in einer Endlosschleife zyklisch
+ausgeführt. Die direkten Abhängikeiten des Algorithmus sind die CUDA
+Libraries. Vorteil von Matlab generierten Algorithmus ist: Softwareentwickler
+definiert den Algorithmus in Matlab-Code und Matlab produziert den CUDA Code,
+kompiliert ihn und erzeugt eine statische Library, die in ein unabhängiges
+Projekt eingefügt werden kann. Wie hier: Eingliederung CUDA Library in Detector
+Hauptprozess. Somit muss der Entwickler nicht direkt mit den CUDA Libraries
+arbeiten. Deren Aufrufe sind in der statischen Library \emph{wegabstrahiert}.
+Ergebnis ist: Es kann weitgehend auf CUDA Code Syntax verzichtet werden und mit
+C++ respektive C Code Style gearbeitet werden, weil eine gemeinsame Schnittmenge
+mit CUDA Syntax vorhanden ist.
+
+Der Hauptfunktionalität ist ein \emph{Signal Handler} übergeordnet. Der
+Signal Handler reagiert auf System Signale und für diese, wofür er definiert
+wurde, unterbricht er den Hauptprozess und stellt sicher, dass die abhängige
+Hardware wie Kamera Modul sicher gelschloßen wird. Bspw.\ mit dem
+asynchronen Befehl:
+
+\begin{verbatim}
+$ <CTR+C> [SIGINT]
+\end{verbatim}
+
+wird der Prozess unterbrochen und die Hardware und diverse Filedeskriptoren geschlossen. Vor dem Signal Handler traten Probleme auf bei Testdurchläufen, in denen das Programm mehrmals unterbrochen wurde, dass die Hardware nicht mehr reagierte. Die Hauptfunktionalität übergibt gewonnenen Daten dem \emph{Output-Stream}.
+
+Informationen werden mittels dem Betriebssystem bereitgestellten Pipelinesystem
+übertragen. Die Schnittstellendefinition zum nächsten Prozess der Pipeline ist
+daher jeweil der Outputstream. Dem übergeordneten Verarbeitungsprozess (Filter)
+wird mit einem definierten Signal mitgeteilt, das ab diesem Zeitpunkt gültige
+Daten am Stream anliegen. Ein Codeausschnitt ist:
+
+\begin{verbatim}
+    // 1ter Prozess der Pipeline
+    std::out << some_random_data;
+    my::flag(std::cout, 0xBADEAFFE);
+    std::out << valid_data;
+
+    ////////////////////////////////
+
+    // 2ter Prozess der Pipeline
+    do_some_random_stuff();
+    wait(my::flag(std::cin, 0xBADEAFFE));
+    do_important_stuff();
+\end{verbatim}
+
+Bash Skript starte bspw.\ beide Prozesse in einer Pipelinestruktur:
+
+\begin{verbatim}
+$ Detector | Filter1
+\end{verbatim}
+
+Gibt \emph{Detector} Daten vor dem Flag \emph{0xBADEAFFE} aus, werden diese von \emph{Filter1} nicht weiter bearbeitet. Erst wenn das Flag gelesen wurde, werden die nachfolgenden Daten des Streams als gültige Daten betrachtet und gehen in die Bearbeitung mit ein.\\
+
+Bleibt nur noch zu klären, welche Daten der \emph{Detector} Prozess der
+Pipeline übergibt.
+
+\subsection*{Datenstruktur}
+\label{sec:datenstruktur}
+
+Das unterliegende Neuronale Netzwerk hat eine Eingangsgröße
+von: \[[224\ 224\ 3].\] Die \emph{3} ist die Tiefe --- \ac{RGB} Farbraum. Das
+Kameramodul nimmt Bilder in \emph{720p} Auflösung auf. Die Bilder müssen
+anschließend heruntergerechnet werden und werden dann dem Neuronalen
+Netzwerk übergeben. Um erkannte Objekte (Fahrzuege) werden
+\emph{Bounding-Boxes} (Begrenzungskästen) gezogen. Sie signalisieren, wo im
+Bild das erkannte Objekt liegt. Kleinere Bounding-Boxes bedeuten, dass das
+erkannt Objekt weiter entfehrnt ist, wobei größere weiter weg bedueten.
+Sie können weiterhin weiter links in der Aufnahme liegen oder weiter rechts,
+sowie nach unten oder oben versetzt. Somit besitzen Bounding-Boxes mehrere
+Attribute:
+
+\begin{itemize}
+  \item Position
+  \begin{itemize}
+    \item X-Kord
+    \item Y-Kord
+    \item Height
+    \item Widht
+  \end{itemize}
+  \item Konfidenz-Score
+\end{itemize}
+
+Das Positions-Attribute bezieht sich auf die linke obere Ecke der Bounding-Box
+relativ zur linken oberen Ecke der Aufnahme. Die Y-Koordinate wird nach unten
+abgetragen (\autoref{fig:aufnahme}). Der Konfidenz-Score gibt an, wie ``sicher''
+sich das Netzwerk ist, ob das erkannte Objekt tatsächlich ein Fahrzeug ist oder
+nicht. Der Konfidenz-Wert kann in spätere Algorithmen verwendet werden. Wird
+kein Objekt in einer Aufnahme erkannt, nimmt der Konfidenz-Score einen Wert von
+-1 an.
+
+\begin{figure}[!htb]
+\floatbox[{\capbeside\thisfloatsetup{capbesideposition={left,top},capbesidewidth=0.4\linewidth}}]{figure}[\FBwidth]
+{\caption{\label{fig:aufnahme}Aufnahme + Objekterkennung. Attribute: X, Y, Hohe, Breite}}
+{\includegraphics[width=10cm]{440/aufnahme.png}}
+\end{figure}
+
+Daten, die über den Stream in die Pipelineverarbeitung miteingehen, sind:
+
+\begin{itemize}
+  \item X-Kord
+  \item Y-Kord
+  \item Height
+  \item Width
+  \item Score
+\end{itemize}
+
+Wie oben beschrieben, ist eine Aufnahmen maximal \(224 \cdot 224\) Bildpunkte
+tief. Somit gilt:
+
+\[
+  M := \{X, Y, Height, Width\}
+\]
+\[
+  \{ x \in M \mid x \leq 224\}.
+\]
+
+Das heißt, die benötigte Breite beträgt:
+
+\[Bitbreite = \lceil ld(224) \rceil.\]
+
+Der Score liegt zwischen: \(0 \le Score \le 100\) und \(Score < x \in M\).
+Zusammengefasst: Jedem Wert genügt eine Bitbreite von mindestens 8 Bit. Die
+gesamte Datenbreite ist: \(5 \cdot 8 Bit = 40 Bit\). Die Reihenfolge der Daten
+wird wie folgt ausgegeben:
+
+\[[X\ Y\ Height\ Width\ Score].\]
+
+Wird kein Objekt (Fahrzeug) erkannt, wird eine Null-Folge versendet.
+Plausibilität: In einer Nullfolge ist jedes Bit 0. Somit auch die Höhe und
+Breite 0. Eine Bounding-Box mit Höhe und Breite 0 ist nicht vorhanden. Daraus
+folgt: Eine Nullfolge kennzeichnet ``kein Objekt erkannt''.
+
+
+
+
+\subsection*{Temperatur \& Verarbeitungsgeschwindigkeit}
+\label{sec:temp--verarb}
+
+Die Verarbeitungsgeschwindigkeit wird allgemein von der Hardware begrenzt. Im
+Speziellen hier von der \ac{GPU}. Die \ac{GPU} ist aus Halbleiterstrukturen
+gefertiegt. Es gilt: Je wärmer das Bauteil wird, desto größer die
+Leitfähigkeit der inneren Schalter, desto größer die Verlustleistungen und
+das resultiert wiederum in mehr produzierte Abwärme, was wiederum zum Anfang der
+Argumentationskette führt. Eine Konsequenz daraus ist, dass die Wärme
+abgeführt werden muss. Wird sie nicht in einem ausreichenden Maße abgeführt,
+drosselt sich die \ac{GPU}. Im gedrosselten Zustand produziert sie weniger
+Abwärme. Die \ac{GPU} drosselt sich soweit herunter, bis sich ein Gleichgewicht
+einstellt zwischen produzierter und abgeführter Wärme.
+
+Der Jetson Nano hat von Werk aus ein Passiv-Kühlsystem --- siehe
+\autoref{fig:Jet_Schema}. Betriebsarten des Jetson sind:
+
+\begin{itemize}
+  \item X Server
+  \item Terminal
+\end{itemize}
+
+Der X-Server startet beim Hochfahren des Betriebssystem die graphische
+Oberfläche --- wie normaler Betrieb in bspw.\ Windows 10. Wurde in dieser
+Betriebsart der Objekterkennungsprozess angestoßen, kam nach wenigen
+Augenblicken eine Mitteilung, dass die Temperatur unzulässig hoch sei und
+deshalb die \ac{GPU} gedrosselt werde. Diese Meldung wird nicht im Terminal Mode
+angezeigt, expliziet nur im X Server Betrieb.
+
+Als Gegenmaßnahme ist eine Aktiv-Kühlung verbaut worden. Eine Besonderheit
+ist: Die Aktiv-Kühlung muss vom Anwender ``angestoßen'' werden. Befehle sind
+aus \cite{jetFan} entnommen. Die wichtigsten sind:
+
+\begin{itemize}
+  \item \verb+$ sudo /usr/bin/jetson_clocks+
+  \begin{itemize}
+    \item Setzt CPU, GPU auf FULL POWAH
+  \end{itemize}
+
+  \item \verb+$ sudo sh -c 'echo 255 > /sys/devices/pwm-fan/target_pwm'+
+  \begin{itemize}
+    \item Aktiviert Fan
+  \end{itemize}
+
+  \item \verb+$ sudo sh -c 'echo 0 > /ysy/devices/pwm-fan/target_pwm'+
+  \begin{itemize}
+    \item Deaktiviert Fan
+  \end{itemize}
+\end{itemize}
+
+Die Ausführungsgeschwindigkeit mit der Passiv-Kühlung betrug im Schnitt ca.\ 8--9 \ac{FPS}. Mit Aktiv-Kühlung lagen die Werte auf ca.\ 8--9.5 \ac{FPS}.
+
+\begin{table}
+  \begin{tabular}{lrr}
+ & Passiv Kühlung & Aktiev Kühlung\\
+\hline
+[FPS] & 8--9 & 8--9.5\\
+\end{tabular}
+\caption{\label{tab:cooling}Messung: Aktiv-/ vs.\ Passivkühlung; Zeitintervall:
+  $60s$}
+\end{table}
+
+In \autoref{tab:cooling} sind beide Kühlarten gegenübergestellt. Die Messungen
+wurden jeweils in einem Zeitintervall von 60 Sekunden und dem selben Bild
+durchgeführt. Es ist somit zweifelhaft, ob die Aktivkühlung einen Mehrwert
+bietet. Wenn es gegen den erhöten Energiebedarf des Lüfters gegengerechnet
+wird, ist die Passivkühlung die bessere Wahl.\\
+
+\noindent \textbf{Achtung!!!}\\
+Es hat sich herausgestellt, sobal Lüfter aktiviert wurde, ``fror'' das System
+nach kurzer Zeit ein. Aktueller Stand: Auf aktive Kühlung verzichten. Aber
+Nachteil verbleibt: Meldung, wenn Objekterkennung aktiv, dass \ac{CPU} und
+\ac{GPU} heruntertaktet.
+
+
+
+
+\section{Filter 1 --- Transition}
+\label{sec:filter-1}
+
+Dieser Prozess hat die Aufgabe, die empfangenen Inofrmationen des Detectors zu
+verarbeiten. Die Grundidee ist, nicht jede Empfangene Nachricht vom Detector
+unbehandlet durchzulassen. Erst wenn signifikante Änderungen auftreten, soll
+dem übergeordneten Prozess (bspw.\ dem Prozess, verantwortlich für die
+CAN-Übertragung) eine Mitteilung gemacht werden.\\
+
+Das System soll mit Zuständen modelliert werden. Drei Zustände sind definiert:
+\emph{Warten}, \emph{Objekt} und \emph{Velocity}. Der Wartezustand wird
+gleich nach dem Prozessstart eingenommen. Dort wird so lange verharrt, bis ein
+Objekt erkannt wurde. Ist ein Objekt erkannt worden, soll eine Message
+ausgegeben werden. Allgemein gilt: Alle Messages, die der gesamte Prozess
+erzeugt, werden der Verarbeitungspipeline übergeben.
+
+Jetzt befindet man sich im \emph{Objekt-State}. Jetzt soll es wiederum
+Bedingungen geben, in denen Aktionen definiert sind. Alle Aktionen beziehen sich
+impliziet auf das erkannte Objekt.\\
+
+\textbf{Objekt-State}:
+\begin{itemize}
+  \item Objektdistanz $> X_{Tresh}$ --- No Message
+  \begin{itemize}
+    \item Erkanntes Objekt liegt über dem Grenzwert $X_{Tresh}$, d.\,h.\ Objekt ist nich zu nah, sondern weit ``genug'' entfehrnt. In diesem Fall muss nur noch die Positionsänderung bezogen auf die Zeit untersucht werden. Diese wird im \emph{Velocity-State} durchgeführt $\Rightarrow$ Übergang in nächsten State.
+  \end{itemize}
+
+  \item Objektdistanz $\le X_{Tresh}$ --- Message
+  \begin{itemize}
+    \item Erkanntes Objekt unterschreitet kritischen Wert $\Rightarrow$ Objekt zu nah.
+  \end{itemize}
+\end{itemize}
+
+Nur wenn das erkannte Objekt weit genung entfernt ist, wird in den nächsten
+State (\emph{Velocity-State}) gewächselt, in dem die Positionsänderung bezogen
+auf die Zeit untersucht wird. Ändert sich die Position zu schnell, wird eine
+Message ausgegeben. Liegt die Positionsänderung unter einem kritischen Wert,
+wird auf die Message verzichtet. Aber in beiden Fällen wird wieder nach der
+Untersuchung in den \emph{Objekt-State} zurückgegangen.\\
+
+\textbf{Velocity-State}:
+\begin{itemize}
+  %% ToDo: instead x and h use width and height
+  \item Objekt-Position ändert sich nicht signifikant: \( \frac{\partial x}{\partial t}+\frac{\partial y}{\partial t} \le V_{Tresh} \) --- Keine Message
+  \item Objekt-Position änder sich signifikant:  \( \frac{\partial x}{\partial t}+\frac{\partial y}{\partial t} > V_{Tresh} \) --- Message
+  \end{itemize}
+
+  Das beschriebene Vorgehen ist in \autoref{fig:fsm-f1} zu sehen.
+
+\begin{figure}[!htb]
+  \includegraphics[width=0.9\textwidth]{440/fsm_f1.png}
+  \caption{\label{fig:fsm-f1}Filterung Objekt Erkennung: Filter1 --- Transmission}
+\end{figure}
+
+  Wenn vom \emph{Wait-State} in den \emph{Objekt-State} gewechselt wird, ist die
+  Bedingung: Confidence Score $\ge 70\%$ erfüllt. Das soll \emph{Jittering}
+  verhindern. Als \emph{Jitter} wird eine Signalschwankung bezeichnet. Ein
+  häufiges ``Hin- und Herpendeln'' des Signals am Grenzwert verursacht ein
+  genauso häufiges ``Hin- und Herpendeln'' der Wirkung. In der Hardware wird
+  hierfür ein \emph{Schmitt-Trigger} verwendet, der diesen of unerwünschten
+  Effekt verhindert. Hier hat es folgenden Hintergrund: Der Detector generiert
+  ein Signal, wenn die Confidence $\ge 50\%$ ist. Wird nun bei $50\%$ direkt in
+  die Objekt-Erkennung gewechselt, und im darauffolgenden Messvorgang des
+  Detectors (zur Erinnerung: ca.\ 10 \ac{FPS}) wird das Objekt nicht mehr
+  erkannt\footnote{Entweder weil einfach gesehen das Objekt verschwunden ist
+    (guter Fall) oder weil das Objekt an der Grenze ist, ob als Objekt erkannt
+    oder nicht. Es kommt auch vor, dass sich das Netzwerk tauescht. Bspw.\ eine
+    Orange ist kein Fahrzeug, kann aber unter besonderen Bedingungen als solches
+    gehalten werden. In diesem Fall wäre aber ein niedriger Confidence Score
+    wünschenswert. Gegenmaßnahmen wären bswp.\: Netzwerk mit erweiterten
+    Datensätzen trainieren}, wird die nachfolgende Pipeline mit Nachrichten der
+  Art: Objekt erkannt, Objekt verschwunden --- überschwemmt.
+
+
+
+\subsection*{CAN Dispatcher}
+\label{sec:can-dispatcher}
+
+Der \ac{CAN} Dispatcher ist das letzte Glied der Verarbeitungspipeline. Es ist logisch, da im Endeffekt eine Informationsweitergabe über den \ac{CAN} Bus angedacht ist. Der Empfänger der \ac{CAN} Nachricht ist im Projekt der Rasperry Pi. Dort findet die übergeordnete Informationsbearbeitung statt.
+
+Die Aufgabe des \ac{CAN} Dispatchers ist es nun, eine \ac{CAN} Nachriht zu versenden. Dieser Prozess wurde noch \textbf{nicht} implementiert. Im nächsten Kapitel wird zusammengefasst, warum und welche Arbeiten hierfür noch nötig sind.
+
+Punkte, die für die Aufteilung eines seperaten getrennten Prozesses für die Versendung sind:
+
+\begin{itemize}
+  \item Versendung Informationenn über \ac{CAN} komplett entkoppelt von anderen Prozessen/Aufgaben der Verarbeitungspipeline
+  \item Der Algorithmus kann in einer beliebigen Sprache geschrieben werden (da komplett von anderen Prozessen entkoppelt)
+  \item Von NVIDIA geschriebene Skripte bspw.\ in Python können somit problemlos verwendet werden, wenn sich für Python als Sprache entschieden wird
+\end{itemize}
+
+Das was zu beachten ist: Der erstellte Prozess muss in das Bash-Skript noch
+eingefügt werden.
+
+
+
+\subsection*{Bash Skript --- Pipeline}
+\label{sec:bash-skript-pipeline}
+
+Sind alle gewünschten Prozesse definiert und bereitgestellt worden, können sie in die Verarbeitungspipeline hinzugefügt werden. Dafür ist ein Bash-Skript angelegt/vorgesehen worden folgender Form:
+
+\begin{verbatim}
+#!bin/bash
+## Definition Signal Handler
+Detector | Transition | ... | CAN_Dispatcher
+\end{verbatim}
+
+Es kann gesehen werden, dass weitere Prozesse in die Pipeline hinzugefügt werden weiter können. Bei aller Flexibilität, was diese Herangehensweiße bereitstellt, gibt es dennoch ein evtl.\ Nachteil. Ob dieser für die Problemstellung als groß angesehen werden kann, entscheidet der konkret vorliegende Fall.\\
+
+Da alle Prozesse der Reihe nach ausgeführt werden, entsteht so eine Totzeit.
+Die Totzeit ist abhängig von der Rechengeschwindigkeit, mit der der Prozessor
+taktet. Ist die Totzeit im Verhältniss gegenüber der im System größten
+Zeitkonstante klein, dann diese vernachlässigt werden. Hier ist die
+größte Zeitkonstante die Verarbeitungsgeschwindigkeit der Objekterkennung
+(ca.\ 10 \ac{FPS}). Der Prozessor Taktet mit mehreren \emph{GHz}
+Takt\footnote{Variable Frequenz. Siehe Datenbaltt. Grundtakt ca. 1.8 GHz}. Wenn
+sehr großzügig geschätzt wird, kann mit einem Mindesttakt von grob 1 GHz
+gerechnet werden. Der Kehrwert ist die Verstrichene Zeit pro Rechenoperation. Da
+verbauter Prozessor ARM Prozessor ist und dieser wiederrum \ac{RISC} Architektur
+verwendet, kann mit einer schnelle Befehlsabarbeitung von ca.\ 1 Assembler
+Befehl pro Takt (Ziel von \ac{RISC} Architektur) gerechnet werden. Jetzt kommt
+es an, wie viel Code den Prozessen zu Grunde liegt und schlußendlich, wie
+viele Prozesse in der Pipeline definiert sind.
+
+Ein Nachteil einer Hochsprache wie C oder C++ ist, dass man nicht so einfach die Assembler Befehle zählen kann, die der Compiler produziert (starke Optimierung $\Rightarrow$ für Menschen sehr schwer lesbarer Code). Aber wenn im ``Hauptabarbeitungspfad'' --- d.\,h.\ dort, wo hauptsächlich die Rechenzeit aufgewendet wird --- effizient programmiert wird, kann davon ausgegangen werden, dass der Prozessor im Vergleich zu den $\frac{1}{10}s$ (benötigte Zeit Objekterkennung) den Verarbeitungsprozess nicht allzu stark beeinflusst.\\
+
+Fazit:
+\begin{itemize}
+  \item Code Komplexität so gering wie möglich, aber so viel wie nötig halten. Vor allem in den Pfaden, in denen angenommen werden kann, dass dort ein Großteil der Rechenzeit aufgewendet wird.
+  \item Anologe Überlegung auch auf die Verarbeitungspipeline: So wenig wie möglich, aber so viel wie nötig
+\end{itemize}
+
+
+
+
+\chapter{\label{cha:faz}Fazit}
+
+Es wird ein Überblick über die \ac{CAN} Versendung gegeben. Danach wird ein
+kurzer Rückblick gegeben, was im Projekt umgesetzt wurde. Am Ende werden die
+Punkte angesprochen, die noch offen sind oder im Laufe der Arbeit aufgefallen
+sind.
+
+
+
+
+\section{\label{sec:can-transmission}CAN Transmission}
+
+In einem \ac{CAN} Netzwerk teilen sich die einzelnen Teilnehmer den gesamten Bus
+--- \autoref{fig:can-network} (a). Ein Teilnehmer wird als \ac{CAN}-Node
+bezeichnet.
+
+\begin{figure}[!htb]
+  \centering
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{450/can_overview.png}}
+  \qquad
+  \subfloat[]{\includegraphics[width=0.4\linewidth]{450/can_transceiver.png}}
+  \caption{\label{fig:can-network}\ac{CAN} Netzwerk; (a): Netzwerk Overview (b):
+    Konkrete Umsetzung mit SPI/CAN Controller}
+\end{figure}
+
+Im autonomen Fahren Projekt kommunizieren die einzelnen Teile (Jetson Nano,
+Raspberry Pie, Arduino Due und VESC Motor-Controller) über \ac{CAN}. Deshalb
+ist es letztendlich das Ziel, die Information über erkannte Objekte den anderen
+Teilnehmern --- konkret: Raspberry Pie --- zu übergeben.
+
+Der Jetson Nano besitzt keinen eigenen \ac{CAN}-Controller. Die Kommunikation
+muss deshalb über Umwegen realisiert werden. Als Baustein für die Realisierung
+SPI nach \ac{CAN} gibt es extra Zusatzhardware, die zwischen Main Controller
+(SPI) und \ac{CAN}-Transceiver zwischengeschalten wird. Beispielhafte Umsetzung
+mit einem konkreten Baustein \emph{2510} von Microchip ist in
+\autoref{fig:can-network} (b) zu sehen. Die \ac{CAN}-Node beinhaltet jetzt den
+Main Controller (Jetson Nano), SPI-To-CAN Baustein und den
+\ac{CAN}-Transceiver.\\
+
+
+Die \ac{CAN} Kommunikation wird über den SPI-Controller des Jetson Nano
+``angestossen''. Die User-Software muss als Interface den SPI-Controller
+verwenden.
+
+Im Linux-Betriebssystem (Jetson Nano: Ubuntu) kann nicht direkt auf die
+unterliegende Hardware zugegriffen werden. Der Zugriff erfolgt über
+Treibermodule. Diese müssen vor Verwendung geladen werden, wie in
+\autoref{fig:hardware-dienstverteiler} dargestellt ist.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.9\linewidth]{450/linux_dienstverteiler.png}
+  \caption{\label{fig:hardware-dienstverteiler}Hardware Dienstverteiler;
+    Hardwarezugriff erfolgt nur über Kernelmodule. Die Kernelmodule müssen
+    davor
+    geladen werden.}
+\end{figure}
+
+Was anfangs zu prüfen ist, ob schon Module verfügbar sind, bspw.\ von
+NVIDIA, die den Zugriff auf den SPI-Controller bereitstellen.
+
+
+
+
+\section{\label{sec:zusammenfassung}Zusammenfassung}
+
+Es wurde einen Algorithmus für die Objekterkennung in Matlab geschrieben. Der
+Algorithmus verwendet ein \ac{CNN} (YoLo-Variante) als Abhängigkeit. Das
+\ac{CNN} übernimmt die Objekterkennung und wurde von Vorgängerarbeiten
+bereitgestellt.
+
+Der Algorithmus wurde als statische CUDA-Library auf dem Zielsystem (Jetson
+Nano) kompiliert. Die Library wurde dann in einem getrennten Programm als
+Abhängigkeit eingebunden. Diese Vorangehensweise, Matlab Algorithmus als
+statische Library zu kompilieren und im Zielsystem als statische Abhängigkeit
+einzubinden, bietet den Vroteil:
+
+\begin{itemize}
+  \item Änderungen im Objekterkennungsprozess sind unabhängig vom Host-PC
+  \begin{itemize}
+    \item Auf Host-PC wurde der Algorithmus in der Matlab-IDE erstellt
+    \item Somit entfallen langwierige Übertragungs- und Kompilierungsprozesse, -/zeiten
+    \begin{itemize}
+      \item Übertragung von Matlab-Code muss via LAN übertragen werden
+      \item Starten von ``geschlossenen'' Matlabalgorithmen werden von der Matlab-IDE im Host-PC ``angestossen''
+    \end{itemize}
+  \end{itemize}
+  \item Das Starten von Algorithmen kann automatisch über ein Skript ``angestossen'' werden
+\end{itemize}
+
+Es wurde eine Verarbeitungspipeline vorgestellt. Der Objekterkennungsprozess
+ermittelt Objekte in den Liveaufnahmen. Weitere ``Filterungen'' werden in
+anderen, getrennten Prozessen durchgeführt. Bspw.\ wurde eine Idee vorgestellt,
+nicht für jeden aufgenommenen Frame immer das selbe erkannte Objekt zu''
+übertragen, dass nur unter bestimmten Bedingungen neue Nachrichten für das
+selbe Objekt übertragen werden.
+
+Es wurde weiter ausgeführt, dass andere Algorithmen die Pipeline einfach
+erweitern, oder andere entfehrnt werden können. Der letzte Prozess der
+Verarbeitungspipeline ist für die Versendung der entgühltigen Nachrichten
+vorgesehen. Allgemein können weitere Prozesse der Pipeline in beliebigen
+Sprachen geschrieben werden. So kann auch der letzte Prozess, der die Nachricht
+schlussendlich über \ac{CAN} versendet, bspw.\ in Python geschrieben werden.
+Von NVIDIA sind zahlreiche Skripte und Libraries in Python bereitgestellt.
+
+Zuletzt ist erläutert worden, wie die \ac{CAN} Kommunikation konkret in Hardware umgesetzt werden kann.
+
+
+
+
+\section{\label{sec:ausblick}Ausblick}
+
+\begin{itemize}
+  \item Unterliegendes \ac{CNN} von binäre Erkennung von Klassen auf Erkennung
+        mehrerer Klassen, bspw.\ Auto, LKW, Fahrrad, Fußgänger, \ldots
+  \item Prüfen unterliegendes \ac{CNN} bessere Ergebnisse, wenn nur Graustufen
+        zur Objekterkennung wirken
+  \item Algorithmus bereitstellen, der mehr als nur ein Objekt im Frame erkennt
+        und diese mehreren Objekte entsprechend in weiteren Algorithmen
+        behandeln (Filter in Bearbeitungspipeline modifizieren, weitere
+        erstellen, \ldots)
+  \item Untersuchung Kühlsystem auf Systemstabilität
+  \item Umsetzung \ac{CAN} Kommunikation
+\end{itemize}

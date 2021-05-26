@@ -7,11 +7,13 @@ namespace {
     struct Position { static const uint8_t Width_Treshold { 150 }, Height_Treshold { 150 }; };
     // von ein zum anderen frame wie viel darf sich veraendern -> bspw. 10px
     struct Velocity { static const uint8_t dW_Treshold { 10 }, dH_Treshold { 10 }; };
+    // _Objekt: negation
     enum class State { _Objekt, Objekt };
 }
 
 
-// hysterese
+// Hysterese
+// 0 <= Tresh <= 100
 constexpr int Tresh_Enter_State { 70 };
 constexpr int Tresh_Leave_State { 60 };
 
@@ -62,11 +64,16 @@ OBJ_STATE Filter1(uint8_t i_width, uint8_t i_height, uint8_t i_score)
 
             }
 
+            /////////////////////////////////////////////
+            //
+            // Velocity State
+            //
+            /////////////////////////////////////////////
             // Objekt weit genug weg -> Geschwindigkeit pruefen
             if ( i_width <= Position::Width_Treshold && i_height <= Position::Height_Treshold )
             {
 
-                //Filter_State = State::V;
+                // Filter_State = State::V;
                 {
 
                     // Betrag

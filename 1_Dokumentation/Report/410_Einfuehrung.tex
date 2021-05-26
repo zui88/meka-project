@@ -10,7 +10,7 @@ In diesem Kapitel wird folgendes behandelt:
   \item Was ist Künstliche Intelligenz
   \item Modellbildung Neuronaler Netze
   \item Technische Umsetzung
-  \item \"Ubersicht: Convolutional Neueral Networks (CNN)
+  \item übersicht: Convolutional Neueral Networks (CNN)
   \item Bisheriger Stand im Projekt --- Status Quo
 \end{itemize}
 
@@ -19,14 +19,15 @@ In diesem Kapitel wird folgendes behandelt:
 
 \section{Was ist Künstliche Intelligenz}
 
-\begin{center}\emph{
-  Artificial Intelligence is the study of how to make computers do things at which, at the mo-
-  ment, people are better.\footnote{\cite{bosl}}
-}\end{center}
+\begin{center}
+  \emph{ Artificial Intelligence is the study of how to make
+    computers do things at which, at the moment, people are
+    better.\footnote{\cite{bosl}} }
+\end{center}
 
 \ac{KI} ist eine Teildisziplin der angewandten Informatik, in der es um
 automatisierte Problemlösungen geht. Die Ursprünge lagen im Ansatz, allein Logik
-zu verwenden. Nachteil dabei: hohe Komplexität für Abdeckung aller F\"alle. Es
+zu verwenden. Nachteil dabei: hohe Komplexität für Abdeckung aller Fälle. Es
 wurde als neuer Ansatz das menschliche Gehirn als Grundlage verwendet. Menschen
 reagieren auf eine sich verändernde Umwelt. Wir lernen aus Beispielen. Es
 erfolgt keine Abarbeitung von Schlussregeln wie ``WENN \dots, DANN \dots''. Man
@@ -38,11 +39,11 @@ Schreibens, bspw.\ eines Briefes. Es würde einfach viel zu lange dauern und die
 Regeln wären viel zu komplex.
 
 Unser Gehirn funktioniert anders. Es passt sich den Situationen an und greift
-dabei auf Erfahrungen von schon erlebten Situationen zur\"uck. Das wollte man
+dabei auf Erfahrungen von schon erlebten Situationen zurück. Das wollte man
 auch für Maschinen --- dynamische Anpassung auf sich ändernde Randbedingungen.
-Das ist auch der Grund, warum künstliche Netze antrainiert werden m\"ussen. Sie
+Das ist auch der Grund, warum künstliche Netze antrainiert werden müssen. Sie
 sollen auf Situationen reagieren und dabei auf ``Erfahrung von schon erlebten''
-zur\"uckgreifen. Das ``Schon Erlebte'' stellt dabei das Trainingsmaterial dar, mit
+zurückgreifen. Das ``Schon Erlebte'' stellt dabei das Trainingsmaterial dar, mit
 dem das Netzwerk antrainiert wird. Dennoch, im Allgemeinen ist zu entscheiden:
 
 \begin{itemize}
@@ -56,10 +57,10 @@ dem das Netzwerk antrainiert wird. Dennoch, im Allgemeinen ist zu entscheiden:
 \end{itemize}
 
 Im Straßenverkehr ändern sich zu jedem Zeitpunkt die
-Randbedingungen. Autos biegen ab, bremsen, \"uberholen. Es gibt
-Verkehrsschilder, Ampelanlagen, Fu{\ss}g\"anger- und Fahrradwege und
+Randbedingungen. Autos biegen ab, bremsen, überholen. Es gibt
+Verkehrsschilder, Ampelanlagen, Fußgänger- und Fahrradwege und
 mehr. Menschen greifen im Straßenverkehr auf ihre Erfahrung
-zur\"uck. Möchte man als Ziel ansetzen, dass Fahrzeuge in der Lage
+zurück. Möchte man als Ziel ansetzen, dass Fahrzeuge in der Lage
 sein sollen, im Verkehr ohne menschliches Zutun sich zu bewegen, ist
 eines ersichtlich. Die \ac{KI} ist prädestiniert für den Einsatz im
 Bereich \emph{autonomes Fahren}.
@@ -81,20 +82,20 @@ biologischen Bauplan \autoref{fig:neuron}.
   \caption{\label{fig:neuron}Menschliches Neuron;~\cite{bosl}}
 \end{wrapfigure}
 
-Die Dendriten nehmen das Signal auf, leiten es an den Zellk\"orper
+Die Dendriten nehmen das Signal auf, leiten es an den Zellkörper
 weiter. Dort findet eine Gewichtung der Informationen statt. Die
-gewichtete Gesamtinformation geht \"uber das Axon weiter und verteilt
+gewichtete Gesamtinformation geht über das Axon weiter und verteilt
 sich auf die Synapsen, welche jeweils mit weiteren Dendriten anderer
 Neuronen verbunden sind. Ein einzelnes Neuron wird in Form eines
 Softwarebausteins nachgebildet. Ein Neuron \emph{j} besteht aus:
 
 \begin{itemize}
-  \item $k$ gewichteten Eing\"angen $W_{kj}$
+  \item $k$ gewichteten Eingängen $W_{kj}$
   \item aus der Summe $net_j$ der jeweils einzelnen Produkten der
     Gewichte $W_{kj}$ und dem Wert des Eingangs
     $O_k$. $net_j$ stellt damit die Information zusammen,
     die aus dem Netz in das Neuron eingehen.
-  \item der Aktivit\"at des Neurons, d.\,h.\ wie stark der potenzielle Einfluss von $net_j$ auf andere Neuronen sein kann. $\Theta_j$ ist ein
+  \item der Aktivität des Neurons, d.\,h.\ wie stark der potenzielle Einfluss von $net_j$ auf andere Neuronen sein kann. $\Theta_j$ ist ein
         \emph{Hyper Parameter}.
   \item der Ausgabe --- Verbindung zu anderen Neuronen
 \end{itemize}
@@ -104,12 +105,12 @@ Softwarebausteins nachgebildet. Ein Neuron \emph{j} besteht aus:
 \begin{figure}[!htb]
   \centering
   \includegraphics[width=0.5\linewidth]{410/artificial-neuron.png}
-  \caption{\label{fig:art-neuron}Modellierung eines einzelnen Neurons --- K\"unstliches Neuron;~\cite{bosl}}
+  \caption{\label{fig:art-neuron}Modellierung eines einzelnen Neurons --- Künstliches Neuron;~\cite{bosl}}
 \end{figure}
 
 Viele Neuronen sind so miteinander verbunden und bilden zusammen ein
 \emph{Neuronales Netzwerk}. Als technische Modellierung existieren verschiedene
-Varianten, von denen aber hier nur die \emph{forw\"arts gerichtete} Variante
+Varianten, von denen aber hier nur die \emph{forwärts gerichtete} Variante
 interessiert.
 
 \begin{figure}[!htb]
@@ -135,28 +136,28 @@ Die erste Schicht bildet den Eingang. Dort treffen Signale ein, z.\,B.\ in Form
 eines Bildes. Es geht weiter in die zweite Schicht. Tiefer liegende Schichten
 werden auch als \emph{hidden layer} bezeichnet, da sie von außen, d.\,h.\ von
 den Schnittstellen, nicht zu sehen sind. Die letzte Schicht ist die
-Schnittstelle nach Au{\ss}en. Jedes Neuron gibt eine Wahrscheinlichkeit über den
+Schnittstelle nach Außen. Jedes Neuron gibt eine Wahrscheinlichkeit über den
 repräsentierenden \emph{Classifier} aus. Zum Beispiel als Anwendungsfall in der
 Objekterkennung, ob Objekt von der Klasse ``Afrikanischer Elefant'' ist.
-Existieren mehrere Neuronen in der letzten Schicht, kann das Netz Aussagen \"uber
+Existieren mehrere Neuronen in der letzten Schicht, kann das Netz Aussagen über
 mehrere Classifier machen.
 
-Es gibt noch wesentlich mehr Architekturen/Topologien, wie ein \ac{KNN}
+Es gibt noch wesentlich mehr Architekturen / Topologien, wie ein \ac{KNN}
 aufgebaut sein kann. Jede hat ihre Vor- und Nachteile und somit eigene
-Anwendungsgebiete. In der Objekterkennung, Bildverarbeitung wird eine andere
+Anwendungsgebiete. In der Objekterkennung / Bildverarbeitung wird eine andere
 Variante als die \emph{Fully Connected} Variante eingesetzt --- das \ac{CNN}.
 
 
 
 
-\section{\"Ubersicht CNN}
+\section{übersicht \ac{CNN}}
 
 Im Gegensatz zum \emph{Fully Connected Network} sind die Neuronen des \acp{CNN}
 nicht mit jedem Neuron der übergeordneten Schicht verbunden. Die Verbindung
-entsteht als Faltungsoperation mit einem Filter bestimmter Gr\"o{\ss}e
+entsteht als Faltungsoperation mit einem Filter bestimmter Größe
 (Kernel-Size). Der Filter ``wandert'' über das Bild und verknüpft so jeden
-Bildbereich mit den darüber liegenden Neuronen. Jedes Neuron ist somit mit einem
-Filter verkn\"upft. Die Ergebnisse der Faltung entsprechen den Gewichten, mit
+Bildbereich mit den darüberliegenden Neuronen. Jedes Neuron ist somit mit einem
+Filter verknüpft. Die Ergebnisse der Faltung entsprechen den Gewichten, mit
 denen das Neuron mit der darunter liegende Schicht verbunden ist. Allgemein gibt
 es mehrere Filter pro Schicht; dementsprechend besteht jede Schicht aus mehreren
 Neuronen. In \autoref{fig:conv-schema} ist das Vorgehen aufskizziert.
@@ -164,19 +165,19 @@ Neuronen. In \autoref{fig:conv-schema} ist das Vorgehen aufskizziert.
 \begin{wrapfigure}{r}{6.5cm}
 \centering\includegraphics[width=\linewidth]{410/conv-schema.png}
 \caption{\label{fig:conv-schema}Jedes Neuron ist mit einer Faltungsoperation
-  (Filter) mit dem dar\"uber liegenden Neuron verbunden.}
+  (Filter) mit dem darüber liegenden Neuron verbunden.}
 \end{wrapfigure}
 
-Die Parameter der Filter haben anfangs zuf\"allige Werte. Die Werte werden im
+Die Parameter der Filter haben anfangs zufällige Werte. Die Werte werden im
 Trainingsprozess ``gelernt'' oder ``antrainiert''. Die Faltung (\emph{der
   Filter}), wird zur Reduktion (\emph{Feature Extraction}) der inneren Schichten
 (\emph{Hidden Layers}) angewandt.
 
-Man kann f\"ur die inneren Schichten ein schon vor trainiertes, beliebiges
+Man kann für die inneren Schichten ein schon vor trainiertes, beliebiges
 \acp{CNN} verwenden. Einzige Voraussetzung ist, das Netzwerk darf bspw.\ nicht
-mit dem Verhalten von K\"aferarten vortrainiert sein, wenn doch das Ziel ist,
-Objekte zu erkennen. Vorteil eines vortrainierten Netzwerks \emph{Pre-Trained
-  Network} ist, es muss weniger Zeit für das Lernen seines Anwendungsgebietes
+mit dem Verhalten von Käferarten vortrainiert sein, wenn doch das Ziel ist,
+Objekte zu erkennen. Vorteil eines vortrainierten Netzwerks (\emph{Pre-Trained
+  Network}) ist, es muss weniger Zeit für das Lernen seines Anwendungsgebietes
 aufgewendet werden und die \emph{Feature Extraction} ist schon aufgebaut. Es
 gibt hierbei zwei wesentliche Punkte zu beachten:
 
@@ -188,9 +189,9 @@ gibt hierbei zwei wesentliche Punkte zu beachten:
     detektierenden Objekten.
 \end{itemize}
 
-Die Vorg\"angergruppe hat dieses Vorgehen angewandt und ein schon vortrainiertes
-Netzwerk als Grundlage verwendet. Vorteil: Lernprozess kostet weniger Zeit,
-weniger Trainingsmaterial wird ben\"otig, d.\,h.\ es kann mehr Energie / Zeit an
+Die Vorgängergruppe hat dieses Vorgehen angewandt und ein schon vortrainiertes
+Netzwerk als Grundlage verwendet. Vorteil: Lernprozess kostet weniger Zeit und
+weniger Trainingsmaterial wird benötig; d.\,h.\ es kann mehr Energie / Zeit an
 die Anpassung des konkreten Anwendungsfalls aufgewand werden.
 
 \begin{figure}[!htb]
@@ -207,44 +208,44 @@ aufskizziert. Im Unterschied zu den vorherigen Betrachtungen:
 \begin{enumerate}
   \item Die Hidden Layers bestehen intern jeweils wieder selbst aus einer
         Struktur speziell aufeinanderfolgenden Arten von Layern.
-  \item Die letzten Schichten m\"ussen \emph{fully connected} Yolo Layer sein.
+  \item Die letzten Schichten müssen \emph{fully connected} Yolo Layer sein.
 \end{enumerate}
 
 \textbf{Zu Erstens}:
 
 \begin{itemize}
-  \item \emph{Faltunsschicht} ist f\"ur die Reduktion des Layergr\"o{\ss}e zum einen und zum
-  anderen f\"ur die Feature Extraction (nur die wichtigen Details sind f\"ur weitere
+  \item \emph{Faltunsschicht} ist für die Reduktion des Layergröße zum einen und zum
+  anderen für die Feature Extraction (nur die wichtigen Details sind für weitere
   Betrachtung wichtig) verantwortlich.
 
-  \item \emph{Normalisierungsschicht} ist f\"ur die Beschleunigung des Trainingsprozesses
+  \item \emph{Normalisierungsschicht} ist für die Beschleunigung des Trainingsprozesses
   verantwortlich.
 
-  \item \emph{Aktivierungsschicht} entscheided dar\"uber, ob ein Neuron ``gez\"undet''
+  \item \emph{Aktivierungsschicht} entscheided darüber, ob ein Neuron ``gezündet''
   wird (geht in die aktuelle Berechnung ein) oder nicht.
 \end{itemize}
 
 \textbf{Zu Zweitens}:\\
 
-Es gibt so viele Neuronen im \emph{Fully Connected Layer}, wie es
-zu erkennende Objekte gibt. Hier im Projekt wird eine bin\"are Entscheidung
-getroffen --- Auto da oder nicht da; hei{\ss}t, ein Neuron. Sollen aber mehrere
-Objekte erkannt werden, gibt es genau so viele \emph{Fully Connected} Neuronen
-wie zu erkennende Objekte.
+Es gibt so viele Neuronen im \emph{Fully Connected Layer}, wie es zu erkennende
+Objekte gibt. Hier im Projekt wird eine binäre Entscheidung getroffen --- Auto
+da oder nicht da; heißt, die letzte Schicht besteht aus einem Neuron. Sollen
+aber mehrere Objekte erkannt werden, gibt es genau so viele \emph{Fully
+  Connected} Neuronen wie zu erkennende Objekte.
 
 Die letzte Schicht \emph{Softmax Layer} hat die Aufgabe, die Wahrscheinlichkeit,
 dass ein oder mehrere Objekte im Bild erkannt werden / worden sind, in ein
-Wahrscheinlichkeitswert wiederzugeben zwischen 0 und 1 --- 0 f\"ur 0\% und 1 f\"ur
+Wahrscheinlichkeitswert wiederzugeben zwischen 0 und 1 --- 0 für 0\% und 1 für
 100\%.\\
 
 Vorteil ein Framework zu verwenden --- sei es Matlab wie hier im Projekt oder
 Python Implementationen wie PyTorch, Keras und mehr --- ist, man braucht sich
-nicht expliziet um die konkrete Umsetzung der einzelnen Schichten k\"ummern.
+nicht expliziet um die konkrete Umsetzung der einzelnen Schichten kümmern.
 Diese Arbeit nimmt das verwendete Netzwerk ab. Man kann darauf vertrauen, dass
-die internen Strukturen und Methoden so effizient wie m\"oglich implementiert
+die internen Strukturen und Methoden so effizient wie möglich implementiert
 wurden. Dennoch ist Wissen, wie mit dem Netzwerk umgegangen werden muss,
-Grundlagen, auf denen die Implementationen aufbauen, auch f\"ur den Anwender
-notwendig. Wie k\"onnte man sonst absch\"atzen, ob das berechnete Ergebniss
+Grundlagen, auf denen die Implementationen aufbauen, auch für den Anwender
+notwendig. Wie könnte man sonst abschätzen, ob das berechnete Ergebniss
 plausibel ist oder nicht? Also ist man auch als Anwender eines Frameworks, wie
 es die Matlab \ac{IDE} bereitstellt, nicht von Grundwissen befreit.
 
@@ -253,8 +254,8 @@ es die Matlab \ac{IDE} bereitstellt, nicht von Grundwissen befreit.
 
 \section{Bisheriger Stand im Projekt}
 
-Das Ergebniss von Vorg\"angerarbeiten sind drei antrainierte Neuronale Netze. Die
-Netze arbeiten bin\"ar --- Erkennung von Auto erkannt / nicht erkannt. Sie
+Das Ergebniss von Vorgängerarbeiten sind drei antrainierte Neuronale Netze. Die
+Netze arbeiten binär --- Erkennung von Auto erkannt / nicht erkannt. Sie
 besitzet zwei unterschiedliche \emph{Tiefen}:
 
 \begin{itemize}
@@ -262,11 +263,11 @@ besitzet zwei unterschiedliche \emph{Tiefen}:
   \item 50 Hidden Layers
 \end{itemize}
 
-Vorgegriffen, in dieser Arbeit wird die Variante mit 25 Layers
-verwendet~\cite{briem}. Es hat sich gezeigt, dass das flachere Netzwerk um ca.
-900\% bis 1000\% schneller Objekte erkennt als das gr\"o{\ss}ere Netzwerk. Auch
-die Kompilierungszeit ist um eine ganze Potenz schneller. Wie es in der
-Zuverl\"assigkeit der Objekterkennung aussieht, bleibt offen. Da entschieden
-wurde, selbst wenn das gr\"o{\ss}ere Netzwerk eine h\"ohere Zuverl\"assigkeit
-besitzt, ist die Geschwindikeit im Betrieb nicht tragbar --- teils geringer als
-ein \ac{FPS}. Genauer wird darauf im weiteren eigegangen.
+In dieser Arbeit wird die Variante mit 25 Layers verwendet~\cite{briem}. Es hat
+sich gezeigt, dass das flachere Netzwerk um ca. 900\% bis 1000\% schneller
+Objekte erkennt als das größere Netzwerk. Auch die Kompilierungszeit ist um eine
+ganze Potenz schneller. Wie es in der Zuverlässigkeit der Objekterkennung
+aussieht, bleibt offen. Da entschieden wurde, selbst wenn das größere Netzwerk
+eine höhere Zuverlässigkeit besitzt, ist die Geschwindikeit im Betrieb nicht
+tragbar --- teils geringer als ein \ac{FPS}. Genauer wird darauf im weiteren
+eigegangen.

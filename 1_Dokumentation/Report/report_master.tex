@@ -1,0 +1,116 @@
+% ================ Preamble ================
+\documentclass[12pt]{scrreprt}
+
+% ================ Packages ================
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[printonlyused]{acronym}
+\usepackage{
+  graphicx,
+  geometry,
+  amsmath,
+  fancyhdr,
+  lmodern,
+  color,
+  subfig,  %% for alignning pictures horizontally
+  wrapfig, %% arrange image and text side by side
+  floatrow %% image caption to the side
+}
+
+\usepackage[
+  breaklinks=true,
+  colorlinks=true,
+  citecolor=blue,
+  menucolor=blue,
+  urlcolor=blue,
+  linkcolor=blue
+]{hyperref}
+
+% ================ Options ================
+
+\geometry{a4paper, top=25mm, left=25mm, right=20mm, bottom=40mm,
+headsep=10mm, footskip=12mm}
+
+\graphicspath{{./../IMG/}}
+
+\addto\extrasngerman{\def\figureautorefname{Abb.}}
+
+\KOMAoptions{
+  bibliography=totoc,
+  bibliography=openstyle
+}
+
+% ================ for structure depth ================
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+
+
+% ============= Kopf- und Fußzeile =============
+\pagestyle{fancy}
+
+\lhead{}
+\chead{}
+\rhead{\slshape \leftmark}
+
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+
+% ============= Dokumentbeginn =============
+\begin{document}
+
+\pagestyle{plain}
+
+\include{10_title}
+
+\pagenumbering{Roman}
+
+
+\include{20_Eidestattliche_Erklaerung}
+
+
+\include{400_Abstract}
+
+
+% Beendet eine Seite und erzwingt auf den nachfolgenden Seiten die Ausgabe aller Gleitobjekte (z.B. Abbildungen), die bislang definiert, aber noch nicht ausgegeben wurden. Dieser Befehl fügt, falls nötig, eine leere Seite ein, sodaß die nächste Seite nach den Gleitobjekten eine ungerade Seitennummer hat.
+\cleardoubleoddpage
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+\newpage
+
+
+
+% ================ Abkv ================
+\include{abkv}
+
+
+
+% ================ Pagenumbering ================
+\pagenumbering{arabic}
+\pagestyle{fancy}
+
+
+\include{report}
+
+%================ Literaturverzeichnis ================%
+%% Zwei mal
+%% $ bibtex *.bib
+%% aufrufen, dann
+%% $ pdflatex *.tex
+% Bib Style
+\bibliographystyle{alphadin}
+% Bib File
+\bibliography{literatur}
+
+\end{document}

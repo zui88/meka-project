@@ -30,7 +30,7 @@ losgel\"ost von konkreten Technologien --- zu sehen in
   \caption{Die Hauptfunktion wird als Routine geschrieben. Sie verwendet als
     externe Abh\"angigkeit das von der Vorg\"angergruppe erstellte Neuronales
     Netzwerk. Der Host (f.\,i. Windows PC) \"ubertr\"agt Quelldateien auf die
-    Zielhardware (JETSON NANO). Dort werden die Quelldateien \"ubersetzt und eine
+    Zielhardware. Dort werden die Quelldateien \"ubersetzt und eine
     ausf\"uhrbare Datei \emph{Binary} erstellt (hier: eine statische Library).
     Die Binary verwendet Nvidia CUDA Bibliotheken. Dort werden die aufwendigen
     Berechnungen der Objekerkennung ausgef\"uhrt. Die Objekterkennung verwendet
@@ -130,9 +130,9 @@ Code --- wie \emph{errno} in C). \\
 
 
 \textbf{Schritt 2}: Jetzt wird der in Schritt 1 erstellte Algorithmus auf die
-Zielhardware \"ubertragen---JETSON NANO.\@ Dazu muss Verbindung vom Host zur
-Zielhardware aufgebaut werden. Matlab verwendet eine SSH Verbindung über
-TCP/IP.\@ Die Verbindung wird über ein Hardware Objekt hergestellt.
+Zielhardware \"ubertragen. Dazu muss Verbindung vom Host zur Zielhardware
+aufgebaut werden. Matlab verwendet eine SSH Verbindung über TCP/IP.\@. Die
+Verbindung wird über ein Hardware Objekt hergestellt.
 
 \begin{itemize}
 \item Target: <IP-Address>
@@ -141,17 +141,14 @@ TCP/IP.\@ Die Verbindung wird über ein Hardware Objekt hergestellt.
 \end{itemize}
 
 Für den Zugriff auf die Hardware des Jetsons muss eine IP-Adresse eingerichtet
-werden. Es kann entweder eine statische oder dynamische Adresse vergeben
-werden --- seitens der Zielhardware, als JETSON NANO.\@ Mit dem Befehl
-\verb+$ ifconfig+ kann die eigene IP-Adresse des Jetsons eingesehen und in der
-Matlab IDE eingegeben werden.
+werden. Es kann entweder eine statische oder dynamische Adresse vergeben werden
+seitens der Zielhardware. Mit dem Befehl
+\verb+$ ifconfig+ kann die eigene IP-Adresse des Jetsons eingesehen und in der Matlab IDE eingegeben werden.
 
 \begin{verbatim}
 hwobj = jetson(<ip-address>, `jetson', `1111');
 \end{verbatim}
-Das Hardwareobjekt wird mit den Login Informationen der Zielhardware
---- JETSON NANO --- ausgef\"ullt. Damit kann eine SSH Verbindung vom Host erstellt
-werden.
+Das Hardwareobjekt wird mit den Login Informationen der Zielhardware ausgef\"ullt. Damit kann eine SSH Verbindung vom Host erstellt werden.
 
 \begin{verbatim}
 gpuEnvObj = coder.gpuEnvConfig('jetson');
@@ -245,8 +242,8 @@ auszuwerten. Der Algorithmus ist so geschrieben, dass er in der \"ubergeordneten
 Umgebung zyklisch aufgerufen und abgefragt werden kann \emph{Polling}.
 
 Es wurde weiterhin die Installation des Algorithmus ausgehend von Matlab auf das
-Zieldevice \emph{JETSON NANO} gezeigt. Die Installationsroutine kann als Matlab
-Skript umgesetzt werden und ist auch so umgesetzt worden.
+Zieldevice gezeigt. Die Installationsroutine kann als Matlab Skript umgesetzt
+werden.
 
 Der komplette Installationprozess ist graphisch in
 \autoref{fig:workflow_deployment_jetson} nochmals aufgezeigt.
