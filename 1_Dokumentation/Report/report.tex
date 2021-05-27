@@ -386,7 +386,7 @@ Es existieren zwei Hauptordnerstrukturen:
 %% ToDo
 \begin{itemize}
   \item yoloCNNForDetection
-  \item voodo_code
+  \item voodo\_code
 \end{itemize}
 
 Beide liegen im Home-Verzeichnis des Users \verb+</home/<user>>+, wobei
@@ -407,7 +407,7 @@ dieser Struktur und ist somit eine \textbf{Abhängikeit}. Die Ordnerstruktur
 darf \textbf{nicht} gelöscht oder verändert werden. Die statische Library
 verwenden absolute Pfade.\\
 
-\emph{voodo_code}: Dort sind wiederum drei Haupt-Unter-Verzeichnisse
+\emph{voodo\_code}: Dort sind wiederum drei Haupt-Unter-Verzeichnisse
 angedacht:
 \begin{itemize}
   \item detector
@@ -445,7 +445,7 @@ dieser Vorgehensweise:
 \end{itemize}
 
 Nachteilig zu erwähnen ist: Programmierer sollte sich mit CUDA Syntax
-auskennen. Aber oft nicht so grosses Problem, da Schnittmenge mit C++ respektive
+auskennen. Aber oft nicht so großes Problem, da Schnittmenge mit C++ respektive
 C Syntax vorhanden. Dennoch ist erstrebenswert: so wenig wie möglich in CUDA
 Code zu arbeiten. Deswegen Aufteilung in weitere Programme nach Motto: viele
 kleine Programme, die nur \emph{eine} Aufgabe haben, aber diese gut und
@@ -506,9 +506,9 @@ Der senkrechte Balken signalisiert dem Betriebssystem, dass ein Kommunikationska
   \subfloat[]{\includegraphics[width=0.4\linewidth]{420/dir-structure-voodo.png}}
   \qquad
   \subfloat[]{\includegraphics[scale=0.25]{420/dir-cnn-yolo.png}}
-  \caption{\label{fig:directory-structure}(a) Voodo Code: Dort sind sämtlchen Prozesse definiert und werden
+  \caption{\label{fig:directory-structure}(a) voodo\_code: Dort sind sämtlchen Prozesse definiert und werden
     von dort ausgeführt (Bash-Skript), (b) Yolo Netzwerk: Viele
-    Unterverzeichnisse von Matlab generiert}
+    Unterverzeichnisse von Matlab generiert; Ordnerstruktur ist im Home-Verzeichnis hinterlegt}
 \end{figure}
 
 
@@ -1317,6 +1317,8 @@ Zuletzt ist erläutert worden, wie die \ac{CAN} Kommunikation konkret in Hardwar
 
 \section{\label{sec:ausblick}Ausblick}
 
+Dinge, die noch angegangen werden müssen oder Überlegungen die sich lohnen:
+
 \begin{itemize}
   \item Unterliegendes \ac{CNN} von binäre Erkennung von Klassen auf Erkennung
         mehrerer Klassen, bspw.\ Auto, LKW, Fahrrad, Fußgänger, \ldots
@@ -1328,4 +1330,8 @@ Zuletzt ist erläutert worden, wie die \ac{CAN} Kommunikation konkret in Hardwar
         erstellen, \ldots)
   \item Untersuchung Kühlsystem auf Systemstabilität
   \item Umsetzung \ac{CAN} Kommunikation
+  \item Bash-Skript für automaitsche Ausführung in Auto-Start-Folder
+        hinterlegen. Somit entfällt das manuelle Starten, wenn System gestartet
+        wird und Anwender braucht keine Remote-Verbindung herstellen und
+        Objekterkennungsprozess händisch starten.
 \end{itemize}

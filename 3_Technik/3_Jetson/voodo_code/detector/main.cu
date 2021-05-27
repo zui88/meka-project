@@ -107,8 +107,7 @@ int main(int argc, char const ** argv){
 //
 ////////////////////////////////////////////////////////////////
 
-)foo"
-	       );
+)foo");
   } break;
   case state_e::v_mode: {
     run_mode = &visual_mode;
@@ -121,8 +120,7 @@ int main(int argc, char const ** argv){
 //
 ////////////////////////////////////////////////////////////////
 
-)foo"
-	       );
+)foo");
   } break;
   default: abort();
   }
@@ -153,6 +151,7 @@ int main(int argc, char const ** argv){
 	  ////////////////
 	  detectFunction(&x, &y, &width, &height, &score);
 
+      // function pointer
 	  run_mode();
 
 	}
@@ -171,8 +170,7 @@ int main(int argc, char const ** argv){
 //
 ////////////////////////////////////////////////////////////////
 
-)"
-	     );
+)");
   std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
   detectFunction_free();
@@ -241,9 +239,7 @@ void trans_mode()
   ////////////////
   std::stringstream s;
   unsigned char xc, yc, widthc, heightc, scorec;
-  // nothing detected -> 0x00000000
-  unsigned long long val_to_send{0};
-	
+
   ////////////////
   //
   // detection
@@ -251,13 +247,14 @@ void trans_mode()
   ////////////////
   if (score == -1)
     {
-	 
+
       ////////////////
       //
       // nothing detected
       //
       ////////////////
-      std::cout << my::bits(val_to_send);
+      // nothing detected -> 0x00000000
+      std::cout << 0x00;
       std::cout.flush();
 	 
     }
@@ -270,12 +267,13 @@ void trans_mode()
       //
       ////////////////
       // 5 * 8 Bit = 40 Bit
+      // my::toc(.) converts input value to proper size for raw bit transmission
       xc=my::toc(x), yc=my::toc(y), widthc=my::toc(width), heightc=my::toc(height), scorec=my::toc(score * 100);
       // Single 40 bit value -> fifo
+      s.clear();
       s << heightc << widthc << yc << xc << scorec;
       // sizeof(unsigned long long) -> 64 Bit
-      s >> my::bits(val_to_send);
-      std::cout << my::bits(val_to_send);
+      std::cout << my::bits(s);
       std::cout.flush();
 	 
     }

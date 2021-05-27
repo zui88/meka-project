@@ -30,14 +30,14 @@ void my_out(int x, int y, int height, int width, const char *msg)
   else
   {
     // maxterm: sobald ein nicht 0, dann in ausfuehrungsblock
-    // if (x || y || height || width) {
+    if (x || y || height || width) {
       // Serializer
       // Raw String
       output_stream.clear();
       output_stream << x << y << height << width;
       std::cout << my::bits(output_stream);
       std::cout.flush();
-    // }
+    }
     // wenn alle 0, dann keine Nachricht auf stream
   }
 }
@@ -108,7 +108,7 @@ int main(int argc, const char **argv) {
       // nur einmal nachricht ausgeben
       if (last_state != actual_state)
       {
-        my_out(0, 0, 0, 0, "Objekt Fault");
+        my_out(0, 0, 0, 0, "");
       }
       break;
 
