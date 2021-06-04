@@ -1,5 +1,7 @@
 #+TITLE: Readme
+#+AUTHOR: Marco Burkhardt
 
-Diese Ebende ist das Homeverzeichniss im Jetson. Das Matlab YoLo-KNN ist hier
-nicht vorhanden, aber auf dem Jetson. Das KNN wird mit Matlab auf dem Host PC
-erstellt und per LAN auf den Jetson uebertragen.
+Das Backup ist in /host/ und /client/ aufgeteilt. Software wurde am /host/
+entwickelt und im /client/ uebersetzt (/cross compiling/).
+
+Die aktuellste Software (im Jetson installiert) ist im letzten Backup (client).

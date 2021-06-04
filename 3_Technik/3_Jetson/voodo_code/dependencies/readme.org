@@ -1,3 +1,0 @@
-#+TITLE: Readme
-
-~transmisison.cpp~ wurde /von Hand/ mit gcc als statische library compiliert und mit archiver gepackt. Ist eine Abhaengigkeit von detector. Wenn veraendert wird, entweder in makefile umaendern oder von neuen von hand mit ~gcc~ & ~av~ erstellen.
