@@ -1,3 +1,10 @@
+## @desciption Algorithmus beachtet nur ein Objekt,
+##             das mit dem hoechsten Score
+## @return x_ x Position von Bounding Box (BB)
+## @return y_ y Position von Bounding Box (BB)
+## @return width_ Breiter der BB
+## @return height_ Hohe der BB
+
 function [x_ y_ width_ height_ score_] = detectFunction()
 %#codegen
 

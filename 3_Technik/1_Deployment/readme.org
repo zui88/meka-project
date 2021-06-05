@@ -1,3 +1,7 @@
+#+TITLE: Readme
+
+* Overview
+
 Die Absicht ist, Matlab Code in CUDA Code umzuwandeln. 
 
 Prerequisites:
@@ -6,3 +10,7 @@ Prerequisites:
 
 Matlab generiert nur Code von einer Funktion, nicht von einem Skript
 
+* Static Lib & Exec
+
+- /Static Lib/: Eine statische Bibliothek wird generiert
+- /Exec/: Eine Ausfuehrbare Datei wird generiert

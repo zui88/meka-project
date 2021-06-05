@@ -577,7 +577,14 @@ genannt.
 
 Jetzt foglt die Beschreibung des Algorithmus. Er ist in der Matlab-Syntax
 verfasst. Die Beschreibung setzt sich wie folgt zusammen: erst Code,
-anschließend Erläuterung.
+anschließend Erläuterung. Eine Flussdiagram ueber den Algorithmus ist in
+\autoref{fig:detector-flow-chart} zu sehen.
+
+\begin{figure}[!htb]
+  \includegraphics[width=0.5\textwidth]{430/Detector_Flussdiagram.png}
+  \caption{Flussdiagram Detektor Algorithmus}
+  \label{fig:detector-flow-chart}
+\end{figure}
 
 \begin{verbatim}
 function [x y width height score] = detectFunction()
@@ -887,7 +894,7 @@ wird der Prozess unterbrochen und die Hardware und diverse Filedeskriptoren gesc
 Informationen werden mittels dem Betriebssystem bereitgestellten Pipelinesystem
 übertragen. Die Schnittstellendefinition zum nächsten Prozess der Pipeline ist
 daher jeweil der Outputstream. Dem übergeordneten Verarbeitungsprozess (Filter)
-wird mit einem definierten Signal mitgeteilt, das ab diesem Zeitpunkt gültige
+wird mit einem definierten Signal mitgeteilt, dass ab diesem Zeitpunkt gültige
 Daten am Stream anliegen. Ein Codeausschnitt ist:
 
 \begin{verbatim}

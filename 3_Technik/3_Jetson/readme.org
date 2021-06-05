@@ -1,7 +1,0 @@
-#+TITLE: Readme
-#+AUTHOR: Marco Burkhardt
-
-Das Backup ist in /host/ und /client/ aufgeteilt. Software wurde am /host/
-entwickelt und im /client/ uebersetzt (/cross compiling/).
-
-Die aktuellste Software (im Jetson installiert) ist im letzten Backup (client).
