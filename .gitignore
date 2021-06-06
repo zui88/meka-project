@@ -1,5 +1,6 @@
 # exclude folder
-/8-legacy/*
+# /8-legacy/*
+/1_Dokumentation/Report/.auctex-auto/*
 
 # exclude tmp latex files
 *.aux
@@ -17,4 +18,4 @@
 *.synctex.gz
 
 # exclude video link
-/5-groundworks/cnn-videos/*
+# /5-groundworks/cnn-videos/*
