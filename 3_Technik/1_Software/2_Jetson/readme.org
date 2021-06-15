@@ -1,0 +1,7 @@
+#+TITLE: Readme
+#+AUTHOR: Marco Burkhardt
+
+Die Firmware ist in /host/ und /client/ aufgeteilt. Software wurde am /host/
+entwickelt und im /client/ uebersetzt (/cross compiling/).
+
+Die aktuellste Software (im Jetson installiert) ist das letzte Datum.

@@ -1,0 +1,16 @@
+#+TITLE: Readme
+
+* Overview
+
+Die Absicht ist, Matlab Code in CUDA Code umzuwandeln. 
+
+Prerequisites:
+- Ein Netzwerk muss vorhanden sein
+- Detektor Funktion bereitstellen
+
+Matlab generiert nur Code von einer Funktion, nicht von einem Skript
+
+* Static Lib & Exec
+
+- /Static Lib/: Eine statische Bibliothek wird generiert
+- /Exec/: Eine Ausfuehrbare Datei wird generiert
