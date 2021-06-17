@@ -1,0 +1,17 @@
+#+TITLE: Versionsstand
+
+* Matlab (Host)
+
+	9.9.0.1592791
+
+* NVCC (Jetson)
+
+	 v11.3.1
+
+* gcc (Jetson)
+
+	9.4
+
+* Nvidia Jetpack (Jetson)
+	
+	4.5.1

@@ -1,0 +1,47 @@
+Zusammenfassung
+
+In dieser Arbeit wird mit einem Künstlich Neuronalen Netzwerk (KNN) ein
+Objekterkennungsalgorithmus mit Matlab entworfen, der in Echtzeit Fahrzeuge
+erkennt. Der Algorithmus wird auf einen Jetson Nano von Nvidia installiert und
+dort auf der Graphik Prozessor Unit (GPU) ausgeführt. Werden Objekte erkannt,
+wird die Information einer Verarbeitungspipeline übergeben. Die Pipeline
+manipuliert die gewonnenen Daten in gewünschter Weiße. Am Ende sollen die
+Informationen über die Objekte über das Control Area Network (CAN) versendet
+werden. Da der Jetson Nano nicht über einen eigenen CAN Controller
+verfügt, wird eine Möglichkeit besprochen, wie die Kommunikation
+über den Bus realisiert werden kann.
+
+Im ersten Teil wird besprochen, was ein Künstlich Neuronales Netwerk ist und
+warum es sich für die Objekterkennung eignet. Im zweiten Teil wird der Jetson
+Nano vorgestellt, will heißen die Hardware (Developement-Board, Platine). Im
+dritten Teil wird die Erstellung und die Installation des
+Objekterkennungsalgorithmus vorgestellt. Im vierten Teil wird die
+Verarbeitungspipeline besprochen, was diese ist und wie sie sich ins Projekt
+einfügt. Im fünften und letzten Teil werden die einzelnen Schritte der
+Arbeit nochmals in einem größeren Zusammenhang betrachten. Es wird die
+schlußendliche Versendung der Nachrichten via CAN erläutert. Weiterhin
+wird ein Ausblick gegeben, wie das Projekt weiter geführt werden kann und
+welche Punkte im Laufe der Arbeit auftauchten, die verbessert werden können.
+
+
+Abstract
+
+This paper is about designing a real time algorithm recognizing objects with
+the aid of artificial neural networks in matlab. The algorithm is installed
+on a Jetson Nano from Nvidia and executed there on the graphics processor
+unit (GPU). If objects are recognized, the information is passed to a
+processing pipeline. The pipeline manipulates the data obtained as desired.
+At the end, the information about the objects should be sent via the Control
+Area Network (CAN). Since the Jetson Nano does not have its own CAN controller,
+a possibility is discussed how communication can be implemented via the bus.
+
+The first part discusses what an artificial neural network is and why it is
+suitable for object recognition. In the second part the Jetson Nano is
+presented, that is to say the hardware (development board, circuit board). The
+third part introduces the creation and installation of the object recognition
+algorithm. In the fourth part, the processing pipeline is discussed, what it
+is and how it fits into the project. In the fifth and last part, the
+individual steps of the work will be considered again in a larger context.
+The final transmission of the messages via CAN is explained. Furthermore, an
+outlook is given of how the project can be continued and which points emerged
+in the course of the work that can be improved.
